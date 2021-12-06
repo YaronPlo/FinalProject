@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#UI
+*.ui
+
 # C extensions
 *.so
 

@@ -1,7 +1,10 @@
+from QtUIs import Login, AdminPage
 
 
 def Main():
-    pass
+    Login.RunLogIn()
+    AdminPage.RunAdminPage()
+
 
 
 """
