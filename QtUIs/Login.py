@@ -66,7 +66,7 @@ class UiLogIn(object):
             "Password": self.passwordInput.text()
         }
         if(self.CheckUserExistence()):
-            with open("D:\FinalProject\info.json", "r+") as DB:
+            with open(".\info.json", "r+") as DB:
                 # First we load existing data into a dict.
                 dataBase = json.load(DB)
                 # Join new_data with file_data inside user_details
@@ -78,7 +78,7 @@ class UiLogIn(object):
 
     # function checks if the userName Exists
     def CheckUserExistence(self):
-        with open("D:\FinalProject\info.json", "r") as DB:
+        with open(".\info.json", "r") as DB:
             dataBase = json.load(DB)
         for user in dataBase["userDetails"]:
             if(user["Username"] == self.userNameInput.text()):
