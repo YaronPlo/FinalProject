@@ -88,7 +88,7 @@ class UiLogIn(object):
         return True
 
     def LoginCheck(self):
-        with open("D:\FinalProject\info.json", "r") as DB:
+        with open(".\info.json", "r") as DB:
             dataBase = json.load(DB)
         for user in dataBase["userDetails"]:
             if(user["Username"] == self.userNameInput.text() and user["Password"]==self.passwordInput.text()):
@@ -110,5 +110,3 @@ def RunLogIn():
     LogIn.show()
     sys.exit(app.exec_())
 
-
-RunLogIn()
