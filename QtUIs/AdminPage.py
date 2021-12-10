@@ -1,13 +1,23 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from QtUIs import Login
 import sys
 
 
 class UiAdminPage(object):
+
+    def openLogin(self, AdminPage):
+        self.LoginWindow = QtWidgets.QMainWindow()
+        self.ui = Login.UiLogIn()
+        self.ui.setupUi(self.LoginWindow)
+        self.LoginWindow.show()
+        AdminPage.close()
+
+
     def setupUi(self, AdminPage):
         AdminPage.setObjectName("AdminPage")
         AdminPage.resize(800, 600)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../Images/SCElogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("..\\Images\\SCElogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         AdminPage.setWindowIcon(icon)
 
         self.centralwidget = QtWidgets.QWidget(AdminPage)
@@ -35,7 +45,7 @@ class UiAdminPage(object):
         self.ExitBtn = QtWidgets.QPushButton(self.centralwidget)
         self.ExitBtn.setGeometry(QtCore.QRect(670, 550, 93, 28))
         self.ExitBtn.setObjectName("ExitBtn")
-        self.ExitBtn.clicked.connect(AdminPage.close)
+        self.ExitBtn.clicked.connect(lambda: self.openLogin(AdminPage))
 
         self.checkBox = QtWidgets.QCheckBox(self.centralwidget)
         self.checkBox.setGeometry(QtCore.QRect(340, 180, 81, 20))
@@ -70,8 +80,6 @@ class UiAdminPage(object):
         self.radioButton.setText(_translate("AdminPage", "RadioButton"))
         self.importCsvBtn.setText(_translate("AdminPage", "Import Csv"))
 
-def Exit(self):
-    self.close()
 
 def RunAdminPage():
     app = QtWidgets.QApplication(sys.argv)
@@ -80,3 +88,5 @@ def RunAdminPage():
     ui.setupUi(AdminPage)
     AdminPage.show()
     sys.exit(app.exec_())
+
+

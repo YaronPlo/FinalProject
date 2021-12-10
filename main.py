@@ -1,9 +1,9 @@
-from QtUIs import Login, AdminPage
+from QtUIs import Login
 
 
 def Main():
     Login.RunLogIn()
-    AdminPage.RunAdminPage()
+    #AdminPage.RunAdminPage()
 
 
 
