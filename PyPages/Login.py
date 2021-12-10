@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from QtUIs import AdminPage, UserPage
+from PyPages import AdminPage, UserPage
 import sys
 import json
 

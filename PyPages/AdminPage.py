@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from QtUIs import Login
+from PyPages import Login
 import sys
 
 

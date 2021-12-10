@@ -1,4 +1,4 @@
-from QtUIs import Login
+from PyPages import Login
 
 
 def Main():
