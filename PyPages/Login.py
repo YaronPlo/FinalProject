@@ -3,8 +3,6 @@ from PyPages import AdminPage, UserPage
 import sys
 import json
 
-# import time
-
 fileDB = ".\\info.json"
 
 
@@ -75,7 +73,7 @@ class UiLogIn(object):
         self.Register = QtWidgets.QPushButton(LogIn)
         self.Register.setGeometry(QtCore.QRect(190, 170, 93, 28))
         self.Register.setObjectName("Register")
-        self.Register.clicked.connect(self.write_json)
+        self.Register.clicked.connect(self.registerToJSON)
 
         self.retranslateUi(LogIn)
         QtCore.QMetaObject.connectSlotsByName(LogIn)
@@ -89,11 +87,13 @@ class UiLogIn(object):
         self.passwordLbl.setText(_translate("LogIn", "Password:"))
 
     # Function that writes to JSON the userName and Password
-    def write_json(self):
+    def registerToJSON(self):
         newDate = {
             "Username": self.userNameInput.text(),
-            "Password": self.passwordInput.text()
+            "Password": self.passwordInput.text(),
+            "Admin": False
         }
+
         if self.userNameInput.text() == "" and self.passwordInput.text() == "":
             self.plainTextEdit.setPlainText("Invalid Username & Password!")
             self.plainTextEdit.setStyleSheet("color: red")
@@ -130,22 +130,28 @@ class UiLogIn(object):
     def LoginCheck(self, LogIn):
         with open(fileDB, "r") as DB:
             dataBase = json.load(DB)
+
         for user in dataBase["userDetails"]:
             if self.userNameInput.text() == "" or self.passwordInput.text() == "":
                 self.plainTextEdit.setPlainText("input Wrong!")
                 self.plainTextEdit.setStyleSheet("color: red")
                 return
-            if user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
+            elif user["Username"] == self.userNameInput.text() and user["Password"] != self.passwordInput.text():
+                self.plainTextEdit.setPlainText("Wrong Password!")
+                self.plainTextEdit.setStyleSheet("color: red")
+                return
+            elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
                 self.plainTextEdit.setPlainText("Success!")
                 self.plainTextEdit.setStyleSheet("color: green")
-                if self.userNameInput.text() == "123":
+                if user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and user["Admin"] == True:
                     self.openAdminPage(LogIn)
                     return
-                elif self.userNameInput.text() == "1232":
+                elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and user["Admin"] == False:
                     self.openUserPage(LogIn)
                     return
         self.plainTextEdit.setPlainText("User Doesn't Exists!")
         self.plainTextEdit.setStyleSheet("color: red")
+        return
 
     def UpdateMessage(self):
         if self.plainTextEdit.toPlainText() != "":

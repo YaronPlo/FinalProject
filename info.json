@@ -1,24 +1,39 @@
 {
    "userDetails": [
       {
-         "Username": "123",
-         "Password": "asd"
+         "Username": "yaron",
+         "Password": "123",
+         "Admin": true
       },
       {
-         "Username": "1232",
-         "Password": "asdf"
+         "Username": "chen",
+         "Password": "123",
+         "Admin": true
       },
       {
-         "Username": "12311",
-         "Password": "asd"
+         "Username": "yaniv",
+         "Password": "asd",
+         "Admin": false
       },
       {
-         "Username": "qweq3242",
-         "Password": "dsfsdf"
+         "Username": "itay",
+         "Password": "asdf",
+         "Admin": false
       },
       {
          "Username": "132",
-         "Password": "asd"
+         "Password": "asd",
+         "Admin": false
+      },
+      {
+         "Username": "234",
+         "Password": "sdf",
+         "Admin": false
+      },
+      {
+         "Username": "123asd",
+         "Password": "asd",
+         "Admin": false
       }
    ]
 }

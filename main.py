@@ -3,7 +3,6 @@ from PyPages import Login
 
 def Main():
     Login.RunLogIn()
-    #AdminPage.RunAdminPage()
 
 
 
