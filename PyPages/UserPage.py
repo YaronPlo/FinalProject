@@ -1,8 +1,31 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyPages import Login
 import sys
+import json
+
 
 class UiUserPage(object):
+    def __init__(self):
+        self.List_of_unchecked = None
+        self.List_of_checked = None
+        self.List = None
+        self.calendarWidget = None
+        self.taskProgressBar = None
+        self.graphicsView = None
+        self.widget = None
+        self.verticalLayout = None
+        self.Task4 = None
+        self.Task5 = None
+        self.Task3 = None
+        self.Task2 = None
+        self.Task1 = None
+        self.currTime = None
+        self.timer = None
+        self.exitBtn = None
+        self.tasksLbl = None
+        self.welcomeUserPageLbl = None
+        self.ui = None
+        self.LoginWindow = None
 
     def openLoginWindow(self, UserPage):
         self.LoginWindow = QtWidgets.QMainWindow()
@@ -16,7 +39,7 @@ class UiUserPage(object):
         UserPage.resize(857, 675)
 
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../Images/SCElogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap('.\\Images\\SCElogo.png'), QtGui.QIcon.Normal, QtGui.QIcon.Off)
 
         UserPage.setWindowIcon(icon)
 
@@ -46,11 +69,12 @@ class UiUserPage(object):
         self.exitBtn = QtWidgets.QPushButton(UserPage)
         self.exitBtn.setGeometry(QtCore.QRect(720, 620, 93, 28))
         self.exitBtn.setObjectName("exitBtn")
-        self.exitBtn.clicked.connect(lambda : self.openLoginWindow(UserPage))
+        self.exitBtn.clicked.connect(lambda: self.openLoginWindow(UserPage))
 
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.displayTime)
         self.timer.start(1000)
+
         self.currTime = QtWidgets.QLCDNumber(UserPage)
         self.currTime.setGeometry(QtCore.QRect(630, 120, 161, 61))
         self.currTime.setObjectName("currTime")
@@ -63,7 +87,7 @@ class UiUserPage(object):
 
         self.taskProgressBar = QtWidgets.QProgressBar(UserPage)
         self.taskProgressBar.setGeometry(QtCore.QRect(70, 360, 118, 23))
-        self.taskProgressBar.setProperty("value", (50/100)*100)
+        self.taskProgressBar.setProperty("value", (10 / 100) * 100)  # TODO: Change it to dynamicly
         self.taskProgressBar.setObjectName("taskProgressBar")
 
         self.graphicsView = QtWidgets.QGraphicsView(UserPage)
@@ -80,6 +104,7 @@ class UiUserPage(object):
 
         self.Task1 = QtWidgets.QCheckBox(self.widget)
         self.Task1.setObjectName("Task1")
+        self.Task1.checkStateSet()
         self.verticalLayout.addWidget(self.Task1)
 
         self.Task2 = QtWidgets.QCheckBox(self.widget)
@@ -96,12 +121,11 @@ class UiUserPage(object):
 
         self.Task5 = QtWidgets.QCheckBox(self.widget)
         self.Task5.setObjectName("Task5")
+
         self.verticalLayout.addWidget(self.Task5)
 
         self.retranslateUi(UserPage)
         QtCore.QMetaObject.connectSlotsByName(UserPage)
-
-
 
     def displayTime(self):
         currenTime = QtCore.QTime.currentTime()
@@ -109,6 +133,27 @@ class UiUserPage(object):
         self.currTime.setDigitCount(8)
         self.currTime.display(displayTime)
 
+    # TODO: Fix Checked Boxes
+    def countCheckedBox(self):
+        # taskState = {
+        #     "isCompleted": ""
+        # }
+        self.List = [(self.Task1.isChecked(), "Task1"), (self.Task2.isChecked(), "Task2"),
+                     (self.Task3.isChecked(), "Task3"), (self.Task4.isChecked(), "Task4"),
+                     (self.Task5.isChecked(), "Task5")]
+        self.List_of_checked = []
+        self.List_of_unchecked = []
+
+        with open(Login.fileDB, 'w') as DB:
+            dataBase = json.load(DB)
+            # for task in dataBase["Tasks"]:
+            for i, v in self.List:
+                if i:
+                    self.List_of_checked.append(v)
+                    dataBase["Task"].append({"isCompleted": i})
+                else:
+                    self.List_of_unchecked.append(v)
+                    dataBase["Task"].append({"isCompleted": i})
 
     def retranslateUi(self, UserPage):
         _translate = QtCore.QCoreApplication.translate
