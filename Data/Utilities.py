@@ -1,11 +1,8 @@
-
 import pandas as pd
 from datetime import datetime
 
-path = r"C:\Users\ChenAzulai\Desktop\CyCog"
-assets_path = path + r"\CyCognito_assets_issues_export_2021_Nov_24.csv"
+path = r"..\CyCog"
 issues_path = path + r"\Issues.csv"
-
 
 
 def open_csv(path):
@@ -135,7 +132,6 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     df.sort_values(by=['rank'], inplace=True)
     df.reset_index(drop=True, inplace=True)
     print(df.head(10).to_string())
-
 
 
 dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
