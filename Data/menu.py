@@ -1,6 +1,6 @@
 import Data.Utilities as Data
 
-df = Data.dataFrame
+main_df = Data.dataFrame
 col = Data.relevant_columns
 
 
@@ -23,42 +23,58 @@ def menu():
     print()
 
 
-def switcher(df, choose):
-    match choose:
+def switcher(df_filter, action):
+    match action:
         case 1:
-            df = Data.letters_to_numbers(df, columns=['Asset Security Grade'])
-            Data.show_table(df)  # _head()
-
+            # df_filter = Data.letters_to_numbers(df_filter, columns=['Asset Security Grade'])
+            Data.show_table(df_filter)  # _head()
+            return df_filter
         case 2:
-            Data.sorting_df(df)
-            Data.show_table(df)
+            df_filter = Data.sorting_df(df_filter)
+            Data.show_table(df_filter)
+            return df_filter
         case 3:
             columns_list()
             choose_col = int(input("Choose column number: "))
             column = col[choose_col]
-            unique_values = df[column].unique()
+            unique_values = df_filter[column].unique()
             unique_dict = dict(zip(range(len(unique_values)), unique_values))
             print("values list: ", unique_dict)
             choose_val = int(input("Choose value to show: "))  # turn to multiple choose
             value = unique_dict[choose_val]
-            Data.show_only(df, column, [value])
-            Data.show_table(df)
+            df_filter = Data.show_only(df_filter, column, [value])
+            Data.show_table(df_filter)
+            return df_filter
         case 4:
-            df = df.join(Data.dataFrame['Description'])
-            df = Data.key_word(df)
-            Data.show_table(df)
+            df_filter = main_df
+            df_filter = df_filter.join(Data.issues_dataFrame['Description'])
+            df_filter = Data.key_word(df_filter)
+            Data.show_table(df_filter)
+            return df_filter
         case 5:
             n = int(input("Enter number of Issues: "))
-            df = Data.return_N_oldest(df, n)
-            Data.show_table(df)
+            df_filter = Data.return_N_oldest(df_filter, n)
+            Data.show_table(df_filter)
+        case 6:
+            Data.WSM(df_filter)
+            return (df_filter)
         case 9:
-            df = Data.dataFrame
+            return Data.dataFrame
 
 
-while True:
-    menu()
-    choose = int(input("enter your chose: "))
-    if not choose:
-        print('bye')
-        break
-    switcher(df, choose)
+def table_filter():
+    table = main_df
+    while True:
+        menu()
+        try:
+            choose = int(input("enter your chose: "))
+            if choose == 0:
+                print('bye')
+                break
+            table = switcher(table, choose)
+        except ValueError:
+            print("invalid input")
+
+
+
+table_filter()

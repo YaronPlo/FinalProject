@@ -28,34 +28,30 @@ def table_description(_df):
 
 pd.reset_option("max_columns")
 
-# df1 = open_csv(assets_path)
-dataFrame = open_csv(issues_path)
+issues_dataFrame = open_csv(issues_path)
 
-# print(dataFrame.head().to_string(), '\n')
+relevant_columns = {1: 'Severity',
+                    2: 'Asset Security Grade',
+                    3: 'Asset Security Score',
+                    4: 'Asset Discoverability',
+                    5: 'Asset Attractiveness',
+                    6: 'Asset Type',
+                    7: 'Asset First Seen'}
 
-# print('Issues table:')
-# table_description(dataFrame)
-
-
-relevant_columns = {1: 'Severity', 2: 'Asset Security Grade', 3: 'Asset Security Score', 4: 'Asset Discoverability',
-                    5: 'Asset Attractiveness', 6: 'Asset Type', 7: 'Asset First Seen'}
-dataFrame = dataFrame[relevant_columns.values()]
+dataFrame = issues_dataFrame[relevant_columns.values()]
 catagories = {'low': 1, 'moderate': 2, 'medium': 2, 'high': 3, 'extreme': 4, 'critical': 4}
 
 
 def cat_to_num(df, col_list, catagories):
     for _ in col_list:
-        df[_] = df[_].map(catagories)
+        df.loc[:, _] = df[_].map(catagories)
     return df
-
 
 def show_table_head(df):
     print(df.head().to_string())
 
-
-def show_table(df):
-    print(df.to_string())
-
+def show_table(df1):
+    print(df1.to_string())
 
 def num_to_bins(df, col_list, num_of_bins):
     for _ in col_list:
@@ -65,46 +61,36 @@ def num_to_bins(df, col_list, num_of_bins):
         print(temp)
     return df
 
-
 def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
-    df = df.sort_values(by=col, inplace=True, ascending=[False, False])
-    # return df
-
+    df_sorted = df.sort_values(by=col, inplace=False, ascending=[False, False])
+    return df_sorted
 
 def show_only(df, column_name, values):  # only_values:list
     df = df.loc[df[column_name].isin(values)]
-    # return df
-
+    return df
 
 def dont_show(df, column_name, values):  # only_values:list
     df = df.loc[~df[column_name].isin(values)]
     return df
 
-
 def str_to_datatime(df, col_list):
     for _ in col_list:
-        df[_] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
+        df.loc[:, _] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
     # return df
-
 
 # def oldest(datatime_list):
 #     df = df1.copy()
 #     df = df.loc[df['Asset First Seen'] == min(datatime_list)]
 #     return df
 
-
 def return_N_oldest(df, n):
     df = df.sort_values(by=['Asset First Seen'])
     return df.head(n)
 
-
 def letters_to_numbers(df, columns):
     for col in columns:
-        print(df[col])
-        print([ord(x) - 64 if type(x) == str else x for x in df[col]])
-        df[col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
+        df.loc[:,col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
     return df
-
 
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
@@ -114,41 +100,35 @@ def Potential_Impact_column(df):  # clean string
     # print('->',df['Potential Impact'])
     return df
 
-
-def key_word(df=dataFrame.copy(), col='Description', word='HTTP'):
+def key_word(df, col='Description', word='HTTP'):
     df[col] = df[col].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df.loc[lambda sent: sent[col].apply(lambda l: word.lower() in l)]
     return df
 
-
 def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
-    df = df[col]
-    df['Asset Security Grade'] = letters_to_numbers('Asset Security Grade')
+    df = df[col].copy()
+    df = letters_to_numbers(df, columns=['Asset Security Grade'])
     weights = [0.2, 0.3, 0.25, 0.25]  # sum=1
     dict = {}
     for idx in range(len(col)):
         dict[col[idx]] = weights[idx]
     beneficial_col = col[:-1]
     non_beneficial_col = col[-1]
-    df[beneficial_col] = df[beneficial_col] / df[beneficial_col].max()
-    df[non_beneficial_col] = df[non_beneficial_col].min() / df[non_beneficial_col]
+    df.loc[:,beneficial_col] = df[beneficial_col] / df[beneficial_col].max()
+    df.loc[:,non_beneficial_col] = df[non_beneficial_col].min() / df[non_beneficial_col]
     for col, weight in dict.items():
         calculate = df[col] * weight
-        df[col] = calculate
-    df['Performance Score'] = df.sum(axis=1)
-    df['rank'] = df['Performance Score'].rank(method='first', ascending=False)
-    # print(df.to_string())
-    # print(df.sort_values(by=['rank']).head(5).to_string())
+        df.loc[:,col] = calculate
+    df.loc[:,'Performance Score'] = df.sum(axis=1)
+    df.loc[:,'rank'] = df['Performance Score'].rank(method='first', ascending=False)
+    df.sort_values(by=['rank'], inplace=True)
+    df.reset_index(drop=True,inplace=True)
+    print(df.head(5).to_string())
 
+dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
+# WSM(dataFrame)
 
-# WSM()
-# return_N_oldest(3)
-
-dataFrame = cat_to_num(dataFrame,['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
-# df1 = num_to_bins(['Asset Security Score'], 5)
-# df1 = sorting_df()
-# df1 = dont_show('Asset Type', ['ip'])
 str_to_datatime(dataFrame, ['Asset First Seen'])
 
 # oldest(df1['Asset First Seen'])
