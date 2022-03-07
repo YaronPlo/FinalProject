@@ -1,4 +1,4 @@
-from PyPages import Login
+from Components import Login
 
 
 def Main():

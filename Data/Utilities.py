@@ -1,9 +1,11 @@
+
+import pandas as pd
+from datetime import datetime
+
 path = r"C:\Users\ChenAzulai\Desktop\CyCog"
 assets_path = path + r"\CyCognito_assets_issues_export_2021_Nov_24.csv"
 issues_path = path + r"\Issues.csv"
 
-import pandas as pd
-from datetime import datetime
 
 
 def open_csv(path):
@@ -91,6 +93,7 @@ def return_N_oldest(df, n):
     df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
+
 def letters_to_numbers(df, columns):
     for col in columns:
         df.loc[:, col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
@@ -132,6 +135,7 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     df.sort_values(by=['rank'], inplace=True)
     df.reset_index(drop=True, inplace=True)
     print(df.head(10).to_string())
+
 
 
 dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)

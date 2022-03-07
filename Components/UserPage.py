@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyPages import Login
+from Components import Login
 import sys
 import json
 
