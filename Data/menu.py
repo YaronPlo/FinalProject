@@ -18,6 +18,7 @@ def menu():
     print("[3] Show only - values in column")
     print("[4] key_word(column:'Description', word:'HTTP')")
     print("[5] Show N oldest")
+    print("[6] Weighted Sum Method – Multi Criteria Decision Making")
     print("[9] Reset DataFrame")
     print("[0] Exit")
     print()
@@ -53,13 +54,18 @@ def switcher(df_filter, action):
             return df_filter
         case 5:
             n = int(input("Enter number of Issues: "))
-            df_filter = Data.return_N_oldest(df_filter, n)
-            Data.show_table(df_filter)
+            temp_df = Data.return_N_oldest(df_filter, n)
+            Data.show_table(temp_df)
+            return (df_filter)
+
         case 6:
             Data.WSM(df_filter)
             return (df_filter)
         case 9:
             return Data.dataFrame
+        case _:
+            print("invalid input")
+            return df_filter
 
 
 def table_filter():
@@ -74,7 +80,6 @@ def table_filter():
             table = switcher(table, choose)
         except ValueError:
             print("invalid input")
-
 
 
 table_filter()

@@ -1,8 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
 path = r"C:\Users\ChenAzulai\Desktop\CyCog"
 assets_path = path + r"\CyCognito_assets_issues_export_2021_Nov_24.csv"
 issues_path = path + r"\Issues.csv"
@@ -47,11 +42,14 @@ def cat_to_num(df, col_list, catagories):
         df.loc[:, _] = df[_].map(catagories)
     return df
 
+
 def show_table_head(df):
     print(df.head().to_string())
 
+
 def show_table(df1):
     print(df1.to_string())
+
 
 def num_to_bins(df, col_list, num_of_bins):
     for _ in col_list:
@@ -61,22 +59,27 @@ def num_to_bins(df, col_list, num_of_bins):
         print(temp)
     return df
 
+
 def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
     df_sorted = df.sort_values(by=col, inplace=False, ascending=[False, False])
     return df_sorted
+
 
 def show_only(df, column_name, values):  # only_values:list
     df = df.loc[df[column_name].isin(values)]
     return df
 
+
 def dont_show(df, column_name, values):  # only_values:list
     df = df.loc[~df[column_name].isin(values)]
     return df
+
 
 def str_to_datatime(df, col_list):
     for _ in col_list:
         df.loc[:, _] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
     # return df
+
 
 # def oldest(datatime_list):
 #     df = df1.copy()
@@ -85,12 +88,14 @@ def str_to_datatime(df, col_list):
 
 def return_N_oldest(df, n):
     df = df.sort_values(by=['Asset First Seen'])
+    df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
 def letters_to_numbers(df, columns):
     for col in columns:
-        df.loc[:,col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
+        df.loc[:, col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
     return df
+
 
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
@@ -100,10 +105,12 @@ def Potential_Impact_column(df):  # clean string
     # print('->',df['Potential Impact'])
     return df
 
+
 def key_word(df, col='Description', word='HTTP'):
     df[col] = df[col].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df.loc[lambda sent: sent[col].apply(lambda l: word.lower() in l)]
     return df
+
 
 def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
@@ -115,16 +122,17 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
         dict[col[idx]] = weights[idx]
     beneficial_col = col[:-1]
     non_beneficial_col = col[-1]
-    df.loc[:,beneficial_col] = df[beneficial_col] / df[beneficial_col].max()
-    df.loc[:,non_beneficial_col] = df[non_beneficial_col].min() / df[non_beneficial_col]
+    df.loc[:, beneficial_col] = df[beneficial_col] / df[beneficial_col].max()
+    df.loc[:, non_beneficial_col] = df[non_beneficial_col].min() / df[non_beneficial_col]
     for col, weight in dict.items():
         calculate = df[col] * weight
-        df.loc[:,col] = calculate
-    df.loc[:,'Performance Score'] = df.sum(axis=1)
-    df.loc[:,'rank'] = df['Performance Score'].rank(method='first', ascending=False)
+        df.loc[:, col] = calculate
+    df.loc[:, 'Performance Score'] = df.sum(axis=1)
+    df.loc[:, 'rank'] = df['Performance Score'].rank(method='first', ascending=False)
     df.sort_values(by=['rank'], inplace=True)
-    df.reset_index(drop=True,inplace=True)
-    print(df.head(5).to_string())
+    df.reset_index(drop=True, inplace=True)
+    print(df.head(10).to_string())
+
 
 dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
 # WSM(dataFrame)
