@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyPages import AdminPage, UserPage
+from Components import AdminPage, UserPage
 import sys
 import json
 
@@ -127,6 +127,9 @@ class UiLogIn(object):
     def TypeUserCheck(self):
         pass
 
+    def updateLoginInput(self):
+        pass
+
     def LoginCheck(self, LogIn):
         with open(fileDB, "r") as DB:
             dataBase = json.load(DB)
@@ -143,10 +146,12 @@ class UiLogIn(object):
             elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
                 self.plainTextEdit.setPlainText("Success!")
                 self.plainTextEdit.setStyleSheet("color: green")
-                if user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and user["Admin"] == True:
+                if user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and \
+                        user["Admin"] == True:
                     self.openAdminPage(LogIn)
                     return
-                elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and user["Admin"] == False:
+                elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and \
+                        user["Admin"] == False:
                     self.openUserPage(LogIn)
                     return
         self.plainTextEdit.setPlainText("User Doesn't Exists!")

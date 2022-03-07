@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyPages import Login
+from Components import Login
 import csv
 import json
 import sys
@@ -83,8 +83,9 @@ class UiAdminPage(object):
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(410, 90, 191, 71))
         self.importCsvBtn.clicked.connect(lambda: self.fileDialog())
-        self.importCsvBtn.clicked.connect(lambda: self.parseAssetCSV())
-        # self.importCsvBtn.clicked.connect(lambda: self.parseTicketCSV())
+        # self.importCsvBtn.clicked.connect(lambda: self.parseAssetCSV())
+        self.importCsvBtn.clicked.connect(lambda: self.parseTicketCSV())
+        self.importCsvBtn.clicked.connect(lambda: self.fillTable())
 
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(".\\Images\\csv1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -161,14 +162,11 @@ class UiAdminPage(object):
             with open(fileDB, 'r+', encoding='utf-8') as jsonDB:
                 dataBase = json.load(jsonDB)
                 for rows in csvReader:
-                # try
-                # print("--------")
-                # key = rows['ID']
                     data = rows
                     dataBase["Assets"].append(data)  # TODO: Change the indent
-
                 jsonDB.seek(0)
                 json.dump(dataBase, jsonDB, indent=3)
+
 
     def parseTicketCSV(self):
         global fileDB
@@ -177,13 +175,38 @@ class UiAdminPage(object):
             with open(fileDB, 'r+', encoding='utf-8') as jsonDB:
                 dataBase = json.load(jsonDB)
                 for rows in csvReader:
-                    # print("--------")
-                    # key = rows['ID']
                     data = rows
                     dataBase["Tickets"].append(data)  # TODO: Change the indent
-
                 jsonDB.seek(0)
                 json.dump(dataBase, jsonDB, indent=3)
+
+    def fillTable(self):
+        global fileDB
+        with open(fileDB, "r") as jsonDB:
+            dataBase = json.load(jsonDB)
+            # Make the Table Rows and Cols
+            self.rawDataTableWidget.setRowCount(len(dataBase["Assets"]))
+            self.rawDataTableWidget.setColumnCount(len(dataBase["Assets"][0]))
+            # Fill the Headers in the Table
+            self.rawDataTableWidget.setHorizontalHeaderLabels((key for key in dataBase["Assets"][0]))
+
+            # for rowItem in range(dataBase["Assets"]):
+            #     for columnItem in range(len(dataBase["Assets"][0])):
+            #
+            #         self.rawDataTableWidget.setItem(rowItem, columnItem, QtWidgets.QTableWidgetItem())
+
+            for item in dataBase["Assets"]:
+                print(item)
+
+
+
+
+        print("Rows:")
+        print(len(dataBase["Assets"]))
+        print("Cols:")
+        print(len(dataBase["Assets"][0]))
+
+
 
 
 def RunAdminPage():
