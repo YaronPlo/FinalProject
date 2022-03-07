@@ -1,3 +1,4 @@
+
 import pandas as pd
 from datetime import datetime
 
@@ -89,6 +90,7 @@ def str_to_datatime(df, col_list):
 
 def return_N_oldest(df, n):
     df = df.sort_values(by=['Asset First Seen'])
+    df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
 
@@ -132,7 +134,8 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     df.loc[:, 'rank'] = df['Performance Score'].rank(method='first', ascending=False)
     df.sort_values(by=['rank'], inplace=True)
     df.reset_index(drop=True, inplace=True)
-    print(df.head(5).to_string())
+    print(df.head(10).to_string())
+
 
 
 dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
