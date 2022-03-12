@@ -14,6 +14,7 @@ UIs/
 CyCog/
 *.csv
 *.xls
+*.txt
 
 # Distribution / packaging
 .Python

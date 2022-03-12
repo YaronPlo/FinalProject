@@ -2,8 +2,7 @@ import pandas as pd
 from datetime import datetime
 
 path = r"..\CyCog"
-issues_path = path + r"\Issues.csv"
-
+issues_path = path + r"\Cyco_Assets.csv"
 
 def open_csv(path):
     return pd.read_csv(path)
@@ -37,6 +36,7 @@ catagories = {'low': 1, 'moderate': 2, 'medium': 2, 'high': 3, 'extreme': 4, 'cr
 
 
 def cat_to_num(df, col_list, catagories):
+    df=df.copy()
     for _ in col_list:
         df.loc[:, _] = df[_].map(catagories)
     return df
@@ -90,7 +90,6 @@ def return_N_oldest(df, n):
     df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
-
 def letters_to_numbers(df, columns):
     for col in columns:
         df.loc[:, col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
@@ -130,7 +129,7 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     df.loc[:, 'Performance Score'] = df.sum(axis=1)
     df.loc[:, 'rank'] = df['Performance Score'].rank(method='first', ascending=False)
     df.sort_values(by=['rank'], inplace=True)
-    df.reset_index(drop=True, inplace=True)
+    # df.reset_index(drop=True, inplace=True)
     print(df.head(10).to_string())
 
 
