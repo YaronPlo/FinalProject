@@ -37,13 +37,8 @@ class UiUserPage(object):
     def setupUi(self, UserPage):
         UserPage.setObjectName("UserPage")
         UserPage.resize(857, 675)
-
-        icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(".\\Images\\SCElogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
-        )
-
-        UserPage.setWindowIcon(icon)
+        UserPage.setEnabled(True)
+        UserPage.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
 
         self.tasksLbl = QtWidgets.QLabel(UserPage)
         self.tasksLbl.setGeometry(QtCore.QRect(70, 130, 69, 27))

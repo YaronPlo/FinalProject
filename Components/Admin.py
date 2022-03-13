@@ -381,11 +381,7 @@ class Ui_AdminPage(object):
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(390, 60, 191, 71))
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(
-            QtGui.QPixmap(".\\utils\\Images\\csv1.png"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon1.addPixmap(QtGui.QPixmap(".\\utils\\Images\\csv1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.importCsvBtn.setIcon(icon1)
         self.importCsvBtn.setIconSize(QtCore.QSize(45, 80))
         self.importCsvBtn.setCheckable(False)
