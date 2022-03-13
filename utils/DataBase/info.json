@@ -1,67 +1,69 @@
 {
-   "userDetails": [
-      {
-         "Username": "yaron",
-         "Password": "123",
-         "Admin": true
-      },
-      {
-         "Username": "chen",
-         "Password": "123",
-         "Admin": true
-      },
-      {
-         "Username": "yaniv",
-         "Password": "asd",
-         "Admin": false
-      },
-      {
-         "Username": "itay",
-         "Password": "asdf",
-         "Admin": false
-      },
-      {
-         "Username": "132",
-         "Password": "asd",
-         "Admin": false
-      },
-      {
-         "Username": "234",
-         "Password": "sdf",
-         "Admin": false
-      },
-      {
-         "Username": "123asd",
-         "Password": "asd",
-         "Admin": false
-      },
-      {
-         "Username": "user2",
-         "Password": "123sda",
-         "Admin": false
-      },
-      {
-         "Username": "asaf",
-         "Password": "123",
-         "Admin": false
-      }
-   ],
-   "Tasks": [
-      {
-         "isCompleted": true
-      },
-      {
-         "isCompleted": false
-      },
-      {
-         "isCompleted": false
-      },
-      {
-         "isCompleted": false
-      },
-      {
-         "isCompleted": true
-      }
-   ],
-   "Assets": [
-{}]}
+  "userDetails": [
+    {
+      "Username": "yaron",
+      "Password": "123",
+      "Admin": true
+    },
+    {
+      "Username": "chen",
+      "Password": "123",
+      "Admin": true
+    },
+    {
+      "Username": "yaniv",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "Username": "itay",
+      "Password": "asdf",
+      "Admin": false
+    },
+    {
+      "Username": "132",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "Username": "234",
+      "Password": "sdf",
+      "Admin": false
+    },
+    {
+      "Username": "123asd",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "Username": "user2",
+      "Password": "123sda",
+      "Admin": false
+    },
+    {
+      "Username": "asaf",
+      "Password": "123",
+      "Admin": false
+    }
+  ],
+  "Tasks": [
+    {
+      "isCompleted": true
+    },
+    {
+      "isCompleted": false
+    },
+    {
+      "isCompleted": false
+    },
+    {
+      "isCompleted": false
+    },
+    {
+      "isCompleted": true
+    }
+  ],
+  "Issues": [
+    {}
+  ]
+}
