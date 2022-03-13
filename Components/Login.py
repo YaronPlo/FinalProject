@@ -1,9 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import AdminPage, UserPage
+from Components import Admin, UserPage
+
 import sys
 import json
 
-fileDB = ".\\info.json"
+fileDB = ".\\utils\\DataBase\\info.json"
 
 
 class UiLogIn(object):
@@ -23,7 +24,7 @@ class UiLogIn(object):
 
     def openAdminPage(self, LogIn):
         self.AdminWindow = QtWidgets.QMainWindow()
-        self.ui = AdminPage.UiAdminPage()
+        self.ui = Admin.Ui_AdminPage()
         self.ui.setupUi(self.AdminWindow)
         self.AdminWindow.show()
         LogIn.close()
@@ -39,7 +40,7 @@ class UiLogIn(object):
         LogIn.setObjectName("LogIn")
         LogIn.resize(333, 265)
         LogIn.setMouseTracking(False)
-        LogIn.setWindowIcon(QtGui.QIcon('.\\Images\\SCElogo.png'))
+        LogIn.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
 
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
@@ -91,7 +92,7 @@ class UiLogIn(object):
         newDate = {
             "Username": self.userNameInput.text(),
             "Password": self.passwordInput.text(),
-            "Admin": False
+            "Admin": False,
         }
 
         if self.userNameInput.text() == "" and self.passwordInput.text() == "":
@@ -139,19 +140,31 @@ class UiLogIn(object):
                 self.plainTextEdit.setPlainText("input Wrong!")
                 self.plainTextEdit.setStyleSheet("color: red")
                 return
-            elif user["Username"] == self.userNameInput.text() and user["Password"] != self.passwordInput.text():
+            elif (
+                user["Username"] == self.userNameInput.text()
+                and user["Password"] != self.passwordInput.text()
+            ):
                 self.plainTextEdit.setPlainText("Wrong Password!")
                 self.plainTextEdit.setStyleSheet("color: red")
                 return
-            elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
+            elif (
+                user["Username"] == self.userNameInput.text()
+                and user["Password"] == self.passwordInput.text()
+            ):
                 self.plainTextEdit.setPlainText("Success!")
                 self.plainTextEdit.setStyleSheet("color: green")
-                if user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and \
-                        user["Admin"] == True:
+                if (
+                    user["Username"] == self.userNameInput.text()
+                    and user["Password"] == self.passwordInput.text()
+                    and user["Admin"] == True
+                ):
                     self.openAdminPage(LogIn)
                     return
-                elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and \
-                        user["Admin"] == False:
+                elif (
+                    user["Username"] == self.userNameInput.text()
+                    and user["Password"] == self.passwordInput.text()
+                    and user["Admin"] == False
+                ):
                     self.openUserPage(LogIn)
                     return
         self.plainTextEdit.setPlainText("User Doesn't Exists!")
