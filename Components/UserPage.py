@@ -39,7 +39,9 @@ class UiUserPage(object):
         UserPage.resize(857, 675)
 
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap('.\\Images\\SCElogo.png'), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(".\\Images\\SCElogo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
 
         UserPage.setWindowIcon(icon)
 
@@ -87,7 +89,9 @@ class UiUserPage(object):
 
         self.taskProgressBar = QtWidgets.QProgressBar(UserPage)
         self.taskProgressBar.setGeometry(QtCore.QRect(70, 360, 118, 23))
-        self.taskProgressBar.setProperty("value", (10 / 100) * 100)  # TODO: Change it to dynamicly
+        self.taskProgressBar.setProperty(
+            "value", (10 / 100) * 100
+        )  # TODO: Change it to dynamicly
         self.taskProgressBar.setObjectName("taskProgressBar")
 
         self.graphicsView = QtWidgets.QGraphicsView(UserPage)
@@ -129,7 +133,7 @@ class UiUserPage(object):
 
     def displayTime(self):
         currenTime = QtCore.QTime.currentTime()
-        displayTime = currenTime.toString('hh:mm:ss')
+        displayTime = currenTime.toString("hh:mm:ss")
         self.currTime.setDigitCount(8)
         self.currTime.display(displayTime)
 
@@ -138,13 +142,17 @@ class UiUserPage(object):
         # taskState = {
         #     "isCompleted": ""
         # }
-        self.List = [(self.Task1.isChecked(), "Task1"), (self.Task2.isChecked(), "Task2"),
-                     (self.Task3.isChecked(), "Task3"), (self.Task4.isChecked(), "Task4"),
-                     (self.Task5.isChecked(), "Task5")]
+        self.List = [
+            (self.Task1.isChecked(), "Task1"),
+            (self.Task2.isChecked(), "Task2"),
+            (self.Task3.isChecked(), "Task3"),
+            (self.Task4.isChecked(), "Task4"),
+            (self.Task5.isChecked(), "Task5"),
+        ]
         self.List_of_checked = []
         self.List_of_unchecked = []
 
-        with open(Login.fileDB, 'w') as DB:
+        with open(Login.fileDB, "w") as DB:
             dataBase = json.load(DB)
             # for task in dataBase["Tasks"]:
             for i, v in self.List:
