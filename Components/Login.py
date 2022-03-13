@@ -3,7 +3,7 @@ from Components import AdminPage, UserPage
 import sys
 import json
 
-fileDB = ".\\info.json"
+fileDB = ".\\utils\\DataBase\\info.json"
 
 
 class UiLogIn(object):
