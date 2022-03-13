@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import AdminPage, UserPage
+from Components import Admin, UserPage
+
 import sys
 import json
 
@@ -23,7 +24,7 @@ class UiLogIn(object):
 
     def openAdminPage(self, LogIn):
         self.AdminWindow = QtWidgets.QMainWindow()
-        self.ui = AdminPage.UiAdminPage()
+        self.ui = Admin.Ui_AdminPage()
         self.ui.setupUi(self.AdminWindow)
         self.AdminWindow.show()
         LogIn.close()
@@ -39,7 +40,7 @@ class UiLogIn(object):
         LogIn.setObjectName("LogIn")
         LogIn.resize(333, 265)
         LogIn.setMouseTracking(False)
-        LogIn.setWindowIcon(QtGui.QIcon(".\\Images\\SCElogo.png"))
+        LogIn.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
 
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
