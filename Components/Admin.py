@@ -1,85 +1,67 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Login
-import csv
 import json
-import sys
 
-fileDB = ".\\utils\\DataBase\\info.json"
+dbDir = '.\\utils\\DataBase\\'
+usersFile = f'{dbDir}\\users.json'
+rulesFile = f'.\\utils\\DataBase\\rules.json'
+
+
+def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
+    newRules = {
+        "wsm": wsm.isChecked(),  # True/ False
+        "date": date.isChecked(),  # True/ False
+        "confideality": confideality.isChecked(),  # True/ False
+        "integrity": integrity.isChecked(),  # True/ False
+        "availability": availability.isChecked(),  # True/ False
+        "include": includeKwords.text(),  # Text
+        "exclude": excludeKeywords.text(),  # Text
+    }
+
+    with open(rulesFile) as rules:
+        rulesDB = json.load(rules)
+    rulesDB[analystID] = newRules
+    with open(rulesFile, 'w') as rules:
+        json.dump(rulesDB, rules, indent=2)
 
 
 class Ui_AdminPage(object):
-    def __init__(self):
-        self.CSV = None
-        self.sortByDate_4 = None
-        self.wsmSort_4 = None
-        self.integrity_3 = None
-        self.confideality_3 = None
-        self.impactLabel_3 = None
-        self.lineEdit_4 = None
-        self.lineEdit_3 = None
-        self.bakeBtn_3 = None
-        self.rulesLabel_3 = None
-        self.sortByDate_3 = None
-        self.latestDate_3 = None
-        self.earliestDate_3 = None
-        self.grid_3 = None
-        self.wsmSort_3 = None
-        self.lineEdit_5 = None
-        self.bakeBtn_2 = None
-        self.analyst3 = None
-        self.integrity_4 = None
-        self.confideality_4 = None
-        self.impactLabel_4 = None
-        self.latestDate_4 = None
-        self.earliestDate_4 = None
-        self.lineEdit = None
-        self.bakeBtn_4 = None
-        self.rulesLabel_4 = None
-        self.grid_4 = None
-        self.gridLayoutWidget_4 = None
-        self.analyst4 = None
-        self.availability_3 = None
-        self.lineEdit_6 = None
-        self.impactLabel_2 = None
-        self.integrity_2 = None
-        self.availability_2 = None
-        self.confideality_2 = None
-        self.wsmSort_2 = None
-        self.latestDate_2 = None
-        self.grid_2 = None
-        self.earliestDate_2 = None
-        self.sortByDate_2 = None
-        self.gridLayoutWidget_2 = None
-        self.rulesLabel_2 = None
-        self.analyst2 = None
-        self.availability = None
-        self.integrity = None
-        self.confideality = None
-        self.lineEdit_2 = None
-        self.availability_4 = None
-        self.gridLayoutWidget_3 = None
-        self.importCsvBtn = None
-        self.impactLabel = None
-        self.lineEdit_9 = None
-        self.lineEdit_10 = None
-        self.bakeBtn = None
-        self.wsmSort = None
-        self.latestDate = None
-        self.sortByDate = None
-        self.earliestDate = None
-        self.grid = None
-        self.gridLayoutWidget = None
-        self.rulesLabel = None
-        self.analyst1 = None
-        self.rawDataTableWidget = None
-        self.rawData = None
-        self.ExitBtn = None
-        self.toolBox = None
-        self.welcomeLbl = None
-        self.centralwidget = None
-        self.ui = None
-        self.LoginWindow = None
-        self.csvTuple = None
+
+    def initAllRules(self):
+        with open(rulesFile) as file:
+            rulesDB = json.load(file)
+
+        self.sortByDate.setChecked(rulesDB['analyst_1']['date'])
+        self.wsmSort.setChecked(rulesDB['analyst_1']['wsm'])
+        self.confideality.setChecked(rulesDB['analyst_1']['confideality'])
+        self.integrity.setChecked(rulesDB['analyst_1']['integrity'])
+        self.availability.setChecked(rulesDB['analyst_1']['availability'])
+        self.includeKeywords.setText(rulesDB['analyst_1']['include'])
+        self.excludeKeywords.setText(rulesDB['analyst_1']['exclude'])
+
+        self.sortByDate_2.setChecked(rulesDB['analyst_2']['date'])
+        self.wsmSort_2.setChecked(rulesDB['analyst_2']['wsm'])
+        self.confideality_2.setChecked(rulesDB['analyst_2']['confideality'])
+        self.integrity_2.setChecked(rulesDB['analyst_2']['integrity'])
+        self.availability_2.setChecked(rulesDB['analyst_2']['availability'])
+        self.includeKeywords_2.setText(rulesDB['analyst_2']['include'])
+        self.excludeKeywords_2.setText(rulesDB['analyst_2']['exclude'])
+
+        self.wsmSort_3.setChecked(rulesDB['analyst_3']['wsm'])
+        self.sortByDate_3.setChecked(rulesDB['analyst_3']['date'])
+        self.confideality_3.setChecked(rulesDB['analyst_3']['confideality'])
+        self.integrity_3.setChecked(rulesDB['analyst_3']['integrity'])
+        self.availability_3.setChecked(rulesDB['analyst_3']['availability'])
+        self.includeKeywords_3.setText(rulesDB['analyst_3']['include'])
+        self.excludeKeywords_3.setText(rulesDB['analyst_3']['exclude'])
+
+        self.sortByDate_4.setChecked(rulesDB['analyst_4']['date'])
+        self.wsmSort_4.setChecked(rulesDB['analyst_4']['wsm'])
+        self.confideality_4.setChecked(rulesDB['analyst_4']['confideality'])
+        self.integrity_4.setChecked(rulesDB['analyst_4']['integrity'])
+        self.availability_4.setChecked(rulesDB['analyst_4']['availability'])
+        self.includeKeywords_4.setText(rulesDB['analyst_4']['include'])
+        self.excludeKeywords_4.setText(rulesDB['analyst_4']['exclude'])
 
     def openLogin(self, AdminPage):
         self.LoginWindow = QtWidgets.QMainWindow()
@@ -107,6 +89,7 @@ class Ui_AdminPage(object):
         self.welcomeLbl.setFont(font)
         self.welcomeLbl.setObjectName("welcomeLbl")
 
+        # ------- The tool box that gathers all analysts and raw data ----------
         self.toolBox = QtWidgets.QToolBox(self.centralwidget)
         self.toolBox.setGeometry(QtCore.QRect(80, 140, 831, 561))
         self.toolBox.setFocusPolicy(QtCore.Qt.WheelFocus)
@@ -169,12 +152,17 @@ class Ui_AdminPage(object):
         self.bakeBtn = QtWidgets.QPushButton(self.analyst1)
         self.bakeBtn.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn.setObjectName("bakeBtn")
-        self.lineEdit_9 = QtWidgets.QLineEdit(self.analyst1)
-        self.lineEdit_9.setGeometry(QtCore.QRect(10, 310, 601, 22))
-        self.lineEdit_9.setObjectName("lineEdit_9")
-        self.lineEdit_10 = QtWidgets.QLineEdit(self.analyst1)
-        self.lineEdit_10.setGeometry(QtCore.QRect(10, 250, 601, 22))
-        self.lineEdit_10.setObjectName("lineEdit_10")
+        self.bakeBtn.clicked.connect(
+            lambda: writeAnalystRules('analyst_1', self.sortByDate, self.wsmSort, self.confideality,
+                                      self.integrity,
+                                      self.availability, self.includeKeywords, self.excludeKeywords))
+        self.excludeKeywords = QtWidgets.QLineEdit(self.analyst1)
+        self.excludeKeywords.setGeometry(QtCore.QRect(10, 310, 601, 22))
+        self.excludeKeywords.setObjectName("excludeKeywords")
+
+        self.includeKeywords = QtWidgets.QLineEdit(self.analyst1)
+        self.includeKeywords.setGeometry(QtCore.QRect(10, 250, 601, 22))
+        self.includeKeywords.setObjectName("includeKeywords")
         self.impactLabel = QtWidgets.QLabel(self.analyst1)
         self.impactLabel.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel.setObjectName("impactLabel")
@@ -184,10 +172,18 @@ class Ui_AdminPage(object):
         self.integrity = QtWidgets.QCheckBox(self.analyst1)
         self.integrity.setGeometry(QtCore.QRect(540, 100, 81, 20))
         self.integrity.setObjectName("integrity")
+
         self.availability = QtWidgets.QCheckBox(self.analyst1)
         self.availability.setGeometry(QtCore.QRect(540, 120, 111, 20))
         self.availability.setObjectName("availability")
+
         self.toolBox.addItem(self.analyst1, "")
+        self.includeLbl = QtWidgets.QLabel(self.analyst1)
+        self.includeLbl.setGeometry(QtCore.QRect(10, 216, 201, 20))
+        self.includeLbl.setObjectName("includeLbl")
+        self.excludeLbl_2 = QtWidgets.QLabel(self.analyst1)
+        self.excludeLbl_2.setGeometry(QtCore.QRect(10, 290, 181, 16))
+        self.excludeLbl_2.setObjectName("excludeLbl_2")
 
         # ------------------- Analyst2 -----------------------------
         self.analyst2 = QtWidgets.QWidget()
@@ -227,27 +223,46 @@ class Ui_AdminPage(object):
         self.wsmSort_2 = QtWidgets.QCheckBox(self.analyst2)
         self.wsmSort_2.setGeometry(QtCore.QRect(310, 60, 111, 20))
         self.wsmSort_2.setObjectName("wsmSort_2")
+
         self.bakeBtn_2 = QtWidgets.QPushButton(self.analyst2)
         self.bakeBtn_2.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn_2.setObjectName("bakeBtn_2")
-        self.lineEdit_5 = QtWidgets.QLineEdit(self.analyst2)
-        self.lineEdit_5.setGeometry(QtCore.QRect(10, 310, 601, 22))
-        self.lineEdit_5.setObjectName("lineEdit_5")
-        self.lineEdit_6 = QtWidgets.QLineEdit(self.analyst2)
-        self.lineEdit_6.setGeometry(QtCore.QRect(10, 260, 601, 22))
-        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.bakeBtn_2.clicked.connect(
+            lambda: writeAnalystRules('analyst_2', self.sortByDate_2, self.wsmSort_2, self.confideality_2,
+                                      self.integrity_2,
+                                      self.availability_2, self.includeKeywords_2, self.excludeKeywords_2))
+
+        self.excludeKeywords_2 = QtWidgets.QLineEdit(self.analyst2)
+        self.excludeKeywords_2.setGeometry(QtCore.QRect(10, 310, 601, 22))
+        self.excludeKeywords_2.setObjectName("excludeKeywords_2")
+
+        self.includeKeywords_2 = QtWidgets.QLineEdit(self.analyst2)
+        self.includeKeywords_2.setGeometry(QtCore.QRect(10, 260, 601, 22))
+        self.includeKeywords_2.setObjectName("includeKeywords_2")
+
         self.impactLabel_2 = QtWidgets.QLabel(self.analyst2)
         self.impactLabel_2.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel_2.setObjectName("impactLabel_2")
+
         self.confideality_2 = QtWidgets.QCheckBox(self.analyst2)
         self.confideality_2.setGeometry(QtCore.QRect(550, 80, 111, 20))
         self.confideality_2.setObjectName("confideality_2")
+
         self.integrity_2 = QtWidgets.QCheckBox(self.analyst2)
         self.integrity_2.setGeometry(QtCore.QRect(550, 100, 81, 20))
         self.integrity_2.setObjectName("integrity_2")
+
         self.availability_2 = QtWidgets.QCheckBox(self.analyst2)
         self.availability_2.setGeometry(QtCore.QRect(550, 120, 101, 20))
         self.availability_2.setObjectName("availability_2")
+
+        self.includeLbl_2 = QtWidgets.QLabel(self.analyst2)
+        self.includeLbl_2.setGeometry(QtCore.QRect(10, 240, 201, 20))
+        self.includeLbl_2.setObjectName("includeLbl_2")
+
+        self.excludeLbl = QtWidgets.QLabel(self.analyst2)
+        self.excludeLbl.setGeometry(QtCore.QRect(10, 290, 181, 16))
+        self.excludeLbl.setObjectName("excludeLbl")
         self.toolBox.addItem(self.analyst2, "")
 
         # ----------------- Analyst3 --------------------------------
@@ -256,6 +271,7 @@ class Ui_AdminPage(object):
         self.wsmSort_3 = QtWidgets.QCheckBox(self.analyst3)
         self.wsmSort_3.setGeometry(QtCore.QRect(310, 50, 111, 20))
         self.wsmSort_3.setObjectName("wsmSort_3")
+
         self.gridLayoutWidget_3 = QtWidgets.QWidget(self.analyst3)
         self.gridLayoutWidget_3.setGeometry(QtCore.QRect(20, 50, 191, 111))
         self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
@@ -277,6 +293,7 @@ class Ui_AdminPage(object):
         self.grid_3.addWidget(self.latestDate_3, 2, 0, 1, 1)
         self.sortByDate_3 = QtWidgets.QCheckBox(self.gridLayoutWidget_3)
         self.sortByDate_3.setObjectName("sortByDate_3")
+
         self.grid_3.addWidget(self.sortByDate_3, 1, 0, 1, 1)
         self.rulesLabel_3 = QtWidgets.QLabel(self.analyst3)
         self.rulesLabel_3.setGeometry(QtCore.QRect(10, 10, 251, 31))
@@ -288,15 +305,21 @@ class Ui_AdminPage(object):
         font.setWeight(75)
         self.rulesLabel_3.setFont(font)
         self.rulesLabel_3.setObjectName("rulesLabel_3")
+
         self.bakeBtn_3 = QtWidgets.QPushButton(self.analyst3)
         self.bakeBtn_3.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn_3.setObjectName("bakeBtn_3")
-        self.lineEdit_3 = QtWidgets.QLineEdit(self.analyst3)
-        self.lineEdit_3.setGeometry(QtCore.QRect(10, 310, 601, 22))
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(self.analyst3)
-        self.lineEdit_4.setGeometry(QtCore.QRect(10, 250, 601, 22))
-        self.lineEdit_4.setObjectName("lineEdit_4")
+        self.bakeBtn_3.clicked.connect(
+            lambda: writeAnalystRules('analyst_3', self.sortByDate_3, self.wsmSort_3, self.confideality_3,
+                                      self.integrity_3,
+                                      self.availability_3, self.includeKeywords_3, self.excludeKeywords_3))
+
+        self.excludeKeywords_3 = QtWidgets.QLineEdit(self.analyst3)
+        self.excludeKeywords_3.setGeometry(QtCore.QRect(10, 310, 601, 22))
+        self.excludeKeywords_3.setObjectName("excludeKeywords_3")
+        self.includeKeywords_3 = QtWidgets.QLineEdit(self.analyst3)
+        self.includeKeywords_3.setGeometry(QtCore.QRect(10, 250, 601, 22))
+        self.includeKeywords_3.setObjectName("includeKeywords_3")
         self.impactLabel_3 = QtWidgets.QLabel(self.analyst3)
         self.impactLabel_3.setGeometry(QtCore.QRect(520, 50, 181, 21))
         self.impactLabel_3.setObjectName("impactLabel_3")
@@ -309,6 +332,12 @@ class Ui_AdminPage(object):
         self.availability_3 = QtWidgets.QCheckBox(self.analyst3)
         self.availability_3.setGeometry(QtCore.QRect(550, 110, 111, 20))
         self.availability_3.setObjectName("availability_3")
+        self.includeLbl_3 = QtWidgets.QLabel(self.analyst3)
+        self.includeLbl_3.setGeometry(QtCore.QRect(10, 230, 201, 20))
+        self.includeLbl_3.setObjectName("includeLbl_3")
+        self.excludeLbl_3 = QtWidgets.QLabel(self.analyst3)
+        self.excludeLbl_3.setGeometry(QtCore.QRect(10, 290, 181, 16))
+        self.excludeLbl_3.setObjectName("excludeLbl_3")
         self.toolBox.addItem(self.analyst3, "")
 
         # -------------------------- Analyst4 -------------------------------
@@ -349,30 +378,49 @@ class Ui_AdminPage(object):
         font.setWeight(75)
         self.rulesLabel_4.setFont(font)
         self.rulesLabel_4.setObjectName("rulesLabel_4")
+
         self.bakeBtn_4 = QtWidgets.QPushButton(self.analyst4)
         self.bakeBtn_4.setGeometry(QtCore.QRect(360, 340, 111, 41))
         self.bakeBtn_4.setObjectName("bakeBtn_4")
-        self.lineEdit = QtWidgets.QLineEdit(self.analyst4)
-        self.lineEdit.setGeometry(QtCore.QRect(10, 220, 601, 22))
-        self.lineEdit.setText("")
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.analyst4)
-        self.lineEdit_2.setGeometry(QtCore.QRect(10, 280, 601, 22))
-        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.bakeBtn_4.clicked.connect(
+            lambda: writeAnalystRules('analyst_4', self.sortByDate_4, self.wsmSort_4, self.confideality_4,
+                                      self.integrity_4,
+                                      self.availability_4, self.includeKeywords_4, self.excludeKeywords_4))
+
+        self.includeKeywords_4 = QtWidgets.QLineEdit(self.analyst4)
+        self.includeKeywords_4.setGeometry(QtCore.QRect(10, 220, 601, 22))
+        self.includeKeywords_4.setText("")
+        self.includeKeywords_4.setObjectName("includeKeywords_4")
+        self.excludeKeywords_4 = QtWidgets.QLineEdit(self.analyst4)
+        self.excludeKeywords_4.setGeometry(QtCore.QRect(10, 280, 601, 22))
+        self.excludeKeywords_4.setObjectName("excludeKeywords_4")
+
         self.impactLabel_4 = QtWidgets.QLabel(self.analyst4)
         self.impactLabel_4.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel_4.setObjectName("impactLabel_4")
+
         self.confideality_4 = QtWidgets.QCheckBox(self.analyst4)
         self.confideality_4.setGeometry(QtCore.QRect(540, 80, 101, 20))
         self.confideality_4.setObjectName("confideality_4")
+
         self.integrity_4 = QtWidgets.QCheckBox(self.analyst4)
         self.integrity_4.setGeometry(QtCore.QRect(540, 100, 81, 20))
         self.integrity_4.setObjectName("integrity_4")
+
         self.availability_4 = QtWidgets.QCheckBox(self.analyst4)
         self.availability_4.setGeometry(QtCore.QRect(540, 120, 101, 20))
         self.availability_4.setObjectName("availability_4")
+
+        self.includeLbl_4 = QtWidgets.QLabel(self.analyst4)
+        self.includeLbl_4.setGeometry(QtCore.QRect(10, 190, 201, 20))
+        self.includeLbl_4.setObjectName("includeLbl_4")
+
+        self.excludeLbl_4 = QtWidgets.QLabel(self.analyst4)
+        self.excludeLbl_4.setGeometry(QtCore.QRect(10, 260, 181, 16))
+        self.excludeLbl_4.setObjectName("excludeLbl_4")
         self.toolBox.addItem(self.analyst4, "")
 
+        # ---------------End of Analysts -----------------------
         self.ExitBtn = QtWidgets.QPushButton(self.centralwidget)
         self.ExitBtn.setGeometry(QtCore.QRect(460, 730, 81, 28))
         self.ExitBtn.setObjectName("ExitBtn")
@@ -393,6 +441,8 @@ class Ui_AdminPage(object):
         self.retranslateUi(AdminPage)
         QtCore.QMetaObject.connectSlotsByName(AdminPage)
 
+        self.initAllRules()
+
     def retranslateUi(self, AdminPage):
         _translate = QtCore.QCoreApplication.translate
         AdminPage.setWindowTitle(_translate("AdminPage", "Admins Page"))
@@ -410,6 +460,8 @@ class Ui_AdminPage(object):
         self.confideality.setText(_translate("AdminPage", "Confideality"))
         self.integrity.setText(_translate("AdminPage", "Integrity"))
         self.availability.setText(_translate("AdminPage", "Availability"))
+        self.includeLbl.setText(_translate("AdminPage", "Include special keywords:"))
+        self.excludeLbl_2.setText(_translate("AdminPage", "Exclude special keywords:"))
         self.toolBox.setItemText(
             self.toolBox.indexOf(self.analyst1), _translate("AdminPage", "Analyst1")
         )
@@ -421,6 +473,8 @@ class Ui_AdminPage(object):
         self.confideality_2.setText(_translate("AdminPage", "Confideality"))
         self.integrity_2.setText(_translate("AdminPage", "Integrity"))
         self.availability_2.setText(_translate("AdminPage", "Availability"))
+        self.includeLbl_2.setText(_translate("AdminPage", "Include special keywords:"))
+        self.excludeLbl.setText(_translate("AdminPage", "Exclude special keywords:"))
         self.toolBox.setItemText(
             self.toolBox.indexOf(self.analyst2), _translate("AdminPage", "Analyst2")
         )
@@ -432,6 +486,8 @@ class Ui_AdminPage(object):
         self.confideality_3.setText(_translate("AdminPage", "Confideality"))
         self.integrity_3.setText(_translate("AdminPage", "Integrity"))
         self.availability_3.setText(_translate("AdminPage", "Availability"))
+        self.includeLbl_3.setText(_translate("AdminPage", "Include special keywords:"))
+        self.excludeLbl_3.setText(_translate("AdminPage", "Exclude special keywords:"))
         self.toolBox.setItemText(
             self.toolBox.indexOf(self.analyst3), _translate("AdminPage", "Analyst3")
         )
@@ -443,6 +499,8 @@ class Ui_AdminPage(object):
         self.confideality_4.setText(_translate("AdminPage", "Confideality"))
         self.integrity_4.setText(_translate("AdminPage", "Integrity"))
         self.availability_4.setText(_translate("AdminPage", "Availability"))
+        self.includeLbl_4.setText(_translate("AdminPage", "Include special keywords:"))
+        self.excludeLbl_4.setText(_translate("AdminPage", "Exclude special keywords:"))
         self.toolBox.setItemText(
             self.toolBox.indexOf(self.analyst4), _translate("AdminPage", "Analyst4")
         )

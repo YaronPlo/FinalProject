@@ -6,6 +6,7 @@ import json
 
 class UiUserPage(object):
     def __init__(self):
+        self.counter = 0
         self.List_of_unchecked = None
         self.List_of_checked = None
         self.List = None
@@ -103,7 +104,7 @@ class UiUserPage(object):
 
         self.Task1 = QtWidgets.QCheckBox(self.widget)
         self.Task1.setObjectName("Task1")
-        self.Task1.checkStateSet()
+
         self.verticalLayout.addWidget(self.Task1)
 
         self.Task2 = QtWidgets.QCheckBox(self.widget)
@@ -134,9 +135,6 @@ class UiUserPage(object):
 
     # TODO: Fix Checked Boxes
     def countCheckedBox(self):
-        # taskState = {
-        #     "isCompleted": ""
-        # }
         self.List = [
             (self.Task1.isChecked(), "Task1"),
             (self.Task2.isChecked(), "Task2"),
@@ -147,7 +145,7 @@ class UiUserPage(object):
         self.List_of_checked = []
         self.List_of_unchecked = []
 
-        with open(Login.fileDB, "w") as DB:
+        with open(Login.usersFile, "w") as DB:
             dataBase = json.load(DB)
             # for task in dataBase["Tasks"]:
             for i, v in self.List:

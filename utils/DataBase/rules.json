@@ -1,0 +1,38 @@
+{
+  "analyst_1": {
+    "wsm": true,
+    "date": true,
+    "confideality": true,
+    "integrity": true,
+    "availability": true,
+    "include": "http",
+    "exclude": "IP"
+  },
+  "analyst_2": {
+    "wsm": false,
+    "date": false,
+    "confideality": true,
+    "integrity": false,
+    "availability": true,
+    "include": "",
+    "exclude": ""
+  },
+  "analyst_3": {
+    "wsm": true,
+    "date": true,
+    "confideality": false,
+    "integrity": true,
+    "availability": false,
+    "include": "asda",
+    "exclude": "fasdfgas"
+  },
+  "analyst_4": {
+    "wsm": false,
+    "date": true,
+    "confideality": false,
+    "integrity": true,
+    "availability": true,
+    "include": "https,",
+    "exclude": "null"
+  }
+}

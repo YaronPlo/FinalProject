@@ -45,25 +45,5 @@
       "Password": "123",
       "Admin": false
     }
-  ],
-  "Tasks": [
-    {
-      "isCompleted": true
-    },
-    {
-      "isCompleted": false
-    },
-    {
-      "isCompleted": false
-    },
-    {
-      "isCompleted": false
-    },
-    {
-      "isCompleted": true
-    }
-  ],
-  "Issues": [
-    {}
   ]
 }
