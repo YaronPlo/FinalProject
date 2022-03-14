@@ -4,7 +4,7 @@ import csv
 import json
 import sys
 
-fileDB = ".\\info.json"
+usersFile = ".\\users.json"
 
 
 class UiAdminPage(object):
@@ -156,7 +156,7 @@ class UiAdminPage(object):
 
     # TODO: Continue paseCSV Function
     def parseAssetCSV(self):
-        global fileDB
+        global usersFile
         with open(self.CSV, encoding='utf-8') as csvFile:
             csvReader = csv.DictReader(csvFile)
             with open(fileDB, 'r+', encoding='utf-8') as jsonDB:
@@ -169,7 +169,7 @@ class UiAdminPage(object):
 
 
     def parseTicketCSV(self):
-        global fileDB
+        global usersFile
         with open(self.CSV, encoding='utf-8') as csvFile:
             csvReader = csv.DictReader(csvFile)
             with open(fileDB, 'r+', encoding='utf-8') as jsonDB:
@@ -181,7 +181,7 @@ class UiAdminPage(object):
                 json.dump(dataBase, jsonDB, indent=3)
 
     def fillTable(self):
-        global fileDB
+        global usersFile
         with open(fileDB, "r") as jsonDB:
             dataBase = json.load(jsonDB)
             # Make the Table Rows and Cols
