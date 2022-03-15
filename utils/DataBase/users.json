@@ -1,34 +1,58 @@
 {
   "userDetails": [
     {
-      "Username": "yaniv",
-      "Password": "asd",
-      "Admin": false
-    },
-    {
-      "Username": "itay",
-      "Password": "asd",
-      "Admin": false
-    },
-    {
-      "Username": "ben",
-      "Password": "asd",
-      "Admin": false
-    },
-    {
-      "Username": "roni",
-      "Password": "asd",
-      "Admin": false
-    },
-    {
+      "FullName": "Yaron",
       "Username": "yaron",
       "Password": "123",
       "Admin": true
     },
     {
+      "FullName": "Chen",
       "Username": "chen",
       "Password": "123",
       "Admin": true
+    },
+    {
+      "FullName": "Yaniv",
+      "Username": "yaniv",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Itay",
+      "Username": "itay",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Ben",
+      "Username": "ben",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Roni",
+      "Username": "roni",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Yossi",
+      "Username": "yossi",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Avi",
+      "Username": "avi",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Nisim",
+      "Username": "nisim",
+      "Password": "asd",
+      "Admin": false
     }
   ]
 }

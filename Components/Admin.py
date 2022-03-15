@@ -1,13 +1,21 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Login
+from utils import routes
+import pandas
 import json
 import sys
 
-dbDir = '.\\utils\\DataBase\\'
-usersFile = f'{dbDir}\\users.json'
-rulesFile = '.\\utils\\DataBase\\rules.json'
 
 
+"""
+this function will fill the table in the Raw data tab with tickets from Cyco
+"""
+def fillRawData():
+    pass
+
+"""
+this function get rules from GUI and sets them into a Json file.
+"""
 def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
         "wsm": wsm.isChecked(),  # True / False
@@ -18,18 +26,17 @@ def writeAnalystRules(analystID, date, wsm, confideality, integrity, availabilit
         "include": includeKwords.text(),  # Text
         "exclude": excludeKeywords.text(),  # Text
     }
-
-    with open(rulesFile) as rules:
+    with open(routes.rulesFile) as rules:
         rulesDB = json.load(rules)
     rulesDB[analystID] = newRules
-    with open(rulesFile, 'w') as rules:
+    with open(routes.rulesFile, 'w') as rules:
         json.dump(rulesDB, rules, indent=2)
 
 
 class Ui_AdminPage(object):
 
     def initAllRules(self):
-        with open(rulesFile) as file:
+        with open(routes.rulesFile) as file:
             rulesDB = json.load(file)
 
         self.sortByDate.setChecked(rulesDB['analyst_1']['date'])
@@ -110,9 +117,9 @@ class Ui_AdminPage(object):
         self.toolBox.addItem(self.rawData, "")
 
         # -----------------Analyst1-------------------
-        self.analyst1 = QtWidgets.QWidget()
-        self.analyst1.setObjectName("analyst1")
-        self.rulesLabel = QtWidgets.QLabel(self.analyst1)
+        self.analyst1 = QtWidgets.QWidget(objectName="analyst1")
+        # self.analyst1.setObjectName("analyst1")
+        self.rulesLabel = QtWidgets.QLabel(self.analyst1, objectName="rulesLabel")
         self.rulesLabel.setGeometry(QtCore.QRect(10, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
@@ -121,12 +128,12 @@ class Ui_AdminPage(object):
         font.setUnderline(True)
         font.setWeight(75)
         self.rulesLabel.setFont(font)
-        self.rulesLabel.setObjectName("rulesLabel")
+        # self.rulesLabel.setObjectName()
 
-        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1)
+        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1, objectName="gridLayoutWidget")
         self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 50, 191, 111))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        # self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget, objectName="grid")
         self.grid.setContentsMargins(0, 0, 0, 0)
         self.grid.setObjectName("grid")
 
@@ -450,6 +457,7 @@ class Ui_AdminPage(object):
         self.welcomeLbl.setText("Welcome to Administrator Page!")
         self.toolBox.setItemText(self.toolBox.indexOf(self.rawData), "Raw Data")
 
+
         self.rulesLabel.setText("Rules for Analyst:")
         self.sortByDate.setText("Sort by Date")
         self.wsmSort.setText("WSM rating")
@@ -459,8 +467,9 @@ class Ui_AdminPage(object):
         self.integrity.setText("Integrity")
         self.availability.setText("Availability")
         self.includeLbl.setText("Include special keywords:")
-        self.excludeLbl_2.setText("Exclude special keywords:")
+        self.excludeLbl.setText("Exclude special keywords:")
         self.toolBox.setItemText(self.toolBox.indexOf(self.analyst1), "Yaniv")
+
         self.rulesLabel_2.setText("Rules for Analyst:")
         self.sortByDate_2.setText("Sort by Date")
         self.wsmSort_2.setText("WSM rating")
@@ -470,8 +479,7 @@ class Ui_AdminPage(object):
         self.integrity_2.setText("Integrity")
         self.availability_2.setText("Availability")
         self.includeLbl_2.setText("Include special keywords:")
-        self.excludeLbl.setText("Exclude special keywords:")
-
+        self.excludeLbl_2.setText("Exclude special keywords:")
         self.toolBox.setItemText(self.toolBox.indexOf(self.analyst2), "Itay")
 
         self.wsmSort_3.setText("WSM rating")
@@ -484,7 +492,6 @@ class Ui_AdminPage(object):
         self.availability_3.setText("Availability")
         self.includeLbl_3.setText("Include special keywords:")
         self.excludeLbl_3.setText("Exclude special keywords:")
-
         self.toolBox.setItemText(self.toolBox.indexOf(self.analyst3), "Ben")
 
         self.wsmSort_4.setText("WSM rating")
@@ -513,10 +520,10 @@ class Ui_AdminPage(object):
         print(self.CSV)
 
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    AdminPage = QtWidgets.QMainWindow()
-    ui = Ui_AdminPage()
-    ui.setupUi(AdminPage)
-    AdminPage.show()
-    sys.exit(app.exec_())
+# def runAdmin():
+#     app = QtWidgets.QApplication(sys.argv)
+#     AdminPage = QtWidgets.QMainWindow()
+#     ui = Ui_AdminPage()
+#     ui.setupUi(AdminPage)
+#     AdminPage.show()
+#     sys.exit(app.exec_())
