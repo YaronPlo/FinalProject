@@ -5,17 +5,20 @@ import pandas
 import json
 import sys
 
-
-
 """
 this function will fill the table in the Raw data tab with tickets from Cyco
 """
+
+
 def fillRawData():
     pass
+
 
 """
 this function get rules from GUI and sets them into a Json file.
 """
+
+
 def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
         "wsm": wsm.isChecked(),  # True / False
@@ -82,7 +85,7 @@ class Ui_AdminPage(object):
         AdminPage.setObjectName("AdminPage")
         AdminPage.setEnabled(True)
         AdminPage.resize(990, 768)
-        AdminPage.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        AdminPage.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.centralwidget = QtWidgets.QWidget(AdminPage)
         self.centralwidget.setObjectName("centralwidget")
@@ -429,6 +432,7 @@ class Ui_AdminPage(object):
         self.toolBox.addItem(self.analyst4, "")
 
         # ---------------End of Analysts -----------------------
+
         self.ExitBtn = QtWidgets.QPushButton(self.centralwidget)
         self.ExitBtn.setGeometry(QtCore.QRect(460, 730, 81, 28))
         self.ExitBtn.setObjectName("ExitBtn")
@@ -436,9 +440,7 @@ class Ui_AdminPage(object):
 
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(390, 60, 191, 71))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(".\\utils\\Images\\csv1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.importCsvBtn.setIcon(icon1)
+        self.importCsvBtn.setIcon(QtGui.QIcon(routes.importCsvLogo))
         self.importCsvBtn.setIconSize(QtCore.QSize(45, 80))
         self.importCsvBtn.setCheckable(False)
         self.importCsvBtn.setObjectName("importCsvBtn")
@@ -456,7 +458,6 @@ class Ui_AdminPage(object):
         AdminPage.setWindowTitle("Admins Page")
         self.welcomeLbl.setText("Welcome to Administrator Page!")
         self.toolBox.setItemText(self.toolBox.indexOf(self.rawData), "Raw Data")
-
 
         self.rulesLabel.setText("Rules for Analyst:")
         self.sortByDate.setText("Sort by Date")
@@ -510,15 +511,12 @@ class Ui_AdminPage(object):
         self.importCsvBtn.setText("  Import CSV")
 
     def fileDialog(self):
-        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(
-            None,
-            "File Explorer",
-            "",
-            "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
-        )
+        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
+                                                              "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
+                                                              )
+        print(self.csvTuple)
         self.CSV = self.csvTuple[0]
         print(self.CSV)
-
 
 # def runAdmin():
 #     app = QtWidgets.QApplication(sys.argv)

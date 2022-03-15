@@ -1,8 +1,9 @@
 import sys
 import json
-from Components import Login
 from utils import routes
+from Components import Login
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 def CheckUserExistence(username, textbox):
     with open(routes.usersFile) as DB:
@@ -14,13 +15,14 @@ def CheckUserExistence(username, textbox):
             return True
     return False
 
+
 class Ui_Register(object):
     def setupUi(self, Register):
         Register.setObjectName("Register")
         Register.resize(310, 263)
         Register.setMouseTracking(False)
         Register.setAcceptDrops(False)
-        Register.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        Register.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.RegisterBtn = QtWidgets.QPushButton(Register, clicked=lambda: self.registerToJSON())
         self.RegisterBtn.setGeometry(QtCore.QRect(50, 170, 93, 28))
@@ -107,7 +109,6 @@ class Ui_Register(object):
         self.passwordLbl.setText("Password:")
         self.fullNameLbl.setText("Full Name:")
         self.closeBtn.setText("Close")
-
 
 # def runRegister():
 #     app = QtWidgets.QApplication(sys.argv)
