@@ -2,11 +2,80 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Login
 import sys
 import json
+import Data.Utilities as Data
+
+dbDir = '.\\utils\\DataBase\\'
+usersFile = f'{dbDir}\\users.json'
+rulesFile = f'.\\utils\\DataBase\\rules.json'
+
+
+def getUserName():
+    with open(usersFile) as DB:
+        userDB = json.load(DB)
+
+    return userDB["currentUser"]
+
+
+def getUserRuels(UserID):
+    names = {"yaniv": "analyst_1"}
+    with open(rulesFile) as rules:
+        rulesDB = json.load(rules)
+    return rulesDB[names[UserID]]
+
+
+def getFilteredTable(rules):
+    main_df = Data.dataFrame
+    print(main_df.to_string())
+    description = 'Asset Type'
+
+    func_dict = {
+        "wsm": Data.WSM,
+        "date": Data.sorting_df,
+    }
+
+    # potential_impact_values = {
+    #     "confidentiality": Data.key_word,  # True/ False
+    #     "integrity": Data.key_word,  # True/ False
+    #     "availability": Data.key_word,  # True/ False
+    # }
+
+    key_word_values = {
+        "include": Data.show_only,  # Text
+        "exclude": Data.dont_show,  # Text
+    }
+
+    # for key, value in rules.items():
+    for key, value in func_dict.items():
+        print("key: ", key, ",value: ", rules[key])
+        if rules[key]:
+            func_dict[key](main_df)
+            print(main_df.head().to_string())
+
+    # for key, value in potential_impact_values.items():
+    #     print("key: ", key, ",value: ", rules[key])
+    #     if rules[key]:
+    #         main_df = func_dict2[key](main_df, description, key)
+    #         print(main_df.head().to_string())
+    #         print()
+    #     elif rules[key] != '':
+    #         # func_dict2[key](main_df, description,rules[key])
+    #         print()
+
+    # func_dict[key]
+
+    for key, value in key_word_values.items():
+        print("key: ", key, ",value: ", rules[key])
+        if rules[key] != '':
+            main_df = key_word_values[key](main_df, description, [rules[key].lower()])
+            print(main_df.head().to_string())
+
+    print(main_df.head().to_string())
 
 
 class UiUserPage(object):
     def __init__(self):
-        self.counter = 0
+        self.rulesForUser = None
+        self.currUser = None
         self.List_of_unchecked = None
         self.List_of_checked = None
         self.List = None
@@ -126,6 +195,12 @@ class UiUserPage(object):
 
         self.retranslateUi(UserPage)
         QtCore.QMetaObject.connectSlotsByName(UserPage)
+
+        self.currUser = getUserName()
+        self.rulesForUser = getUserRuels(self.currUser)
+        print("currUser: ", self.currUser)
+        print("rulesForUser: ", self.rulesForUser)
+        getFilteredTable(self.rulesForUser)
 
     def displayTime(self):
         currenTime = QtCore.QTime.currentTime()

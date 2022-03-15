@@ -45,5 +45,6 @@
       "Password": "123",
       "Admin": false
     }
-  ]
+  ],
+  "currentUser": "yaniv"
 }

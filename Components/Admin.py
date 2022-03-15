@@ -11,7 +11,7 @@ def writeAnalystRules(analystID, date, wsm, confideality, integrity, availabilit
     newRules = {
         "wsm": wsm.isChecked(),  # True/ False
         "date": date.isChecked(),  # True/ False
-        "confideality": confideality.isChecked(),  # True/ False
+        "confidentiality": confideality.isChecked(),  # True/ False
         "integrity": integrity.isChecked(),  # True/ False
         "availability": availability.isChecked(),  # True/ False
         "include": includeKwords.text(),  # Text

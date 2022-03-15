@@ -1,11 +1,17 @@
+import os
+
 import pandas as pd
 from datetime import datetime
 
 path = r"..\CyCog"
 issues_path = path + r"\Cyco_Assets.csv"
 
+
 def open_csv(path):
-    return pd.read_csv(path)
+    try:
+        return pd.read_csv(path)
+    except:
+        return pd.read_csv(r"CyCog\Cyco_Assets.csv")
 
 
 def table_description(_df):
@@ -21,6 +27,10 @@ def table_description(_df):
 
 pd.reset_option("max_columns")
 
+# cwd = os.getcwd()  # Get the current working directory (cwd)
+# files = os.listdir(cwd)  # Get all the files in that directory
+# print("Files in %r: %s" % (cwd, files))
+
 issues_dataFrame = open_csv(issues_path)
 
 relevant_columns = {1: 'Severity',
@@ -29,14 +39,22 @@ relevant_columns = {1: 'Severity',
                     4: 'Asset Discoverability',
                     5: 'Asset Attractiveness',
                     6: 'Asset Type',
-                    7: 'Asset First Seen'}
+                    7: 'Potential Impact',
+                    8: 'Asset First Seen',
+                    9: 'Description'
+                    }
 
-dataFrame = issues_dataFrame[relevant_columns.values()]
-catagories = {'low': 1, 'moderate': 2, 'medium': 2, 'high': 3, 'extreme': 4, 'critical': 4}
+catagories = {'low': 1,
+              'moderate': 2,
+              'medium': 2,
+              'high': 3,
+              'extreme': 4,
+              'critical': 4
+              }
 
 
 def cat_to_num(df, col_list, catagories):
-    df=df.copy()
+    df = df.copy()
     for _ in col_list:
         df.loc[:, _] = df[_].map(catagories)
     return df
@@ -65,8 +83,11 @@ def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
 
 
 def show_only(df, column_name, values):  # only_values:list
-    df = df.loc[df[column_name].isin(values)]
-    return df
+    filtered_df = df.loc[df[column_name].isin(values)]
+    if len(filtered_df) == 0:
+        print("The key words: ",values,"not exist in columns: ", column_name)
+        return df
+    return filtered_df
 
 
 def dont_show(df, column_name, values):  # only_values:list
@@ -90,6 +111,7 @@ def return_N_oldest(df, n):
     df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
+
 def letters_to_numbers(df, columns):
     for col in columns:
         df.loc[:, col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
@@ -98,15 +120,14 @@ def letters_to_numbers(df, columns):
 
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
-    # df['Potential Impact'] = df['Potential Impact'].apply(lambda sent: sent.replace('|','').split(' '))
     df['Potential Impact'] = df['Potential Impact'].apply(
         lambda sent: (" ".join([x for x in sent.replace('|', '').split(' ') if x not in banned])).split(' '))
+    # df = key_word(df, 'Potential Impact', key_word)
     # print('->',df['Potential Impact'])
     return df
 
 
 def key_word(df, col='Description', word='HTTP'):
-    df[col] = df[col].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df.loc[lambda sent: sent[col].apply(lambda l: word.lower() in l)]
     return df
 
@@ -133,12 +154,12 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
     print(df.head(10).to_string())
 
 
-dataFrame = cat_to_num(dataFrame, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories)
-# WSM(dataFrame)
+def table_preprocess(df, relevant_col, catagories_list):
+    df = Potential_Impact_column(df)
+    df['Description'] = df['Description'].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
+    df = df[relevant_col.values()]
+    df = cat_to_num(df, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories_list)
+    str_to_datatime(df, ['Asset First Seen'])
+    return df
 
-str_to_datatime(dataFrame, ['Asset First Seen'])
-
-# oldest(df1['Asset First Seen'])
-
-# print(df1.to_string())
-# key_word(col='Description', word='HTTP')
+dataFrame = table_preprocess(issues_dataFrame, relevant_columns, catagories)

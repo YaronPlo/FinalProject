@@ -9,6 +9,14 @@ dbDir = '.\\utils\\DataBase\\'
 usersFile = f'{dbDir}\\users.json'
 
 
+def currentLogedInUpdate(Username):
+    with open(usersFile) as DB:
+        userDB=json.load(DB)
+
+    userDB["currentUser"]=Username
+    with open(usersFile,'w') as DB:
+        json.dump(userDB,DB,indent=2)
+
 class UiLogIn(object):
     global usersFile
 
@@ -167,6 +175,7 @@ class UiLogIn(object):
                         and user["Password"] == self.passwordInput.text()
                         and user["Admin"] == False
                 ):
+                    currentLogedInUpdate(self.userNameInput.text())
                     self.openUserPage(LogIn)
                     return
         self.plainTextEdit.setPlainText("User Doesn't Exists!")
