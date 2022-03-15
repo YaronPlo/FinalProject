@@ -53,6 +53,12 @@
       "Username": "nisim",
       "Password": "asd",
       "Admin": false
+    },
+    {
+      "FullName": "Asif",
+      "Username": "asif",
+      "Password": "asd",
+      "Admin": false
     }
   ]
 }

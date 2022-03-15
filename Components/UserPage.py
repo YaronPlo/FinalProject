@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Login
+from utils import routes
 import sys
 import json
 
@@ -39,7 +40,7 @@ class UiUserPage(object):
         UserPage.setObjectName("UserPage")
         UserPage.resize(857, 675)
         UserPage.setEnabled(True)
-        UserPage.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        UserPage.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.tasksLbl = QtWidgets.QLabel(UserPage)
         self.tasksLbl.setGeometry(QtCore.QRect(70, 130, 69, 27))

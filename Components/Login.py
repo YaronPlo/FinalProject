@@ -45,7 +45,7 @@ class UiLogIn(object):
         LogIn.setObjectName("LogIn")
         LogIn.resize(333, 265)
         LogIn.setMouseTracking(False)
-        LogIn.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        LogIn.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
