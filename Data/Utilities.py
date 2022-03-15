@@ -83,6 +83,7 @@ def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
 
 
 def show_only(df, column_name, values):  # only_values:list
+    print("values: ",values)
     filtered_df = df.loc[df[column_name].isin(values)]
     if len(filtered_df) == 0:
         print("The key words: ",values,"not exist in columns: ", column_name)
@@ -121,7 +122,7 @@ def letters_to_numbers(df, columns):
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
     df['Potential Impact'] = df['Potential Impact'].apply(
-        lambda sent: (" ".join([x for x in sent.replace('|', '').split(' ') if x not in banned])).split(' '))
+        lambda sent: (" ".join(x.lower() for x in sent.replace('|', '').split(' ') if x not in banned)))#.split(' '))
     # df = key_word(df, 'Potential Impact', key_word)
     # print('->',df['Potential Impact'])
     return df

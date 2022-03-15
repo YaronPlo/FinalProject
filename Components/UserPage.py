@@ -25,49 +25,32 @@ def getUserRuels(UserID):
 
 def getFilteredTable(rules):
     main_df = Data.dataFrame
-    print(main_df.to_string())
-    description = 'Asset Type'
+    description = 'Description'
+    Potential_Impact = 'Potential Impact'
+    potential_impact_values = ["confidentiality", "integrity", "availability"]
 
     func_dict = {
         "wsm": Data.WSM,
         "date": Data.sorting_df,
     }
 
-    # potential_impact_values = {
-    #     "confidentiality": Data.key_word,  # True/ False
-    #     "integrity": Data.key_word,  # True/ False
-    #     "availability": Data.key_word,  # True/ False
-    # }
+    potential_impact_items = [val for val in potential_impact_values if rules[val]]
 
     key_word_values = {
         "include": Data.show_only,  # Text
         "exclude": Data.dont_show,  # Text
     }
 
-    # for key, value in rules.items():
     for key, value in func_dict.items():
-        print("key: ", key, ",value: ", rules[key])
         if rules[key]:
             func_dict[key](main_df)
-            print(main_df.head().to_string())
-
-    # for key, value in potential_impact_values.items():
-    #     print("key: ", key, ",value: ", rules[key])
-    #     if rules[key]:
-    #         main_df = func_dict2[key](main_df, description, key)
-    #         print(main_df.head().to_string())
-    #         print()
-    #     elif rules[key] != '':
-    #         # func_dict2[key](main_df, description,rules[key])
-    #         print()
-
-    # func_dict[key]
 
     for key, value in key_word_values.items():
-        print("key: ", key, ",value: ", rules[key])
         if rules[key] != '':
             main_df = key_word_values[key](main_df, description, [rules[key].lower()])
-            print(main_df.head().to_string())
+
+    for item in potential_impact_items:
+        main_df = Data.show_only(main_df, Potential_Impact, [item])
 
     print(main_df.head().to_string())
 
