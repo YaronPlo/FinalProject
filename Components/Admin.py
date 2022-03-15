@@ -1,24 +1,26 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import Login
-from utils import routes
-import pandas
-import json
 import sys
-
-"""
-this function will fill the table in the Raw data tab with tickets from Cyco
-"""
-
-
-def fillRawData():
-    pass
+import json
+import pandas
+import pandas as pd
+from utils import routes
+from Components import Login
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-"""
-this function get rules from GUI and sets them into a Json file.
-"""
+# this function will fill the tableWidget with the dataFrame it gets
+def fillTableData(df, table):
+    # set the amout of rows and cols
+    table.setRowCount(len(df))
+    table.setColumnCount(len(df.columns))
+
+    # Fill the Headers in the Table
+    table.setHorizontalHeaderLabels((colName for colName in df.columns))
+    for rows in range(len(df)):
+        for cols in range(len(df.columns)):
+            table.setItem(rows, cols, QtWidgets.QTableWidgetItem(df.iat[rows, cols]))
 
 
+# this function get rules from GUI and sets them into a Json file.
 def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
         "wsm": wsm.isChecked(),  # True / False
@@ -514,9 +516,22 @@ class Ui_AdminPage(object):
         self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
                                                               "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
                                                               )
-        print(self.csvTuple)
         self.CSV = self.csvTuple[0]
-        print(self.CSV)
+
+        relevant_columns = {
+            1: 'Severity',
+            2: 'Asset Security Grade',
+            3: 'Asset Security Score',
+            4: 'Asset Discoverability',
+            5: 'Asset Attractiveness',
+            6: 'Asset Type',
+            7: 'Potential Impact',
+            8: 'Asset First Seen',
+            9: 'Description'
+        }
+        raw_df = pd.read_csv(self.CSV, low_memory=False)
+        filtered_df = raw_df[relevant_columns.values()]
+        fillTableData(filtered_df, self.rawDataTableWidget)
 
 # def runAdmin():
 #     app = QtWidgets.QApplication(sys.argv)
