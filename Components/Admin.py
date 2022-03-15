@@ -532,11 +532,3 @@ class Ui_AdminPage(object):
         raw_df = pd.read_csv(self.CSV, low_memory=False)
         filtered_df = raw_df[relevant_columns.values()]
         fillTableData(filtered_df, self.rawDataTableWidget)
-
-# def runAdmin():
-#     app = QtWidgets.QApplication(sys.argv)
-#     AdminPage = QtWidgets.QMainWindow()
-#     ui = Ui_AdminPage()
-#     ui.setupUi(AdminPage)
-#     AdminPage.show()
-#     sys.exit(app.exec_())

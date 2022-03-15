@@ -1,4 +1,3 @@
-import sys
 import json
 from utils import routes
 from Components import Login
@@ -109,11 +108,3 @@ class Ui_Register(object):
         self.passwordLbl.setText("Password:")
         self.fullNameLbl.setText("Full Name:")
         self.closeBtn.setText("Close")
-
-# def runRegister():
-#     app = QtWidgets.QApplication(sys.argv)
-#     Register = QtWidgets.QWidget()
-#     ui = Ui_Register()
-#     ui.setupUi(Register)
-#     Register.show()
-#     sys.exit(app.exec_())

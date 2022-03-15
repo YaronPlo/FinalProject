@@ -2,7 +2,7 @@
   "analyst_1": {
     "wsm": true,
     "date": true,
-    "confideality": true,
+    "confideality": false,
     "integrity": true,
     "availability": false,
     "include": "",
