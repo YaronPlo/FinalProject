@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import Admin, UserPage
+from Components import Admin, Register, UserPage
 import os
 import sys
 import json
@@ -13,6 +13,7 @@ class UiLogIn(object):
     global usersFile
 
     def __init__(self):
+        self.RegisterWindow = None
         self.plainTextEdit = None
         self.UserWindow = None
         self.userNameLbl = None
@@ -23,6 +24,13 @@ class UiLogIn(object):
         self.logIn = None
         self.Register = None
         self.ui = None
+
+    def openRegister(self, LogIn):
+        self.RegisterWindow = QtWidgets.QMainWindow()
+        self.ui = Register.Ui_Register()
+        self.ui.setupUi(self.RegisterWindow)
+        self.RegisterWindow.show()
+        LogIn.close()
 
     def openAdminPage(self, LogIn):
         self.AdminWindow = QtWidgets.QMainWindow()
@@ -76,18 +84,18 @@ class UiLogIn(object):
         self.Register = QtWidgets.QPushButton(LogIn)
         self.Register.setGeometry(QtCore.QRect(190, 170, 93, 28))
         self.Register.setObjectName("Register")
-        self.Register.clicked.connect(self.registerToJSON)
+        self.Register.clicked.connect(self.openRegister)
 
         self.retranslateUi(LogIn)
         QtCore.QMetaObject.connectSlotsByName(LogIn)
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate
-        LogIn.setWindowTitle(_translate("LogIn", "Log In"))
-        self.logIn.setText(_translate("LogIn", "Log In"))
-        self.Register.setText(_translate("LogIn", "Register"))
-        self.userNameLbl.setText(_translate("LogIn", "User Name:"))
-        self.passwordLbl.setText(_translate("LogIn", "Password:"))
+        LogIn.setWindowTitle("Log In")
+        self.logIn.setText("Log In")
+        self.Register.setText("Register")
+        self.userNameLbl.setText("User Name:")
+        self.passwordLbl.setText("Password:")
 
     # Function that writes to JSON the userName and Password
     def registerToJSON(self):
@@ -102,7 +110,7 @@ class UiLogIn(object):
             self.plainTextEdit.setStyleSheet("color: red")
             return
 
-        if self.CheckUserExistence():
+        if not self.CheckUserExistence():
             with open(usersFile, "r+") as DB:
                 # First we load existing data into a dict.
                 dataBase = json.load(DB)
@@ -124,8 +132,8 @@ class UiLogIn(object):
             if user["Username"] == self.userNameInput.text():
                 self.plainTextEdit.setPlainText("User name already exists!")
                 self.plainTextEdit.setStyleSheet("color: red")
-                return False
-        return True
+                return True
+        return False
 
     def TypeUserCheck(self):
         pass

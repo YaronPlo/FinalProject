@@ -1,30 +1,30 @@
 {
   "analyst_1": {
     "wsm": true,
-    "date": true,
-    "confideality": true,
+    "date": false,
+    "confideality": false,
     "integrity": true,
-    "availability": true,
-    "include": "http",
-    "exclude": "IP"
+    "availability": false,
+    "include": "sdfsadf",
+    "exclude": "sadfsadf"
   },
   "analyst_2": {
     "wsm": false,
     "date": false,
-    "confideality": true,
+    "confideality": false,
     "integrity": false,
-    "availability": true,
+    "availability": false,
     "include": "",
     "exclude": ""
   },
   "analyst_3": {
     "wsm": true,
     "date": true,
-    "confideality": false,
+    "confideality": true,
     "integrity": true,
-    "availability": false,
-    "include": "asda",
-    "exclude": "fasdfgas"
+    "availability": true,
+    "include": "israel, ip, web",
+    "exclude": "host"
   },
   "analyst_4": {
     "wsm": false,
