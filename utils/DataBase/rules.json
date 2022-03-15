@@ -4,15 +4,15 @@
     "date": true,
     "confideality": true,
     "integrity": true,
-    "availability": true,
+    "availability": false,
     "include": "",
     "exclude": ""
   },
   "analyst_2": {
-    "wsm": true,
-    "date": true,
+    "wsm": false,
+    "date": false,
     "confideality": false,
-    "integrity": true,
+    "integrity": false,
     "availability": false,
     "include": "yay",
     "exclude": ""
