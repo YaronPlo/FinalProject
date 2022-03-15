@@ -2,7 +2,7 @@
   "analyst_1": {
     "wsm": true,
     "date": true,
-    "confideality": false,
+    "confidentiality": true,
     "integrity": true,
     "availability": false,
     "include": "",
@@ -11,7 +11,7 @@
   "analyst_2": {
     "wsm": false,
     "date": false,
-    "confideality": false,
+    "confidentiality": true,
     "integrity": false,
     "availability": false,
     "include": "yay",
@@ -20,7 +20,7 @@
   "analyst_3": {
     "wsm": true,
     "date": true,
-    "confideality": true,
+    "confidentiality": true,
     "integrity": false,
     "availability": true,
     "include": "israel, ip",
@@ -29,7 +29,7 @@
   "analyst_4": {
     "wsm": false,
     "date": true,
-    "confideality": true,
+    "confidentiality": true
     "integrity": true,
     "availability": true,
     "include": "https,",

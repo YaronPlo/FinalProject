@@ -23,11 +23,12 @@ def fillTableData(df, table):
 # this function get rules from GUI and sets them into a Json file.
 def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
-        "wsm": wsm.isChecked(),  # True / False
-        "date": date.isChecked(),  # True / False
-        "confideality": confideality.isChecked(),  # True / False
-        "integrity": integrity.isChecked(),  # True / False
-        "availability": availability.isChecked(),  # True / False
+
+        "wsm": wsm.isChecked(),  # True/ False
+        "date": date.isChecked(),  # True/ False
+        "confidentiality": confideality.isChecked(),  # True/ False
+        "integrity": integrity.isChecked(),  # True/ False
+        "availability": availability.isChecked(),  # True/ False
         "include": includeKwords.text(),  # Text
         "exclude": excludeKeywords.text(),  # Text
     }

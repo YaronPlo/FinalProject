@@ -5,6 +5,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Admin, Register, UserPage
 
 
+def currentLogedInUpdate(Username):
+    with open(usersFile) as DB:
+        userDB=json.load(DB)
+
+    userDB["currentUser"]=Username
+    with open(usersFile,'w') as DB:
+        json.dump(userDB,DB,indent=2)
+
 class UiLogIn(object):
 
     def __init__(self):
@@ -132,6 +140,7 @@ class UiLogIn(object):
                         and user["Password"] == self.passwordInput.text()
                         and user["Admin"] == False
                 ):
+                    currentLogedInUpdate(self.userNameInput.text())
                     self.openUserPage(LogIn)
                     return
         self.plainTextEdit.setPlainText("User Doesn't Exists!")

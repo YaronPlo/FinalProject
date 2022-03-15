@@ -3,11 +3,63 @@ from Components import Login
 from utils import routes
 import sys
 import json
+import Data.Utilities as Data
+
+dbDir = '.\\utils\\DataBase\\'
+usersFile = f'{dbDir}\\users.json'
+rulesFile = f'.\\utils\\DataBase\\rules.json'
+
+
+def getUserName():
+    with open(usersFile) as DB:
+        userDB = json.load(DB)
+
+    return userDB["currentUser"]
+
+
+def getUserRuels(UserID):
+    names = {"yaniv": "analyst_1"}
+    with open(rulesFile) as rules:
+        rulesDB = json.load(rules)
+    return rulesDB[names[UserID]]
+
+
+def getFilteredTable(rules):
+    main_df = Data.dataFrame
+    description = 'Description'
+    Potential_Impact = 'Potential Impact'
+    potential_impact_values = ["confidentiality", "integrity", "availability"]
+
+    func_dict = {
+        "wsm": Data.WSM,
+        "date": Data.sorting_df,
+    }
+
+    potential_impact_items = [val for val in potential_impact_values if rules[val]]
+
+    key_word_values = {
+        "include": Data.show_only,  # Text
+        "exclude": Data.dont_show,  # Text
+    }
+
+    for key, value in func_dict.items():
+        if rules[key]:
+            func_dict[key](main_df)
+
+    for key, value in key_word_values.items():
+        if rules[key] != '':
+            main_df = key_word_values[key](main_df, description, [rules[key].lower()])
+
+    for item in potential_impact_items:
+        main_df = Data.show_only(main_df, Potential_Impact, [item])
+
+    print(main_df.head().to_string())
 
 
 class UiUserPage(object):
     def __init__(self):
-        self.counter = 0
+        self.rulesForUser = None
+        self.currUser = None
         self.List_of_unchecked = None
         self.List_of_checked = None
         self.List = None
@@ -127,6 +179,12 @@ class UiUserPage(object):
 
         self.retranslateUi(UserPage)
         QtCore.QMetaObject.connectSlotsByName(UserPage)
+
+        self.currUser = getUserName()
+        self.rulesForUser = getUserRuels(self.currUser)
+        print("currUser: ", self.currUser)
+        print("rulesForUser: ", self.rulesForUser)
+        getFilteredTable(self.rulesForUser)
 
     def displayTime(self):
         currenTime = QtCore.QTime.currentTime()
