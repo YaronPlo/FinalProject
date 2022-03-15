@@ -146,7 +146,7 @@ class UiUserPage(object):
         self.List_of_checked = []
         self.List_of_unchecked = []
 
-        with open(Login.usersFile, "w") as DB:
+        with open(routes.usersFile, "w") as DB:
             dataBase = json.load(DB)
             # for task in dataBase["Tasks"]:
             for i, v in self.List:
