@@ -1,48 +1,63 @@
 {
   "userDetails": [
     {
+      "FullName": "Yaron",
       "Username": "yaron",
       "Password": "123",
       "Admin": true
     },
     {
+      "FullName": "Chen",
       "Username": "chen",
       "Password": "123",
       "Admin": true
     },
     {
+      "FullName": "Yaniv",
       "Username": "yaniv",
       "Password": "asd",
       "Admin": false
     },
     {
+      "FullName": "Itay",
       "Username": "itay",
-      "Password": "asdf",
-      "Admin": false
-    },
-    {
-      "Username": "132",
       "Password": "asd",
       "Admin": false
     },
     {
-      "Username": "234",
-      "Password": "sdf",
-      "Admin": false
-    },
-    {
-      "Username": "123asd",
+      "FullName": "Ben",
+      "Username": "ben",
       "Password": "asd",
       "Admin": false
     },
     {
-      "Username": "user2",
-      "Password": "123sda",
+      "FullName": "Roni",
+      "Username": "roni",
+      "Password": "asd",
       "Admin": false
     },
     {
-      "Username": "asaf",
-      "Password": "123",
+      "FullName": "Yossi",
+      "Username": "yossi",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Avi",
+      "Username": "avi",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Nisim",
+      "Username": "nisim",
+      "Password": "asd",
+      "Admin": false
+    },
+    {
+      "FullName": "Asif",
+      "Username": "asif",
+      "Password": "asd",
       "Admin": false
     }
   ],

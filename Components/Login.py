@@ -1,12 +1,8 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import Admin, UserPage
-import os
 import sys
 import json
-
-dbDir = '.\\utils\\DataBase\\'
-
-usersFile = f'{dbDir}\\users.json'
+from utils import routes
+from PyQt5 import QtCore, QtGui, QtWidgets
+from Components import Admin, Register, UserPage
 
 
 def currentLogedInUpdate(Username):
@@ -18,9 +14,9 @@ def currentLogedInUpdate(Username):
         json.dump(userDB,DB,indent=2)
 
 class UiLogIn(object):
-    global usersFile
 
     def __init__(self):
+        self.RegisterWindow = None
         self.plainTextEdit = None
         self.UserWindow = None
         self.userNameLbl = None
@@ -31,6 +27,13 @@ class UiLogIn(object):
         self.logIn = None
         self.Register = None
         self.ui = None
+
+    def openRegister(self, LogIn):
+        self.RegisterWindow = QtWidgets.QMainWindow()
+        self.ui = Register.Ui_Register()
+        self.ui.setupUi(self.RegisterWindow)
+        self.RegisterWindow.show()
+        LogIn.close()
 
     def openAdminPage(self, LogIn):
         self.AdminWindow = QtWidgets.QMainWindow()
@@ -50,7 +53,7 @@ class UiLogIn(object):
         LogIn.setObjectName("LogIn")
         LogIn.resize(333, 265)
         LogIn.setMouseTracking(False)
-        LogIn.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        LogIn.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
@@ -84,56 +87,18 @@ class UiLogIn(object):
         self.Register = QtWidgets.QPushButton(LogIn)
         self.Register.setGeometry(QtCore.QRect(190, 170, 93, 28))
         self.Register.setObjectName("Register")
-        self.Register.clicked.connect(self.registerToJSON)
+        self.Register.clicked.connect(lambda: self.openRegister(LogIn))
 
         self.retranslateUi(LogIn)
         QtCore.QMetaObject.connectSlotsByName(LogIn)
 
     def retranslateUi(self, LogIn):
         _translate = QtCore.QCoreApplication.translate
-        LogIn.setWindowTitle(_translate("LogIn", "Log In"))
-        self.logIn.setText(_translate("LogIn", "Log In"))
-        self.Register.setText(_translate("LogIn", "Register"))
-        self.userNameLbl.setText(_translate("LogIn", "User Name:"))
-        self.passwordLbl.setText(_translate("LogIn", "Password:"))
-
-    # Function that writes to JSON the userName and Password
-    def registerToJSON(self):
-        newDate = {
-            "Username": self.userNameInput.text(),
-            "Password": self.passwordInput.text(),
-            "Admin": False,
-        }
-
-        if self.userNameInput.text() == "" and self.passwordInput.text() == "":
-            self.plainTextEdit.setPlainText("Invalid Username & Password!")
-            self.plainTextEdit.setStyleSheet("color: red")
-            return
-
-        if self.CheckUserExistence():
-            with open(usersFile, "r+") as DB:
-                # First we load existing data into a dict.
-                dataBase = json.load(DB)
-                # Join new_data with file_data inside user_details
-                dataBase["userDetails"].append(newDate)
-                # Sets DB's current position at offset.
-                DB.seek(0)
-                # convert back to json.
-                json.dump(dataBase, DB, indent=3)
-
-                self.plainTextEdit.setPlainText("Succesfully added new User")
-                self.plainTextEdit.setStyleSheet("color: green")
-
-    # function checks if the userName Exists
-    def CheckUserExistence(self):
-        with open(usersFile, "r") as DB:
-            dataBase = json.load(DB)
-        for user in dataBase["userDetails"]:
-            if user["Username"] == self.userNameInput.text():
-                self.plainTextEdit.setPlainText("User name already exists!")
-                self.plainTextEdit.setStyleSheet("color: red")
-                return False
-        return True
+        LogIn.setWindowTitle("Log In")
+        self.logIn.setText("Log In")
+        self.Register.setText("Register")
+        self.userNameLbl.setText("User Name:")
+        self.passwordLbl.setText("Password:")
 
     def TypeUserCheck(self):
         pass
@@ -142,7 +107,7 @@ class UiLogIn(object):
         pass
 
     def LoginCheck(self, LogIn):
-        with open(usersFile, "r") as DB:
+        with open(routes.usersFile, "r") as DB:
             dataBase = json.load(DB)
 
         for user in dataBase["userDetails"]:

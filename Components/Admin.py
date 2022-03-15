@@ -1,14 +1,29 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from Components import Login
+import sys
 import json
+import pandas
+import pandas as pd
+from utils import routes
+from Components import Login
+from PyQt5 import QtCore, QtGui, QtWidgets
 
-dbDir = '.\\utils\\DataBase\\'
-usersFile = f'{dbDir}\\users.json'
-rulesFile = f'.\\utils\\DataBase\\rules.json'
+
+# this function will fill the tableWidget with the dataFrame it gets
+def fillTableData(df, table):
+    # set the amout of rows and cols
+    table.setRowCount(len(df))
+    table.setColumnCount(len(df.columns))
+
+    # Fill the Headers in the Table
+    table.setHorizontalHeaderLabels((colName for colName in df.columns))
+    for rows in range(len(df)):
+        for cols in range(len(df.columns)):
+            table.setItem(rows, cols, QtWidgets.QTableWidgetItem(df.iat[rows, cols]))
 
 
+# this function get rules from GUI and sets them into a Json file.
 def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
+
         "wsm": wsm.isChecked(),  # True/ False
         "date": date.isChecked(),  # True/ False
         "confidentiality": confideality.isChecked(),  # True/ False
@@ -17,18 +32,17 @@ def writeAnalystRules(analystID, date, wsm, confideality, integrity, availabilit
         "include": includeKwords.text(),  # Text
         "exclude": excludeKeywords.text(),  # Text
     }
-
-    with open(rulesFile) as rules:
+    with open(routes.rulesFile) as rules:
         rulesDB = json.load(rules)
     rulesDB[analystID] = newRules
-    with open(rulesFile, 'w') as rules:
+    with open(routes.rulesFile, 'w') as rules:
         json.dump(rulesDB, rules, indent=2)
 
 
 class Ui_AdminPage(object):
 
     def initAllRules(self):
-        with open(rulesFile) as file:
+        with open(routes.rulesFile) as file:
             rulesDB = json.load(file)
 
         self.sortByDate.setChecked(rulesDB['analyst_1']['date'])
@@ -74,7 +88,7 @@ class Ui_AdminPage(object):
         AdminPage.setObjectName("AdminPage")
         AdminPage.setEnabled(True)
         AdminPage.resize(990, 768)
-        AdminPage.setWindowIcon(QtGui.QIcon(".\\utils\\Images\\SCElogo.png"))
+        AdminPage.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.centralwidget = QtWidgets.QWidget(AdminPage)
         self.centralwidget.setObjectName("centralwidget")
@@ -109,9 +123,9 @@ class Ui_AdminPage(object):
         self.toolBox.addItem(self.rawData, "")
 
         # -----------------Analyst1-------------------
-        self.analyst1 = QtWidgets.QWidget()
-        self.analyst1.setObjectName("analyst1")
-        self.rulesLabel = QtWidgets.QLabel(self.analyst1)
+        self.analyst1 = QtWidgets.QWidget(objectName="analyst1")
+        # self.analyst1.setObjectName("analyst1")
+        self.rulesLabel = QtWidgets.QLabel(self.analyst1, objectName="rulesLabel")
         self.rulesLabel.setGeometry(QtCore.QRect(10, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
@@ -120,12 +134,12 @@ class Ui_AdminPage(object):
         font.setUnderline(True)
         font.setWeight(75)
         self.rulesLabel.setFont(font)
-        self.rulesLabel.setObjectName("rulesLabel")
+        # self.rulesLabel.setObjectName()
 
-        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1)
+        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1, objectName="gridLayoutWidget")
         self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 50, 191, 111))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        # self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget, objectName="grid")
         self.grid.setContentsMargins(0, 0, 0, 0)
         self.grid.setObjectName("grid")
 
@@ -421,6 +435,7 @@ class Ui_AdminPage(object):
         self.toolBox.addItem(self.analyst4, "")
 
         # ---------------End of Analysts -----------------------
+
         self.ExitBtn = QtWidgets.QPushButton(self.centralwidget)
         self.ExitBtn.setGeometry(QtCore.QRect(460, 730, 81, 28))
         self.ExitBtn.setObjectName("ExitBtn")
@@ -428,9 +443,7 @@ class Ui_AdminPage(object):
 
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(390, 60, 191, 71))
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(".\\utils\\Images\\csv1.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.importCsvBtn.setIcon(icon1)
+        self.importCsvBtn.setIcon(QtGui.QIcon(routes.importCsvLogo))
         self.importCsvBtn.setIconSize(QtCore.QSize(45, 80))
         self.importCsvBtn.setCheckable(False)
         self.importCsvBtn.setObjectName("importCsvBtn")
@@ -445,85 +458,78 @@ class Ui_AdminPage(object):
 
     def retranslateUi(self, AdminPage):
         _translate = QtCore.QCoreApplication.translate
-        AdminPage.setWindowTitle(_translate("AdminPage", "Admins Page"))
-        self.welcomeLbl.setText(
-            _translate("AdminPage", "Welcome to Administrator Page!")
-        )
-        self.toolBox.setItemText(
-            self.toolBox.indexOf(self.rawData), _translate("AdminPage", "Raw Data")
-        )
-        self.rulesLabel.setText(_translate("AdminPage", "Rules for Analyst:"))
-        self.sortByDate.setText(_translate("AdminPage", "Sort by Date"))
-        self.wsmSort.setText(_translate("AdminPage", "WSM rating"))
-        self.bakeBtn.setText(_translate("AdminPage", "Bake Rules"))
-        self.impactLabel.setText(_translate("AdminPage", "Potential Impact values:"))
-        self.confideality.setText(_translate("AdminPage", "Confideality"))
-        self.integrity.setText(_translate("AdminPage", "Integrity"))
-        self.availability.setText(_translate("AdminPage", "Availability"))
-        self.includeLbl.setText(_translate("AdminPage", "Include special keywords:"))
-        self.excludeLbl_2.setText(_translate("AdminPage", "Exclude special keywords:"))
-        self.toolBox.setItemText(
-            self.toolBox.indexOf(self.analyst1), _translate("AdminPage", "Analyst1")
-        )
-        self.rulesLabel_2.setText(_translate("AdminPage", "Rules for Analyst:"))
-        self.sortByDate_2.setText(_translate("AdminPage", "Sort by Date"))
-        self.wsmSort_2.setText(_translate("AdminPage", "WSM rating"))
-        self.bakeBtn_2.setText(_translate("AdminPage", "Bake Rules"))
-        self.impactLabel_2.setText(_translate("AdminPage", "Potential Impact values:"))
-        self.confideality_2.setText(_translate("AdminPage", "Confideality"))
-        self.integrity_2.setText(_translate("AdminPage", "Integrity"))
-        self.availability_2.setText(_translate("AdminPage", "Availability"))
-        self.includeLbl_2.setText(_translate("AdminPage", "Include special keywords:"))
-        self.excludeLbl.setText(_translate("AdminPage", "Exclude special keywords:"))
-        self.toolBox.setItemText(
-            self.toolBox.indexOf(self.analyst2), _translate("AdminPage", "Analyst2")
-        )
-        self.wsmSort_3.setText(_translate("AdminPage", "WSM rating"))
-        self.sortByDate_3.setText(_translate("AdminPage", "Sort by Date"))
-        self.rulesLabel_3.setText(_translate("AdminPage", "Rules for Analyst:"))
-        self.bakeBtn_3.setText(_translate("AdminPage", "Bake Rules"))
-        self.impactLabel_3.setText(_translate("AdminPage", "Potential Impact values:"))
-        self.confideality_3.setText(_translate("AdminPage", "Confideality"))
-        self.integrity_3.setText(_translate("AdminPage", "Integrity"))
-        self.availability_3.setText(_translate("AdminPage", "Availability"))
-        self.includeLbl_3.setText(_translate("AdminPage", "Include special keywords:"))
-        self.excludeLbl_3.setText(_translate("AdminPage", "Exclude special keywords:"))
-        self.toolBox.setItemText(
-            self.toolBox.indexOf(self.analyst3), _translate("AdminPage", "Analyst3")
-        )
-        self.wsmSort_4.setText(_translate("AdminPage", "WSM rating"))
-        self.sortByDate_4.setText(_translate("AdminPage", "Sort by Date"))
-        self.rulesLabel_4.setText(_translate("AdminPage", "Rules for Analyst:"))
-        self.bakeBtn_4.setText(_translate("AdminPage", "Bake Rules"))
-        self.impactLabel_4.setText(_translate("AdminPage", "Potential Impact values:"))
-        self.confideality_4.setText(_translate("AdminPage", "Confideality"))
-        self.integrity_4.setText(_translate("AdminPage", "Integrity"))
-        self.availability_4.setText(_translate("AdminPage", "Availability"))
-        self.includeLbl_4.setText(_translate("AdminPage", "Include special keywords:"))
-        self.excludeLbl_4.setText(_translate("AdminPage", "Exclude special keywords:"))
-        self.toolBox.setItemText(
-            self.toolBox.indexOf(self.analyst4), _translate("AdminPage", "Analyst4")
-        )
-        self.ExitBtn.setText(_translate("AdminPage", "Exit"))
-        self.importCsvBtn.setText(_translate("AdminPage", "  Import CSV"))
+        AdminPage.setWindowTitle("Admins Page")
+        self.welcomeLbl.setText("Welcome to Administrator Page!")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.rawData), "Raw Data")
+
+        self.rulesLabel.setText("Rules for Analyst:")
+        self.sortByDate.setText("Sort by Date")
+        self.wsmSort.setText("WSM rating")
+        self.bakeBtn.setText("Bake Rules")
+        self.impactLabel.setText("Potential Impact values:")
+        self.confideality.setText("Confideality")
+        self.integrity.setText("Integrity")
+        self.availability.setText("Availability")
+        self.includeLbl.setText("Include special keywords:")
+        self.excludeLbl.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst1), "Yaniv")
+
+        self.rulesLabel_2.setText("Rules for Analyst:")
+        self.sortByDate_2.setText("Sort by Date")
+        self.wsmSort_2.setText("WSM rating")
+        self.bakeBtn_2.setText("Bake Rules")
+        self.impactLabel_2.setText("Potential Impact values:")
+        self.confideality_2.setText("Confideality")
+        self.integrity_2.setText("Integrity")
+        self.availability_2.setText("Availability")
+        self.includeLbl_2.setText("Include special keywords:")
+        self.excludeLbl_2.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst2), "Itay")
+
+        self.wsmSort_3.setText("WSM rating")
+        self.sortByDate_3.setText("Sort by Date")
+        self.rulesLabel_3.setText("Rules for Analyst:")
+        self.bakeBtn_3.setText("Bake Rules")
+        self.impactLabel_3.setText("Potential Impact values:")
+        self.confideality_3.setText("Confideality")
+        self.integrity_3.setText("Integrity")
+        self.availability_3.setText("Availability")
+        self.includeLbl_3.setText("Include special keywords:")
+        self.excludeLbl_3.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst3), "Ben")
+
+        self.wsmSort_4.setText("WSM rating")
+        self.sortByDate_4.setText("Sort by Date")
+        self.rulesLabel_4.setText("Rules for Analyst:")
+        self.bakeBtn_4.setText("Bake Rules")
+        self.impactLabel_4.setText("Potential Impact values:")
+        self.confideality_4.setText("Confideality")
+        self.integrity_4.setText("Integrity")
+        self.availability_4.setText("Availability")
+        self.includeLbl_4.setText("Include special keywords:")
+        self.excludeLbl_4.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst4), "Roni")
+
+        self.ExitBtn.setText("Exit")
+        self.importCsvBtn.setText("  Import CSV")
 
     def fileDialog(self):
-        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(
-            None,
-            "File Explorer",
-            "",
-            "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
-        )
+        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
+                                                              "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
+                                                              )
         self.CSV = self.csvTuple[0]
-        print(self.CSV)
 
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    AdminPage = QtWidgets.QMainWindow()
-    ui = Ui_AdminPage()
-    ui.setupUi(AdminPage)
-    AdminPage.show()
-    sys.exit(app.exec_())
+        relevant_columns = {
+            1: 'Severity',
+            2: 'Asset Security Grade',
+            3: 'Asset Security Score',
+            4: 'Asset Discoverability',
+            5: 'Asset Attractiveness',
+            6: 'Asset Type',
+            7: 'Potential Impact',
+            8: 'Asset First Seen',
+            9: 'Description'
+        }
+        raw_df = pd.read_csv(self.CSV, low_memory=False)
+        filtered_df = raw_df[relevant_columns.values()]
+        fillTableData(filtered_df, self.rawDataTableWidget)

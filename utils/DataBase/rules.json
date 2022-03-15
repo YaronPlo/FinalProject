@@ -4,32 +4,32 @@
     "date": true,
     "confidentiality": true,
     "integrity": true,
-    "availability": true,
-    "include": "http",
-    "exclude": "IP"
+    "availability": false,
+    "include": "",
+    "exclude": ""
   },
   "analyst_2": {
     "wsm": false,
     "date": false,
     "confidentiality": true,
     "integrity": false,
-    "availability": true,
-    "include": "",
+    "availability": false,
+    "include": "yay",
     "exclude": ""
   },
   "analyst_3": {
     "wsm": true,
     "date": true,
-    "confidentiality": false,
-    "integrity": true,
-    "availability": false,
-    "include": "asda",
-    "exclude": "fasdfgas"
+    "confidentiality": true,
+    "integrity": false,
+    "availability": true,
+    "include": "israel, ip",
+    "exclude": "host"
   },
   "analyst_4": {
     "wsm": false,
     "date": true,
-    "confidentiality": false,
+    "confidentiality": true
     "integrity": true,
     "availability": true,
     "include": "https,",
