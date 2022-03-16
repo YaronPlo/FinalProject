@@ -21,12 +21,11 @@ def fillTableData(df, table):
 
 
 # this function get rules from GUI and sets them into a Json file.
-def writeAnalystRules(analystID, date, wsm, confideality, integrity, availability, includeKwords, excludeKeywords):
+def writeAnalystRules(analystID, date, wsm, confidentiality, integrity, availability, includeKwords, excludeKeywords):
     newRules = {
-
-        "wsm": wsm.isChecked(),  # True/ False
         "date": date.isChecked(),  # True/ False
-        "confidentiality": confideality.isChecked(),  # True/ False
+        "wsm": wsm.isChecked(),  # True/ False
+        "confidentiality": confidentiality.isChecked(),  # True/ False
         "integrity": integrity.isChecked(),  # True/ False
         "availability": availability.isChecked(),  # True/ False
         "include": includeKwords.text(),  # Text
@@ -47,7 +46,7 @@ class Ui_AdminPage(object):
 
         self.sortByDate.setChecked(rulesDB['analyst_1']['date'])
         self.wsmSort.setChecked(rulesDB['analyst_1']['wsm'])
-        self.confideality.setChecked(rulesDB['analyst_1']['confideality'])
+        self.confidentiality.setChecked(rulesDB['analyst_1']['confidentiality'])
         self.integrity.setChecked(rulesDB['analyst_1']['integrity'])
         self.availability.setChecked(rulesDB['analyst_1']['availability'])
         self.includeKeywords.setText(rulesDB['analyst_1']['include'])
@@ -55,7 +54,7 @@ class Ui_AdminPage(object):
 
         self.sortByDate_2.setChecked(rulesDB['analyst_2']['date'])
         self.wsmSort_2.setChecked(rulesDB['analyst_2']['wsm'])
-        self.confideality_2.setChecked(rulesDB['analyst_2']['confideality'])
+        self.confidentiality.setChecked(rulesDB['analyst_2']['confidentiality'])
         self.integrity_2.setChecked(rulesDB['analyst_2']['integrity'])
         self.availability_2.setChecked(rulesDB['analyst_2']['availability'])
         self.includeKeywords_2.setText(rulesDB['analyst_2']['include'])
@@ -63,7 +62,7 @@ class Ui_AdminPage(object):
 
         self.wsmSort_3.setChecked(rulesDB['analyst_3']['wsm'])
         self.sortByDate_3.setChecked(rulesDB['analyst_3']['date'])
-        self.confideality_3.setChecked(rulesDB['analyst_3']['confideality'])
+        self.confidentiality_3.setChecked(rulesDB['analyst_3']['confidentiality'])
         self.integrity_3.setChecked(rulesDB['analyst_3']['integrity'])
         self.availability_3.setChecked(rulesDB['analyst_3']['availability'])
         self.includeKeywords_3.setText(rulesDB['analyst_3']['include'])
@@ -71,7 +70,7 @@ class Ui_AdminPage(object):
 
         self.sortByDate_4.setChecked(rulesDB['analyst_4']['date'])
         self.wsmSort_4.setChecked(rulesDB['analyst_4']['wsm'])
-        self.confideality_4.setChecked(rulesDB['analyst_4']['confideality'])
+        self.confidentiality_4.setChecked(rulesDB['analyst_4']['confidentiality'])
         self.integrity_4.setChecked(rulesDB['analyst_4']['integrity'])
         self.availability_4.setChecked(rulesDB['analyst_4']['availability'])
         self.includeKeywords_4.setText(rulesDB['analyst_4']['include'])
@@ -167,7 +166,7 @@ class Ui_AdminPage(object):
         self.bakeBtn.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn.setObjectName("bakeBtn")
         self.bakeBtn.clicked.connect(
-            lambda: writeAnalystRules('analyst_1', self.sortByDate, self.wsmSort, self.confideality,
+            lambda: writeAnalystRules('analyst_1', self.sortByDate, self.wsmSort, self.confidentiality,
                                       self.integrity,
                                       self.availability, self.includeKeywords, self.excludeKeywords))
         self.excludeKeywords = QtWidgets.QLineEdit(self.analyst1)
@@ -180,9 +179,9 @@ class Ui_AdminPage(object):
         self.impactLabel = QtWidgets.QLabel(self.analyst1)
         self.impactLabel.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel.setObjectName("impactLabel")
-        self.confideality = QtWidgets.QCheckBox(self.analyst1)
-        self.confideality.setGeometry(QtCore.QRect(540, 80, 111, 20))
-        self.confideality.setObjectName("confideality")
+        self.confidentiality = QtWidgets.QCheckBox(self.analyst1)
+        self.confidentiality.setGeometry(QtCore.QRect(540, 80, 111, 20))
+        self.confidentiality.setObjectName("confidentiality")
         self.integrity = QtWidgets.QCheckBox(self.analyst1)
         self.integrity.setGeometry(QtCore.QRect(540, 100, 81, 20))
         self.integrity.setObjectName("integrity")
@@ -242,7 +241,7 @@ class Ui_AdminPage(object):
         self.bakeBtn_2.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn_2.setObjectName("bakeBtn_2")
         self.bakeBtn_2.clicked.connect(
-            lambda: writeAnalystRules('analyst_2', self.sortByDate_2, self.wsmSort_2, self.confideality_2,
+            lambda: writeAnalystRules('analyst_2', self.sortByDate_2, self.wsmSort_2, self.confidentiality_2,
                                       self.integrity_2,
                                       self.availability_2, self.includeKeywords_2, self.excludeKeywords_2))
 
@@ -258,9 +257,9 @@ class Ui_AdminPage(object):
         self.impactLabel_2.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel_2.setObjectName("impactLabel_2")
 
-        self.confideality_2 = QtWidgets.QCheckBox(self.analyst2)
-        self.confideality_2.setGeometry(QtCore.QRect(550, 80, 111, 20))
-        self.confideality_2.setObjectName("confideality_2")
+        self.confidentiality_2 = QtWidgets.QCheckBox(self.analyst2)
+        self.confidentiality_2.setGeometry(QtCore.QRect(550, 80, 111, 20))
+        self.confidentiality_2.setObjectName("confidentiality_2")
 
         self.integrity_2 = QtWidgets.QCheckBox(self.analyst2)
         self.integrity_2.setGeometry(QtCore.QRect(550, 100, 81, 20))
@@ -324,7 +323,7 @@ class Ui_AdminPage(object):
         self.bakeBtn_3.setGeometry(QtCore.QRect(360, 350, 111, 41))
         self.bakeBtn_3.setObjectName("bakeBtn_3")
         self.bakeBtn_3.clicked.connect(
-            lambda: writeAnalystRules('analyst_3', self.sortByDate_3, self.wsmSort_3, self.confideality_3,
+            lambda: writeAnalystRules('analyst_3', self.sortByDate_3, self.wsmSort_3, self.confidentiality_3,
                                       self.integrity_3,
                                       self.availability_3, self.includeKeywords_3, self.excludeKeywords_3))
 
@@ -337,9 +336,9 @@ class Ui_AdminPage(object):
         self.impactLabel_3 = QtWidgets.QLabel(self.analyst3)
         self.impactLabel_3.setGeometry(QtCore.QRect(520, 50, 181, 21))
         self.impactLabel_3.setObjectName("impactLabel_3")
-        self.confideality_3 = QtWidgets.QCheckBox(self.analyst3)
-        self.confideality_3.setGeometry(QtCore.QRect(550, 70, 101, 20))
-        self.confideality_3.setObjectName("confideality_3")
+        self.confidentiality_3 = QtWidgets.QCheckBox(self.analyst3)
+        self.confidentiality_3.setGeometry(QtCore.QRect(550, 70, 101, 20))
+        self.confidentiality_3.setObjectName("confidentiality_3")
         self.integrity_3 = QtWidgets.QCheckBox(self.analyst3)
         self.integrity_3.setGeometry(QtCore.QRect(550, 90, 81, 20))
         self.integrity_3.setObjectName("integrity_3")
@@ -397,7 +396,7 @@ class Ui_AdminPage(object):
         self.bakeBtn_4.setGeometry(QtCore.QRect(360, 340, 111, 41))
         self.bakeBtn_4.setObjectName("bakeBtn_4")
         self.bakeBtn_4.clicked.connect(
-            lambda: writeAnalystRules('analyst_4', self.sortByDate_4, self.wsmSort_4, self.confideality_4,
+            lambda: writeAnalystRules('analyst_4', self.sortByDate_4, self.wsmSort_4, self.confidentiality_4,
                                       self.integrity_4,
                                       self.availability_4, self.includeKeywords_4, self.excludeKeywords_4))
 
@@ -413,9 +412,9 @@ class Ui_AdminPage(object):
         self.impactLabel_4.setGeometry(QtCore.QRect(520, 60, 181, 21))
         self.impactLabel_4.setObjectName("impactLabel_4")
 
-        self.confideality_4 = QtWidgets.QCheckBox(self.analyst4)
-        self.confideality_4.setGeometry(QtCore.QRect(540, 80, 101, 20))
-        self.confideality_4.setObjectName("confideality_4")
+        self.confidentiality_4 = QtWidgets.QCheckBox(self.analyst4)
+        self.confidentiality_4.setGeometry(QtCore.QRect(540, 80, 101, 20))
+        self.confidentiality_4.setObjectName("confidentiality_4")
 
         self.integrity_4 = QtWidgets.QCheckBox(self.analyst4)
         self.integrity_4.setGeometry(QtCore.QRect(540, 100, 81, 20))
@@ -467,7 +466,7 @@ class Ui_AdminPage(object):
         self.wsmSort.setText("WSM rating")
         self.bakeBtn.setText("Bake Rules")
         self.impactLabel.setText("Potential Impact values:")
-        self.confideality.setText("Confideality")
+        self.confidentiality.setText("Confidentiality")
         self.integrity.setText("Integrity")
         self.availability.setText("Availability")
         self.includeLbl.setText("Include special keywords:")
@@ -479,7 +478,7 @@ class Ui_AdminPage(object):
         self.wsmSort_2.setText("WSM rating")
         self.bakeBtn_2.setText("Bake Rules")
         self.impactLabel_2.setText("Potential Impact values:")
-        self.confideality_2.setText("Confideality")
+        self.confidentiality_2.setText("Confidentiality")
         self.integrity_2.setText("Integrity")
         self.availability_2.setText("Availability")
         self.includeLbl_2.setText("Include special keywords:")
@@ -491,7 +490,7 @@ class Ui_AdminPage(object):
         self.rulesLabel_3.setText("Rules for Analyst:")
         self.bakeBtn_3.setText("Bake Rules")
         self.impactLabel_3.setText("Potential Impact values:")
-        self.confideality_3.setText("Confideality")
+        self.confidentiality_3.setText("Confidentiality")
         self.integrity_3.setText("Integrity")
         self.availability_3.setText("Availability")
         self.includeLbl_3.setText("Include special keywords:")
@@ -503,7 +502,7 @@ class Ui_AdminPage(object):
         self.rulesLabel_4.setText("Rules for Analyst:")
         self.bakeBtn_4.setText("Bake Rules")
         self.impactLabel_4.setText("Potential Impact values:")
-        self.confideality_4.setText("Confideality")
+        self.confidentiality_4.setText("Confidentiality")
         self.integrity_4.setText("Integrity")
         self.availability_4.setText("Availability")
         self.includeLbl_4.setText("Include special keywords:")

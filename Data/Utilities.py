@@ -1,17 +1,15 @@
 import os
 
 import pandas as pd
+from utils import routes
 from datetime import datetime
-
-path = r"..\CyCog"
-issues_path = path + r"\Cyco_Assets.csv"
 
 
 def open_csv(path):
     try:
-        return pd.read_csv(path)
+        return pd.read_csv(path, low_memory=False)
     except:
-        return pd.read_csv(r"CyCog\Cyco_Assets.csv")
+        return pd.read_csv(routes.issues_path, low_memory=False)
 
 
 def table_description(_df):
@@ -31,7 +29,7 @@ pd.reset_option("max_columns")
 # files = os.listdir(cwd)  # Get all the files in that directory
 # print("Files in %r: %s" % (cwd, files))
 
-issues_dataFrame = open_csv(issues_path)
+issues_dataFrame = open_csv(routes.issues_path)
 
 relevant_columns = {1: 'Severity',
                     2: 'Asset Security Grade',
@@ -83,10 +81,10 @@ def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
 
 
 def show_only(df, column_name, values):  # only_values:list
-    print("values: ",values)
+    print("values: ", values)
     filtered_df = df.loc[df[column_name].isin(values)]
     if len(filtered_df) == 0:
-        print("The key words: ",values,"not exist in columns: ", column_name)
+        print("The key words: ", values, "not exist in columns: ", column_name)
         return df
     return filtered_df
 
@@ -122,7 +120,7 @@ def letters_to_numbers(df, columns):
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
     df['Potential Impact'] = df['Potential Impact'].apply(
-        lambda sent: (" ".join(x.lower() for x in sent.replace('|', '').split(' ') if x not in banned)))#.split(' '))
+        lambda sent: (" ".join(x.lower() for x in sent.replace('|', '').split(' ') if x not in banned)))  # .split(' '))
     # df = key_word(df, 'Potential Impact', key_word)
     # print('->',df['Potential Impact'])
     return df
@@ -133,19 +131,19 @@ def key_word(df, col='Description', word='HTTP'):
     return df
 
 
-def WSM(df):  # Weighted Sum Method – Multi Criteria Decision Making
+def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
     df = df[col].copy()
     df = letters_to_numbers(df, columns=['Asset Security Grade'])
     weights = [0.2, 0.3, 0.25, 0.25]  # sum=1
-    dict = {}
+    dictWsm = {}
     for idx in range(len(col)):
-        dict[col[idx]] = weights[idx]
+        dictWsm[col[idx]] = weights[idx]
     beneficial_col = col[:-1]
     non_beneficial_col = col[-1]
     df.loc[:, beneficial_col] = df[beneficial_col] / df[beneficial_col].max()
     df.loc[:, non_beneficial_col] = df[non_beneficial_col].min() / df[non_beneficial_col]
-    for col, weight in dict.items():
+    for col, weight in dictWsm.items():
         calculate = df[col] * weight
         df.loc[:, col] = calculate
     df.loc[:, 'Performance Score'] = df.sum(axis=1)
@@ -162,5 +160,6 @@ def table_preprocess(df, relevant_col, catagories_list):
     df = cat_to_num(df, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories_list)
     str_to_datatime(df, ['Asset First Seen'])
     return df
+
 
 dataFrame = table_preprocess(issues_dataFrame, relevant_columns, catagories)
