@@ -6,12 +6,13 @@ from Components import Admin, Register, UserPage
 
 
 def currentLogedInUpdate(Username):
-    with open(usersFile) as DB:
-        userDB=json.load(DB)
+    with open(routes.usersFile) as DB:
+        userDB = json.load(DB)
 
-    userDB["currentUser"]=Username
-    with open(usersFile,'w') as DB:
-        json.dump(userDB,DB,indent=2)
+    userDB["currentUser"] = Username
+    with open(routes.usersFile, 'w') as DB:
+        json.dump(userDB, DB, indent=2)
+
 
 class UiLogIn(object):
 

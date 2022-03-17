@@ -5,13 +5,9 @@ import sys
 import json
 import Data.Utilities as Data
 
-dbDir = '.\\utils\\DataBase\\'
-usersFile = f'{dbDir}\\users.json'
-rulesFile = f'.\\utils\\DataBase\\rules.json'
-
 
 def getUserName():
-    with open(usersFile) as DB:
+    with open(routes.usersFile) as DB:
         userDB = json.load(DB)
 
     return userDB["currentUser"]
@@ -19,7 +15,7 @@ def getUserName():
 
 def getUserRuels(UserID):
     names = {"yaniv": "analyst_1"}
-    with open(rulesFile) as rules:
+    with open(routes.rulesFile) as rules:
         rulesDB = json.load(rules)
     return rulesDB[names[UserID]]
 
