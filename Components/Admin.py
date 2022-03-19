@@ -86,7 +86,7 @@ class Ui_AdminPage(object):
     def setupUi(self, AdminPage):
         AdminPage.setObjectName("AdminPage")
         AdminPage.setEnabled(True)
-        AdminPage.resize(990, 768)
+        AdminPage.resize(1024, 768)
         AdminPage.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.centralwidget = QtWidgets.QWidget(AdminPage)
@@ -104,7 +104,7 @@ class Ui_AdminPage(object):
 
         # ------- The tool box that gathers all analysts and raw data ----------
         self.toolBox = QtWidgets.QToolBox(self.centralwidget)
-        self.toolBox.setGeometry(QtCore.QRect(80, 140, 831, 561))
+        self.toolBox.setGeometry(QtCore.QRect(35, 140, 950, 561))
         self.toolBox.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.toolBox.setFrameShape(QtWidgets.QFrame.Box)
         self.toolBox.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -115,7 +115,7 @@ class Ui_AdminPage(object):
         self.rawData = QtWidgets.QWidget()
         self.rawData.setObjectName("rawData")
         self.rawDataTableWidget = QtWidgets.QTableWidget(self.rawData)
-        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 841, 471))
+        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 950, 471))
         self.rawDataTableWidget.setObjectName("rawDataTableWidget")
         self.rawDataTableWidget.setColumnCount(0)
         self.rawDataTableWidget.setRowCount(0)
@@ -125,7 +125,7 @@ class Ui_AdminPage(object):
         self.analyst1 = QtWidgets.QWidget(objectName="analyst1")
         # self.analyst1.setObjectName("analyst1")
         self.rulesLabel = QtWidgets.QLabel(self.analyst1, objectName="rulesLabel")
-        self.rulesLabel.setGeometry(QtCore.QRect(10, 10, 251, 31))
+        self.rulesLabel.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -163,7 +163,7 @@ class Ui_AdminPage(object):
         self.wsmSort.setGeometry(QtCore.QRect(310, 60, 111, 20))
         self.wsmSort.setObjectName("wsmSort")
         self.bakeBtn = QtWidgets.QPushButton(self.analyst1)
-        self.bakeBtn.setGeometry(QtCore.QRect(360, 350, 111, 41))
+        self.bakeBtn.setGeometry(QtCore.QRect(405, 350, 111, 41))
         self.bakeBtn.setObjectName("bakeBtn")
         self.bakeBtn.clicked.connect(
             lambda: writeAnalystRules('analyst_1', self.sortByDate, self.wsmSort, self.confidentiality,
@@ -202,7 +202,7 @@ class Ui_AdminPage(object):
         self.analyst2 = QtWidgets.QWidget()
         self.analyst2.setObjectName("analst2")
         self.rulesLabel_2 = QtWidgets.QLabel(self.analyst2)
-        self.rulesLabel_2.setGeometry(QtCore.QRect(10, 10, 251, 31))
+        self.rulesLabel_2.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -238,7 +238,7 @@ class Ui_AdminPage(object):
         self.wsmSort_2.setObjectName("wsmSort_2")
 
         self.bakeBtn_2 = QtWidgets.QPushButton(self.analyst2)
-        self.bakeBtn_2.setGeometry(QtCore.QRect(360, 350, 111, 41))
+        self.bakeBtn_2.setGeometry(QtCore.QRect(405, 350, 111, 41))
         self.bakeBtn_2.setObjectName("bakeBtn_2")
         self.bakeBtn_2.clicked.connect(
             lambda: writeAnalystRules('analyst_2', self.sortByDate_2, self.wsmSort_2, self.confidentiality_2,
@@ -309,7 +309,7 @@ class Ui_AdminPage(object):
 
         self.grid_3.addWidget(self.sortByDate_3, 1, 0, 1, 1)
         self.rulesLabel_3 = QtWidgets.QLabel(self.analyst3)
-        self.rulesLabel_3.setGeometry(QtCore.QRect(10, 10, 251, 31))
+        self.rulesLabel_3.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -320,7 +320,7 @@ class Ui_AdminPage(object):
         self.rulesLabel_3.setObjectName("rulesLabel_3")
 
         self.bakeBtn_3 = QtWidgets.QPushButton(self.analyst3)
-        self.bakeBtn_3.setGeometry(QtCore.QRect(360, 350, 111, 41))
+        self.bakeBtn_3.setGeometry(QtCore.QRect(405, 350, 111, 41))
         self.bakeBtn_3.setObjectName("bakeBtn_3")
         self.bakeBtn_3.clicked.connect(
             lambda: writeAnalystRules('analyst_3', self.sortByDate_3, self.wsmSort_3, self.confidentiality_3,
@@ -337,7 +337,7 @@ class Ui_AdminPage(object):
         self.impactLabel_3.setGeometry(QtCore.QRect(520, 50, 181, 21))
         self.impactLabel_3.setObjectName("impactLabel_3")
         self.confidentiality_3 = QtWidgets.QCheckBox(self.analyst3)
-        self.confidentiality_3.setGeometry(QtCore.QRect(550, 70, 101, 20))
+        self.confidentiality_3.setGeometry(QtCore.QRect(550, 70, 105, 20))
         self.confidentiality_3.setObjectName("confidentiality_3")
         self.integrity_3 = QtWidgets.QCheckBox(self.analyst3)
         self.integrity_3.setGeometry(QtCore.QRect(550, 90, 81, 20))
@@ -382,7 +382,7 @@ class Ui_AdminPage(object):
         self.latestDate_4.setObjectName("latestDate_4")
         self.grid_4.addWidget(self.latestDate_4, 1, 0, 1, 1)
         self.rulesLabel_4 = QtWidgets.QLabel(self.analyst4)
-        self.rulesLabel_4.setGeometry(QtCore.QRect(10, 10, 251, 31))
+        self.rulesLabel_4.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
@@ -393,7 +393,7 @@ class Ui_AdminPage(object):
         self.rulesLabel_4.setObjectName("rulesLabel_4")
 
         self.bakeBtn_4 = QtWidgets.QPushButton(self.analyst4)
-        self.bakeBtn_4.setGeometry(QtCore.QRect(360, 340, 111, 41))
+        self.bakeBtn_4.setGeometry(QtCore.QRect(405, 350, 111, 41))
         self.bakeBtn_4.setObjectName("bakeBtn_4")
         self.bakeBtn_4.clicked.connect(
             lambda: writeAnalystRules('analyst_4', self.sortByDate_4, self.wsmSort_4, self.confidentiality_4,
@@ -413,7 +413,7 @@ class Ui_AdminPage(object):
         self.impactLabel_4.setObjectName("impactLabel_4")
 
         self.confidentiality_4 = QtWidgets.QCheckBox(self.analyst4)
-        self.confidentiality_4.setGeometry(QtCore.QRect(540, 80, 101, 20))
+        self.confidentiality_4.setGeometry(QtCore.QRect(540, 80, 105, 20))
         self.confidentiality_4.setObjectName("confidentiality_4")
 
         self.integrity_4 = QtWidgets.QCheckBox(self.analyst4)
