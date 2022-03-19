@@ -309,7 +309,7 @@ class Ui_AdminPage(object):
 
         self.grid_3.addWidget(self.sortByDate_3, 1, 0, 1, 1)
         self.rulesLabel_3 = QtWidgets.QLabel(self.analyst3)
-        self.rulesLabel_3.setGeometry(QtCore.QRect(10, 10, 251, 31))
+        self.rulesLabel_3.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
