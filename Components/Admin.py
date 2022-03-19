@@ -539,6 +539,10 @@ class Ui_AdminPage(object):
             8: 'Asset First Seen',
             9: 'Description'
         }
+        # #TODO: change the self.CSV to uploadedCsv
+        # with open(routes.latestCsvFile) as latestCsv:
+        #     uploadedCsv = json.load(latestCsv)
+
         raw_df = pd.read_csv(self.CSV, low_memory=False)
         filtered_df = raw_df[relevant_columns.values()]
         fillTableData(filtered_df, self.rawDataTableWidget)
