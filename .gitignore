@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+#Unwanted files to be uploaded
+utils/DataBase
+
 #UI
 UIs/
 *.ui
