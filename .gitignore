@@ -15,6 +15,7 @@ GarbageCode.txt
 CyCog/
 *.csv
 *.xls
+*.txt
 
 # Distribution / packaging
 .Python

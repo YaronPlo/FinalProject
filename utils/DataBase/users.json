@@ -60,5 +60,6 @@
       "Password": "asd",
       "Admin": false
     }
-  ]
+  ],
+  "currentUser": "yaniv"
 }
