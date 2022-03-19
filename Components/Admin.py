@@ -104,7 +104,7 @@ class Ui_AdminPage(object):
 
         # ------- The tool box that gathers all analysts and raw data ----------
         self.toolBox = QtWidgets.QToolBox(self.centralwidget)
-        self.toolBox.setGeometry(QtCore.QRect(35, 140, 950, 561))
+        self.toolBox.setGeometry(QtCore.QRect(35, 140, 960, 561))
         self.toolBox.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.toolBox.setFrameShape(QtWidgets.QFrame.Box)
         self.toolBox.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -115,7 +115,7 @@ class Ui_AdminPage(object):
         self.rawData = QtWidgets.QWidget()
         self.rawData.setObjectName("rawData")
         self.rawDataTableWidget = QtWidgets.QTableWidget(self.rawData)
-        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 950, 471))
+        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 955, 427))
         self.rawDataTableWidget.setObjectName("rawDataTableWidget")
         self.rawDataTableWidget.setColumnCount(0)
         self.rawDataTableWidget.setRowCount(0)
@@ -517,6 +517,16 @@ class Ui_AdminPage(object):
                                                               "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
                                                               )
         self.CSV = self.csvTuple[0]
+        with open(routes.latestCsvFile) as latestCsv:
+            uploadedCsv = json.load(latestCsv)
+
+        uploadedCsv["latest_upload"] = self.CSV
+        uploadedCsv["previous_uploads"].append(self.CSV)
+        with open(routes.latestCsvFile,'w') as latestCsv:
+            json.dump(uploadedCsv, latestCsv, indent=2)
+
+
+
 
         relevant_columns = {
             1: 'Severity',
