@@ -522,11 +522,8 @@ class Ui_AdminPage(object):
 
         uploadedCsv["latest_upload"] = self.CSV
         uploadedCsv["previous_uploads"].append(self.CSV)
-        with open(routes.latestCsvFile,'w') as latestCsv:
+        with open(routes.latestCsvFile, 'w') as latestCsv:
             json.dump(uploadedCsv, latestCsv, indent=2)
-
-
-
 
         relevant_columns = {
             1: 'Severity',
@@ -539,6 +536,7 @@ class Ui_AdminPage(object):
             8: 'Asset First Seen',
             9: 'Description'
         }
+
         raw_df = pd.read_csv(self.CSV, low_memory=False)
         filtered_df = raw_df[relevant_columns.values()]
         fillTableData(filtered_df, self.rawDataTableWidget)

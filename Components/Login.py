@@ -1,7 +1,7 @@
 import sys
 import json
 from utils import routes
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, QtTest
 from Components import Admin, Register, UserPage
 
 
@@ -18,7 +18,7 @@ class UiLogIn(object):
 
     def __init__(self):
         self.RegisterWindow = None
-        self.plainTextEdit = None
+        self.loginMessage = None
         self.UserWindow = None
         self.userNameLbl = None
         self.userNameInput = None
@@ -73,12 +73,12 @@ class UiLogIn(object):
         self.passwordInput.setGeometry(QtCore.QRect(120, 110, 113, 22))
         self.passwordInput.setObjectName("passwordInput")
 
-        self.plainTextEdit = QtWidgets.QPlainTextEdit(LogIn)
-        self.plainTextEdit.setEnabled(False)
-        self.plainTextEdit.setGeometry(QtCore.QRect(70, 210, 191, 31))
-        self.plainTextEdit.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.plainTextEdit.setInputMethodHints(QtCore.Qt.ImhMultiLine)
-        self.plainTextEdit.setObjectName("plainTextEdit")
+        self.loginMessage = QtWidgets.QPlainTextEdit(LogIn)
+        self.loginMessage.setEnabled(False)
+        self.loginMessage.setGeometry(QtCore.QRect(70, 210, 191, 31))
+        self.loginMessage.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.loginMessage.setInputMethodHints(QtCore.Qt.ImhMultiLine)
+        self.loginMessage.setObjectName("plainTextEdit")
 
         self.logIn = QtWidgets.QPushButton(LogIn)
         self.logIn.setGeometry(QtCore.QRect(50, 170, 93, 28))
@@ -101,56 +101,40 @@ class UiLogIn(object):
         self.userNameLbl.setText("User Name:")
         self.passwordLbl.setText("Password:")
 
-    def TypeUserCheck(self):
-        pass
-
-    def updateLoginInput(self):
-        pass
-
     def LoginCheck(self, LogIn):
         with open(routes.usersFile, "r") as DB:
             dataBase = json.load(DB)
 
+        if self.userNameInput.text() == "" or self.passwordInput.text() == "":
+            self.loginMessage.setPlainText("Blank Input Try Again!")
+            self.loginMessage.setStyleSheet("color: red")
+            QtTest.QTest.qWait(1000)
+            self.loginMessage.setPlainText("")
+            return
+
         for user in dataBase["userDetails"]:
-            if self.userNameInput.text() == "" or self.passwordInput.text() == "":
-                self.plainTextEdit.setPlainText("input Wrong!")
-                self.plainTextEdit.setStyleSheet("color: red")
+            if user["Username"] == self.userNameInput.text() and user["Password"] != self.passwordInput.text():
+                self.loginMessage.setPlainText("Wrong Password!")
+                self.loginMessage.setStyleSheet("color: red")
+                QtTest.QTest.qWait(1000)
+                self.loginMessage.setPlainText("")
                 return
-            elif (
-                    user["Username"] == self.userNameInput.text()
-                    and user["Password"] != self.passwordInput.text()
-            ):
-                self.plainTextEdit.setPlainText("Wrong Password!")
-                self.plainTextEdit.setStyleSheet("color: red")
-                return
-            elif (
-                    user["Username"] == self.userNameInput.text()
-                    and user["Password"] == self.passwordInput.text()
-            ):
-                self.plainTextEdit.setPlainText("Success!")
-                self.plainTextEdit.setStyleSheet("color: green")
-                if (
-                        user["Username"] == self.userNameInput.text()
-                        and user["Password"] == self.passwordInput.text()
-                        and user["Admin"] == True
-                ):
+
+            elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
+                if (user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and
+                        user["Admin"] is True):
                     self.openAdminPage(LogIn)
                     return
-                elif (
-                        user["Username"] == self.userNameInput.text()
-                        and user["Password"] == self.passwordInput.text()
-                        and user["Admin"] == False
-                ):
+                else:
                     currentLogedInUpdate(self.userNameInput.text())
                     self.openUserPage(LogIn)
                     return
-        self.plainTextEdit.setPlainText("User Doesn't Exists!")
-        self.plainTextEdit.setStyleSheet("color: red")
-        return
 
-    def UpdateMessage(self):
-        if self.plainTextEdit.toPlainText() != "":
-            self.plainTextEdit.setPlainText("")
+        self.loginMessage.setPlainText("User Doesn't Exists!")
+        self.loginMessage.setStyleSheet("color: red")
+        QtTest.QTest.qWait(1000)
+        self.loginMessage.setPlainText("")
+        return
 
 
 def RunLogIn():
