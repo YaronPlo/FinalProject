@@ -54,7 +54,7 @@ class Ui_AdminPage(object):
 
         self.sortByDate_2.setChecked(rulesDB['analyst_2']['date'])
         self.wsmSort_2.setChecked(rulesDB['analyst_2']['wsm'])
-        self.confidentiality.setChecked(rulesDB['analyst_2']['confidentiality'])
+        self.confidentiality_2.setChecked(rulesDB['analyst_2']['confidentiality'])
         self.integrity_2.setChecked(rulesDB['analyst_2']['integrity'])
         self.availability_2.setChecked(rulesDB['analyst_2']['availability'])
         self.includeKeywords_2.setText(rulesDB['analyst_2']['include'])
