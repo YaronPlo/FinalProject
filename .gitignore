@@ -4,11 +4,10 @@ __pycache__/
 *$py.class
 
 # Unwanted files to be uploaded
-*.json
+utils/DataBase
 
 #UI
 UIs/
-*.ui
 GarbageCode.txt
 
 # C extensions
