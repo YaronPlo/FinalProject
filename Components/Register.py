@@ -1,7 +1,7 @@
 import json
 from utils import routes
 from Components import Login
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, QtTest
 
 
 def CheckUserExistence(username, textbox):
@@ -11,6 +11,8 @@ def CheckUserExistence(username, textbox):
         if user["Username"] == username:
             textbox.setPlainText("User name already exists!")
             textbox.setStyleSheet("color: red")
+            QtTest.QTest.qWait(1000)
+            textbox.setPlainText("")
             return True
     return False
 
@@ -74,16 +76,22 @@ class Ui_Register(object):
         Register.close()
 
     def registerToJSON(self):
+        with open(routes.usersFile) as uFile:
+            users = json.load(uFile)
+
         newDate = {
             "FullName": self.fullNameInput.text(),
             "Username": self.userNameInput.text(),
             "Password": self.passwordInput.text(),
             "Admin": False,
+            "analyst": f'analyst_{users["usersCount"]}'
         }
 
         if self.userNameInput.text() == "" and self.passwordInput.text() == "":
             self.registerMsg.setPlainText("Invalid Username & Password!")
             self.registerMsg.setStyleSheet("color: red")
+            QtTest.QTest.qWait(1000)
+            self.registerMsg.setPlainText("")
             return
 
         if not CheckUserExistence(self.userNameInput.text(), self.registerMsg):
@@ -94,11 +102,14 @@ class Ui_Register(object):
                 dataBase["userDetails"].append(newDate)
                 # Sets DB's current position at offset.
                 DB.seek(0)
+                dataBase["usersCount"] = dataBase["usersCount"] + 1
                 # convert back to json.
                 json.dump(dataBase, DB, indent=2)
 
                 self.registerMsg.setPlainText("Succesfully added new User")
                 self.registerMsg.setStyleSheet("color: green")
+                QtTest.QTest.qWait(1000)
+                self.registerMsg.setPlainText("")
 
     def retranslateUi(self, Register):
         _translate = QtCore.QCoreApplication.translate

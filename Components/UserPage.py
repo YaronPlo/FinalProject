@@ -13,11 +13,17 @@ def getUserName():
     return userDB["currentUser"]
 
 
-def getUserRuels(UserID):
-    names = {"yaniv": "analyst_1"}
+def getUserRules(UserID):
     with open(routes.rulesFile) as rules:
         rulesDB = json.load(rules)
-    return rulesDB[names[UserID]]
+    with open(routes.usersFile) as users:
+        usersDB = json.load(users)
+
+    for analyst in usersDB["userDetails"]:
+        if analyst["Username"] == UserID:
+            userRules = analyst["analyst"]
+
+    return rulesDB[userRules]
 
 
 def getFilteredTable(rules):
@@ -178,7 +184,7 @@ class UiUserPage(object):
         QtCore.QMetaObject.connectSlotsByName(UserPage)
 
         self.currUser = getUserName()
-        self.rulesForUser = getUserRuels(self.currUser)
+        self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
         getFilteredTable(self.rulesForUser)
@@ -214,15 +220,15 @@ class UiUserPage(object):
 
     def retranslateUi(self, UserPage):
         _translate = QtCore.QCoreApplication.translate
-        UserPage.setWindowTitle(_translate("UserPage", "User Page"))
-        self.exitBtn.setText(_translate("UserPage", "Exit"))
-        self.tasksLbl.setText(_translate("UserPage", "Tasks:"))
-        self.welcomeUserPageLbl.setText(_translate("UserPage", "Welcome to User Page!"))
-        self.Task1.setText(_translate("UserPage", "Task 1"))
-        self.Task2.setText(_translate("UserPage", "Task 2"))
-        self.Task3.setText(_translate("UserPage", "Task 3"))
-        self.Task4.setText(_translate("UserPage", "Task 4"))
-        self.Task5.setText(_translate("UserPage", "Task 5"))
+        UserPage.setWindowTitle("User Page")
+        self.exitBtn.setText("Exit")
+        self.tasksLbl.setText("Tasks:")
+        self.welcomeUserPageLbl.setText("Welcome to User Page!")
+        self.Task1.setText("Task 1")
+        self.Task2.setText("Task 2")
+        self.Task3.setText("Task 3")
+        self.Task4.setText("Task 4")
+        self.Task5.setText("Task 5")
 
 
 def RunUserPage():
