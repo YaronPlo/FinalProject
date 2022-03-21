@@ -9,7 +9,7 @@ def open_csv(path):
     try:
         return pd.read_csv(path, low_memory=False)
     except:
-        return pd.read_csv(routes.issues_path, low_memory=False)
+        return pd.read_csv('../'+routes.issues_path, low_memory=False)
 
 
 def table_description(_df):
@@ -81,11 +81,20 @@ def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
 
 
 def show_only(df, column_name, values):  # only_values:list
-    print("values: ", values)
-    filtered_df = df.loc[df[column_name].isin(values)]
+    # filtered_df = df.loc[df[column_name].isin(values)]
+    # values = '&'.join(values)  # '&' for and statemennt
+    for val in values:
+        mask=df[column_name].apply(lambda sent: val in sent)
+        filtered_df = df[mask]
+    # filtered_df = df.loc[df[column_name].str.contains(values, na=False)]
+    # filtered_df = df.loc[df[column_name].astype('str').str.contain(values,na=True)]#for Integer columns
+
     if len(filtered_df) == 0:
         print("The key words: ", values, "not exist in columns: ", column_name)
         return df
+    print('filtered_df')
+    print(filtered_df.to_string())
+
     return filtered_df
 
 
@@ -120,7 +129,7 @@ def letters_to_numbers(df, columns):
 def Potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
     df['Potential Impact'] = df['Potential Impact'].apply(
-        lambda sent: (" ".join(x.lower() for x in sent.replace('|', '').split(' ') if x not in banned)))  # .split(' '))
+        lambda sent: (" ".join(x.lower() for x in sent.replace('|', '').split(' ') if x not in banned)).split(' '))
     # df = key_word(df, 'Potential Impact', key_word)
     # print('->',df['Potential Impact'])
     return df
@@ -148,10 +157,11 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
         df.loc[:, col] = calculate
     df.loc[:, 'Performance Score'] = df.sum(axis=1)
     df.loc[:, 'rank'] = df['Performance Score'].rank(method='first', ascending=False)
+    df.loc[:, 'classified'] = pd.cut(df['rank'],5,labels=list(range(1,5+1)))
     df.sort_values(by=['rank'], inplace=True)
     # df.reset_index(drop=True, inplace=True)
-    print(df.head(10).to_string())
-
+    # print(df.head(10).to_string())
+    return df
 
 def table_preprocess(df, relevant_col, catagories_list):
     df = Potential_Impact_column(df)
