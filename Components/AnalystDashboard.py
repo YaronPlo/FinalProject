@@ -169,14 +169,13 @@ class Ui_AnalystDashboard(object):
         self.tasksTableView = QtWidgets.QTableView(AnalystDashboard)
         self.tasksTableView.setGeometry(QtCore.QRect(20, 80, 1211, 411))
         self.tasksTableView.setObjectName("tasksTableView")
-        
+
         self.currUser = getUserName()
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
         getFilteredTable(self.rulesForUser)
-        
-        
+
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
 
