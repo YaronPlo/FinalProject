@@ -1,4 +1,3 @@
-import sys
 import json
 from utils import routes
 from Components import Login
@@ -180,10 +179,10 @@ class Ui_AnalystDashboard(object):
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
 
 
-def runAnalystDashbard():
-    app = QtWidgets.QApplication(sys.argv)
-    AnalystDashboard = QtWidgets.QWidget()
-    ui = Ui_AnalystDashboard()
-    ui.setupUi(AnalystDashboard)
-    AnalystDashboard.show()
-    sys.exit(app.exec_())
+# def runAnalystDashbard():
+#     app = QtWidgets.QApplication(sys.argv)
+#     AnalystDashboard = QtWidgets.QWidget()
+#     ui = Ui_AnalystDashboard()
+#     ui.setupUi(AnalystDashboard)
+#     AnalystDashboard.show()
+#     sys.exit(app.exec_())

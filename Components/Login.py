@@ -43,7 +43,7 @@ class UiLogIn(object):
         self.AdminWindow.show()
         LogIn.close()
 
-    def openUserPage(self, LogIn):
+    def openAnalystDashboard(self, LogIn):
         self.analsyDashboardWindow = QtWidgets.QMainWindow()
         self.ui = AnalystDashboard.Ui_AnalystDashboard()
         self.ui.setupUi(self.analsyDashboardWindow)
@@ -123,11 +123,16 @@ class UiLogIn(object):
             elif user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text():
                 if (user["Username"] == self.userNameInput.text() and user["Password"] == self.passwordInput.text() and
                         user["Admin"] is True):
+                    self.loginMessage.setPlainText("Loging in, Please Wait...")
+                    self.loginMessage.setStyleSheet("color: green")
                     self.openAdminPage(LogIn)
                     return
                 else:
+                    self.loginMessage.setPlainText("Loging in, Please Wait...")
+                    self.loginMessage.setStyleSheet("color: green")
+                    QTest.qWait(0)
                     currentLogedInUpdate(self.userNameInput.text())
-                    self.openUserPage(LogIn)
+                    self.openAnalystDashboard(LogIn)
                     return
 
         self.loginMessage.setPlainText("User Doesn't Exists!")
