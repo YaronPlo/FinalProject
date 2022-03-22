@@ -28,7 +28,6 @@ def getUserRules(UserID):
 
 def getFilteredTable(rules):
     main_df = Data.dataFrame
-    print(main_df.to_string())
     description = 'Description'
     Potential_Impact = 'Potential Impact'
     potential_impact_values = ["confidentiality", "integrity", "availability"]
@@ -54,9 +53,9 @@ def getFilteredTable(rules):
             main_df = key_word_values[key](main_df, description, [rules[key].lower()])
 
     for item in potential_impact_items:
-        main_df = Data.key_word(main_df, Potential_Impact, item)
+        main_df = Data.show_only(main_df, Potential_Impact, [item])
 
-    print(main_df.to_string())
+    print(main_df.head().to_string())
 
 
 class UiUserPage(object):

@@ -1,8 +1,8 @@
-import sys
 import json
 from utils import routes
-from PyQt5 import QtCore, QtGui, QtWidgets, QtTest
-from Components import Admin, Register, UserPage
+from PyQt5.QtTest import QTest
+from PyQt5 import QtCore, QtGui, QtWidgets
+from Components import Admin, Register, AnalystDashboard
 
 
 def currentLogedInUpdate(Username):
@@ -19,7 +19,7 @@ class UiLogIn(object):
     def __init__(self):
         self.RegisterWindow = None
         self.loginMessage = None
-        self.UserWindow = None
+        self.analsyDashboardWindow = None
         self.userNameLbl = None
         self.userNameInput = None
         self.passwordLbl = None
@@ -44,10 +44,10 @@ class UiLogIn(object):
         LogIn.close()
 
     def openUserPage(self, LogIn):
-        self.UserWindow = QtWidgets.QMainWindow()
-        self.ui = UserPage.UiUserPage()
-        self.ui.setupUi(self.UserWindow)
-        self.UserWindow.show()
+        self.analsyDashboardWindow = QtWidgets.QMainWindow()
+        self.ui = AnalystDashboard.Ui_AnalystDashboard()
+        self.ui.setupUi(self.analsyDashboardWindow)
+        self.analsyDashboardWindow.show()
         LogIn.close()
 
     def setupUi(self, LogIn):
@@ -108,7 +108,7 @@ class UiLogIn(object):
         if self.userNameInput.text() == "" or self.passwordInput.text() == "":
             self.loginMessage.setPlainText("Blank Input Try Again!")
             self.loginMessage.setStyleSheet("color: red")
-            QtTest.QTest.qWait(1000)
+            QTest.qWait(1000)
             self.loginMessage.setPlainText("")
             return
 
@@ -116,7 +116,7 @@ class UiLogIn(object):
             if user["Username"] == self.userNameInput.text() and user["Password"] != self.passwordInput.text():
                 self.loginMessage.setPlainText("Wrong Password!")
                 self.loginMessage.setStyleSheet("color: red")
-                QtTest.QTest.qWait(1000)
+                QTest.qWait(1000)
                 self.loginMessage.setPlainText("")
                 return
 
@@ -132,15 +132,13 @@ class UiLogIn(object):
 
         self.loginMessage.setPlainText("User Doesn't Exists!")
         self.loginMessage.setStyleSheet("color: red")
-        QtTest.QTest.qWait(1000)
+        QTest.qWait(1000)
         self.loginMessage.setPlainText("")
         return
 
 
 def RunLogIn():
-    app = QtWidgets.QApplication(sys.argv)
     LogIn = QtWidgets.QWidget()
     ui = UiLogIn()
     ui.setupUi(LogIn)
     LogIn.show()
-    sys.exit(app.exec_())

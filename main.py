@@ -1,8 +1,13 @@
+import sys
+from PyQt5 import QtWidgets
 from Components import Login
 
 
+
 def Main():
+    app = QtWidgets.QApplication(sys.argv)
     Login.RunLogIn()
+    sys.exit(app.exec_())
 
 
 """
