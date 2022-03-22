@@ -57,6 +57,11 @@ def getFilteredTable(rules):
     print(main_df.head().to_string())
 
 
+def updateIssuesComboBox(issueComboBox, itemsList):
+    fixedItemsList = map(lambda x: x if isinstance(x, str) else str(x), itemsList)
+    issueComboBox.addItems(fixedItemsList)
+
+
 class Ui_AnalystDashboard(object):
     def __init__(self):
         self.rulesForUser = None
@@ -152,8 +157,7 @@ class Ui_AnalystDashboard(object):
         self.issuesComboBox.setSizePolicy(sizePolicy)
         self.issuesComboBox.setInputMethodHints(QtCore.Qt.ImhMultiLine)
         self.issuesComboBox.setObjectName("issuesComboBox")
-        self.issuesComboBox.addItem("one")
-        self.issuesComboBox.addItem("two")
+        updateIssuesComboBox(self.issuesComboBox, [1, "2", 3, 4, "5"])
 
         self.inProgressRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.inProgressRadioBtn.setGeometry(QtCore.QRect(280, 500, 95, 20))
@@ -177,7 +181,6 @@ class Ui_AnalystDashboard(object):
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
-
 
 # def runAnalystDashbard():
 #     app = QtWidgets.QApplication(sys.argv)
