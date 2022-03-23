@@ -1,7 +1,8 @@
 import json
 from utils import routes
 from Components import Login
-from PyQt5 import QtCore, QtGui, QtWidgets, QtTest
+from PyQt5.QtTest import QTest
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 def CheckUserExistence(username, textbox):
@@ -11,7 +12,7 @@ def CheckUserExistence(username, textbox):
         if user["Username"] == username:
             textbox.setPlainText("User name already exists!")
             textbox.setStyleSheet("color: red")
-            QtTest.QTest.qWait(1000)
+            QTest.qWait(1000)
             textbox.setPlainText("")
             return True
     return False
@@ -90,7 +91,7 @@ class Ui_Register(object):
         if self.userNameInput.text() == "" and self.passwordInput.text() == "":
             self.registerMsg.setPlainText("Invalid Username & Password!")
             self.registerMsg.setStyleSheet("color: red")
-            QtTest.QTest.qWait(1000)
+            QTest.qWait(1000)
             self.registerMsg.setPlainText("")
             return
 
@@ -108,7 +109,7 @@ class Ui_Register(object):
 
                 self.registerMsg.setPlainText("Succesfully added new User")
                 self.registerMsg.setStyleSheet("color: green")
-                QtTest.QTest.qWait(1000)
+                QTest.qWait(1000)
                 self.registerMsg.setPlainText("")
 
     def retranslateUi(self, Register):
