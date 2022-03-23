@@ -1,16 +1,15 @@
 # pip install tensorflow
 import Data.Utilities as Data
 import pandas as pd
+# getting rid of Tensorflow warnings
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
-# getting rid of Tensorflow warnings
-import os
-
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
 dataFrame = Data.dataFrame
 X_y = {}
 

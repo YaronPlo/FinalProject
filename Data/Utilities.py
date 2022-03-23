@@ -29,7 +29,7 @@ pd.reset_option("max_columns")
 # files = os.listdir(cwd)  # Get all the files in that directory
 # print("Files in %r: %s" % (cwd, files))
 
-issues_dataFrame = open_csv(routes.extend_issues_path)
+issues_dataFrame = open_csv(routes.issues_path)
 
 relevant_columns = {1: 'Severity',
                     2: 'Asset Security Grade',

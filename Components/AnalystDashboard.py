@@ -5,6 +5,11 @@ import Data.Utilities as Data
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
+# values for combobox
+def getIssuesId(df):
+    return [str(x) for x in list(df.index.values)]
+
+
 def getUserName():
     with open(routes.usersFile) as DB:
         userDB = json.load(DB)
@@ -53,12 +58,14 @@ def getFilteredTable(rules):
 
     for item in potential_impact_items:
         main_df = Data.show_only(main_df, Potential_Impact, [item])
-
     print(main_df.head().to_string())
+
+    return main_df
 
 
 class Ui_AnalystDashboard(object):
     def __init__(self):
+        self.analystDf = None
         self.rulesForUser = None
         self.currUser = None
 
@@ -173,11 +180,10 @@ class Ui_AnalystDashboard(object):
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
-        getFilteredTable(self.rulesForUser)
+        self.analystDf = getFilteredTable(self.rulesForUser)
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
-
 
 # def runAnalystDashbard():
 #     app = QtWidgets.QApplication(sys.argv)
