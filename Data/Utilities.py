@@ -9,7 +9,7 @@ def open_csv(path):
     try:
         return pd.read_csv(path, low_memory=False)
     except:
-        return pd.read_csv('../'+routes.issues_path, low_memory=False)
+        return pd.read_csv('../'+path, low_memory=False)
 
 
 def table_description(_df):
@@ -29,7 +29,7 @@ pd.reset_option("max_columns")
 # files = os.listdir(cwd)  # Get all the files in that directory
 # print("Files in %r: %s" % (cwd, files))
 
-issues_dataFrame = open_csv(routes.issues_path)
+issues_dataFrame = open_csv(routes.extend_issues_path)
 
 relevant_columns = {1: 'Severity',
                     2: 'Asset Security Grade',
@@ -139,6 +139,12 @@ def key_word(df, col='Description', word='HTTP'):
     df = df.loc[lambda sent: sent[col].apply(lambda l: word.lower() in l)]
     return df
 
+def unique_to_numbers(df, col):
+    unique = dict(enumerate(df[col].unique()))
+    unique = {value: key for key, value in unique.items()}
+    df[col].replace(unique,inplace=True)
+    return df
+
 
 def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
@@ -164,6 +170,7 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
     return df
 
 def table_preprocess(df, relevant_col, catagories_list):
+    print(df.shape)
     df = Potential_Impact_column(df)
     df['Description'] = df['Description'].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df[relevant_col.values()]
