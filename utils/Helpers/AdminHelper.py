@@ -1,6 +1,8 @@
 import json
 from utils import routes
 
+__all__ = ["writeAnalystRules"]
+
 
 # this function get rules from GUI and sets them into a Json file.
 def writeAnalystRules(analystID, date, wsm, confidentiality, integrity, availability, includeKwords, excludeKeywords):
