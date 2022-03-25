@@ -3,11 +3,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.AnalystHelper import *
 
 
-def updateIssuesComboBox(issueComboBox, itemsList):
-    fixedItemsList = map(lambda x: x if isinstance(x, str) else str(x), itemsList)
-    issueComboBox.addItems(fixedItemsList)
-
-
 class Ui_AnalystDashboard(object):
     def __init__(self):
         self.rulesForUser = None
@@ -29,6 +24,11 @@ class Ui_AnalystDashboard(object):
         self.currTime = None
         self.timer = None
         self.tasksTableView = None
+
+    def initCombo(self, itemsList=None):  # TODO: Change the default initilizeer
+        if itemsList is None:
+            itemsList = [i for i in range(1, 11)]
+        updateIssuesComboBox(self.issuesComboBox, itemsList)
 
     def openLoginWindow(self, AnalystDashboard):
         self.LoginWindow = QtWidgets.QMainWindow()
@@ -72,6 +72,7 @@ class Ui_AnalystDashboard(object):
         self.fireBtn.setDefault(False)
         self.fireBtn.setObjectName("fireBtn")
         self.fireBtn.setText("Fire")
+        self.fireBtn.clicked.connect(lambda: updateIssuesComboBox(self.issuesComboBox, [1, "2", "3", 4, 5]))
 
         self.exitBtn = QtWidgets.QPushButton(AnalystDashboard)
         self.exitBtn.setGeometry(QtCore.QRect(1110, 580, 93, 28))
@@ -125,7 +126,10 @@ class Ui_AnalystDashboard(object):
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
+
+        # Start all helper funcs
         getFilteredTable(self.rulesForUser, self.tasksTableView)
+        self.initCombo()
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)

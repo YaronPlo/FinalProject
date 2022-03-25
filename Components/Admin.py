@@ -145,9 +145,9 @@ class Ui_AdminPage(object):
         AdminPage.setEnabled(True)
         AdminPage.resize(1024, 768)
         AdminPage.setWindowIcon(QtGui.QIcon(routes.sceLogo))
-
         self.centralwidget = QtWidgets.QWidget(AdminPage)
         self.centralwidget.setObjectName("centralwidget")
+        AdminPage.setCentralWidget(self.centralwidget)
         self.welcomeLbl = QtWidgets.QLabel(self.centralwidget)
         self.welcomeLbl.setGeometry(QtCore.QRect(280, 20, 471, 31))
         font = QtGui.QFont()
@@ -507,9 +507,8 @@ class Ui_AdminPage(object):
         self.importCsvBtn.setObjectName("importCsvBtn")
         self.importCsvBtn.clicked.connect(lambda: self.fileDialog())
 
-        AdminPage.setCentralWidget(self.centralwidget)
+        self.initAllRules()
 
         self.retranslateUi(AdminPage)
-        QtCore.QMetaObject.connectSlotsByName(AdminPage)
 
-        self.initAllRules()
+        QtCore.QMetaObject.connectSlotsByName(AdminPage)

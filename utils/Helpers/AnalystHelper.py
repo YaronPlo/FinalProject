@@ -3,6 +3,12 @@ from utils import routes
 import Data.Utilities as Data
 
 
+def updateIssuesComboBox(issueComboBox, itemsList):
+    issueComboBox.clear()
+    fixedItemsList = map(lambda x: x if isinstance(x, str) else str(x), itemsList)
+    issueComboBox.addItems(fixedItemsList)
+
+
 def getUserName():
     with open(routes.usersFile) as DB:
         userDB = json.load(DB)
