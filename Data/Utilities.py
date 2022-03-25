@@ -9,7 +9,8 @@ def open_csv(path):
     try:
         return pd.read_csv(path, low_memory=False)
     except:
-        return pd.read_csv('../'+routes.issues_path, low_memory=False)
+        return pd.read_csv(f'..\\{path}', low_memory=False)
+
 
 
 def table_description(_df):
@@ -84,7 +85,7 @@ def show_only(df, column_name, values):  # only_values:list
     # filtered_df = df.loc[df[column_name].isin(values)]
     # values = '&'.join(values)  # '&' for and statemennt
     for val in values:
-        mask=df[column_name].apply(lambda sent: val in sent)
+        mask = df[column_name].apply(lambda sent: val in sent)
         filtered_df = df[mask]
     # filtered_df = df.loc[df[column_name].str.contains(values, na=False)]
     # filtered_df = df.loc[df[column_name].astype('str').str.contain(values,na=True)]#for Integer columns
@@ -157,11 +158,12 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
         df.loc[:, col] = calculate
     df.loc[:, 'Performance Score'] = df.sum(axis=1)
     df.loc[:, 'rank'] = df['Performance Score'].rank(method='first', ascending=False)
-    df.loc[:, 'classified'] = pd.cut(df['rank'],5,labels=list(range(1,5+1)))
+    df.loc[:, 'classified'] = pd.cut(df['rank'], 5, labels=list(range(1, 5 + 1)))
     df.sort_values(by=['rank'], inplace=True)
     # df.reset_index(drop=True, inplace=True)
     # print(df.head(10).to_string())
     return df
+
 
 def table_preprocess(df, relevant_col, catagories_list):
     df = Potential_Impact_column(df)
