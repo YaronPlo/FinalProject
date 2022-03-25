@@ -1,6 +1,4 @@
-import sys
 import json
-import pandas
 import pandas as pd
 from utils import routes
 from Components import Login
@@ -181,9 +179,9 @@ class Ui_AdminPage(object):
         self.toolBox.addItem(self.rawData, "")
 
         # -----------------Analyst1-------------------
-        self.analyst1 = QtWidgets.QWidget(objectName="analyst1")
-        # self.analyst1.setObjectName("analyst1")
-        self.rulesLabel = QtWidgets.QLabel(self.analyst1, objectName="rulesLabel")
+        self.analyst1 = QtWidgets.QWidget()
+        self.analyst1.setObjectName("analyst1")
+        self.rulesLabel = QtWidgets.QLabel(self.analyst1)
         self.rulesLabel.setGeometry(QtCore.QRect(350, 10, 251, 31))
         font = QtGui.QFont()
         font.setPointSize(15)
@@ -194,10 +192,10 @@ class Ui_AdminPage(object):
         self.rulesLabel.setFont(font)
         # self.rulesLabel.setObjectName()
 
-        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1, objectName="gridLayoutWidget")
+        self.gridLayoutWidget = QtWidgets.QWidget(self.analyst1)
         self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 50, 191, 111))
         # self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget, objectName="grid")
+        self.grid = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.grid.setContentsMargins(0, 0, 0, 0)
         self.grid.setObjectName("grid")
 
@@ -507,8 +505,9 @@ class Ui_AdminPage(object):
         self.importCsvBtn.setObjectName("importCsvBtn")
         self.importCsvBtn.clicked.connect(lambda: self.fileDialog())
 
-        self.initAllRules()
-
         self.retranslateUi(AdminPage)
+
+        # ---Start all additional funcs --
+        self.initAllRules()
 
         QtCore.QMetaObject.connectSlotsByName(AdminPage)

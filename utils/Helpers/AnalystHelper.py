@@ -2,6 +2,8 @@ import json
 from utils import routes
 import Data.Utilities as Data
 
+__all__ = ["updateIssuesComboBox", "getUserName", "getUserRules", "getFilteredTable"]
+
 
 def updateIssuesComboBox(issueComboBox, itemsList):
     issueComboBox.clear()

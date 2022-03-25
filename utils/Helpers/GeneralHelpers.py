@@ -2,6 +2,8 @@ import json
 from utils import routes
 from PyQt5.QtWidgets import QTableWidgetItem
 
+__all__ = ["fillTableData", "currentLoggedInUpdate"]
+
 
 # this function will fill the tableWidget with the dataFrame it gets
 def fillTableData(df, table):

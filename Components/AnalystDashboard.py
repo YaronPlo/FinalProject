@@ -1,6 +1,7 @@
+from utils import routes
 from Components import Login
-from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.AnalystHelper import *
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_AnalystDashboard(object):
