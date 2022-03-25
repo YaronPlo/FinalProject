@@ -105,7 +105,6 @@ class Ui_AnalystDashboard(object):
         self.issuesComboBox.setSizePolicy(sizePolicy)
         self.issuesComboBox.setInputMethodHints(QtCore.Qt.ImhMultiLine)
         self.issuesComboBox.setObjectName("issuesComboBox")
-        updateIssuesComboBox(self.issuesComboBox, [1, "2", 3, 4, "5"])
 
         self.inProgressRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.inProgressRadioBtn.setGeometry(QtCore.QRect(280, 500, 95, 20))
