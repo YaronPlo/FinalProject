@@ -5,37 +5,8 @@ import pandas as pd
 from utils import routes
 from Components import Login
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-
-# this function will fill the tableWidget with the dataFrame it gets
-def fillTableData(df, table):
-    # set the amout of rows and cols
-    table.setRowCount(len(df))
-    table.setColumnCount(len(df.columns))
-
-    # Fill the Headers in the Table
-    table.setHorizontalHeaderLabels((colName for colName in df.columns))
-    for rows in range(len(df)):
-        for cols in range(len(df.columns)):
-            table.setItem(rows, cols, QtWidgets.QTableWidgetItem(df.iat[rows, cols]))
-
-
-# this function get rules from GUI and sets them into a Json file.
-def writeAnalystRules(analystID, date, wsm, confidentiality, integrity, availability, includeKwords, excludeKeywords):
-    newRules = {
-        "date": date.isChecked(),  # True/ False
-        "wsm": wsm.isChecked(),  # True/ False
-        "confidentiality": confidentiality.isChecked(),  # True/ False
-        "integrity": integrity.isChecked(),  # True/ False
-        "availability": availability.isChecked(),  # True/ False
-        "include": includeKwords.text(),  # Text
-        "exclude": excludeKeywords.text(),  # Text
-    }
-    with open(routes.rulesFile) as rules:
-        rulesDB = json.load(rules)
-    rulesDB[analystID] = newRules
-    with open(routes.rulesFile, 'w') as rules:
-        json.dump(rulesDB, rules, indent=2)
+from utils.Helpers.GeneralHelpers import fillTableData
+from utils.Helpers.AdminHelper import writeAnalystRules
 
 
 class Ui_AdminPage(object):
@@ -112,8 +83,10 @@ class Ui_AdminPage(object):
         self.toolBox.setMidLineWidth(1)
         self.toolBox.setObjectName("toolBox")
 
+        # --------- Raw Data Table-----------------
         self.rawData = QtWidgets.QWidget()
         self.rawData.setObjectName("rawData")
+
         self.rawDataTableWidget = QtWidgets.QTableWidget(self.rawData)
         self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 955, 427))
         self.rawDataTableWidget.setObjectName("rawDataTableWidget")
