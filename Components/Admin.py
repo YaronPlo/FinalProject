@@ -11,6 +11,35 @@ from utils.Helpers.AdminHelper import writeAnalystRules
 
 class Ui_AdminPage(object):
 
+    def fileDialog(self):
+        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
+                                                              "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
+                                                              )
+        self.CSV = self.csvTuple[0]
+        with open(routes.latestCsvFile) as latestCsv:
+            uploadedCsv = json.load(latestCsv)
+
+        uploadedCsv["latest_upload"] = self.CSV
+        uploadedCsv["previous_uploads"].append(self.CSV)
+        with open(routes.latestCsvFile, 'w') as latestCsv:
+            json.dump(uploadedCsv, latestCsv, indent=2)
+
+        relevant_columns = {
+            1: 'Severity',
+            2: 'Asset Security Grade',
+            3: 'Asset Security Score',
+            4: 'Asset Discoverability',
+            5: 'Asset Attractiveness',
+            6: 'Asset Type',
+            7: 'Potential Impact',
+            8: 'Asset First Seen',
+            9: 'Description'
+        }
+
+        raw_df = pd.read_csv(self.CSV, low_memory=False)
+        filtered_df = raw_df[relevant_columns.values()]
+        fillTableData(filtered_df, self.rawDataTableWidget)
+
     def initAllRules(self):
         with open(routes.rulesFile) as file:
             rulesDB = json.load(file)
@@ -53,6 +82,63 @@ class Ui_AdminPage(object):
         self.ui.setupUi(self.LoginWindow)
         self.LoginWindow.show()
         AdminPage.close()
+
+    def retranslateUi(self, AdminPage):
+        _translate = QtCore.QCoreApplication.translate
+        AdminPage.setWindowTitle("Admins Page")
+        self.welcomeLbl.setText("Welcome to Administrator Page!")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.rawData), "Raw Data")
+
+        self.rulesLabel.setText("Rules for Analyst:")
+        self.sortByDate.setText("Sort by Date")
+        self.wsmSort.setText("WSM rating")
+        self.bakeBtn.setText("Bake Rules")
+        self.impactLabel.setText("Potential Impact values:")
+        self.confidentiality.setText("Confidentiality")
+        self.integrity.setText("Integrity")
+        self.availability.setText("Availability")
+        self.includeLbl.setText("Include special keywords:")
+        self.excludeLbl.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst1), "Yaniv")
+
+        self.rulesLabel_2.setText("Rules for Analyst:")
+        self.sortByDate_2.setText("Sort by Date")
+        self.wsmSort_2.setText("WSM rating")
+        self.bakeBtn_2.setText("Bake Rules")
+        self.impactLabel_2.setText("Potential Impact values:")
+        self.confidentiality_2.setText("Confidentiality")
+        self.integrity_2.setText("Integrity")
+        self.availability_2.setText("Availability")
+        self.includeLbl_2.setText("Include special keywords:")
+        self.excludeLbl_2.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst2), "Itay")
+
+        self.wsmSort_3.setText("WSM rating")
+        self.sortByDate_3.setText("Sort by Date")
+        self.rulesLabel_3.setText("Rules for Analyst:")
+        self.bakeBtn_3.setText("Bake Rules")
+        self.impactLabel_3.setText("Potential Impact values:")
+        self.confidentiality_3.setText("Confidentiality")
+        self.integrity_3.setText("Integrity")
+        self.availability_3.setText("Availability")
+        self.includeLbl_3.setText("Include special keywords:")
+        self.excludeLbl_3.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst3), "Ben")
+
+        self.wsmSort_4.setText("WSM rating")
+        self.sortByDate_4.setText("Sort by Date")
+        self.rulesLabel_4.setText("Rules for Analyst:")
+        self.bakeBtn_4.setText("Bake Rules")
+        self.impactLabel_4.setText("Potential Impact values:")
+        self.confidentiality_4.setText("Confidentiality")
+        self.integrity_4.setText("Integrity")
+        self.availability_4.setText("Availability")
+        self.includeLbl_4.setText("Include special keywords:")
+        self.excludeLbl_4.setText("Exclude special keywords:")
+        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst4), "Roni")
+
+        self.ExitBtn.setText("Exit")
+        self.importCsvBtn.setText("  Import CSV")
 
     def setupUi(self, AdminPage):
         AdminPage.setObjectName("AdminPage")
@@ -427,89 +513,3 @@ class Ui_AdminPage(object):
         QtCore.QMetaObject.connectSlotsByName(AdminPage)
 
         self.initAllRules()
-
-    def retranslateUi(self, AdminPage):
-        _translate = QtCore.QCoreApplication.translate
-        AdminPage.setWindowTitle("Admins Page")
-        self.welcomeLbl.setText("Welcome to Administrator Page!")
-        self.toolBox.setItemText(self.toolBox.indexOf(self.rawData), "Raw Data")
-
-        self.rulesLabel.setText("Rules for Analyst:")
-        self.sortByDate.setText("Sort by Date")
-        self.wsmSort.setText("WSM rating")
-        self.bakeBtn.setText("Bake Rules")
-        self.impactLabel.setText("Potential Impact values:")
-        self.confidentiality.setText("Confidentiality")
-        self.integrity.setText("Integrity")
-        self.availability.setText("Availability")
-        self.includeLbl.setText("Include special keywords:")
-        self.excludeLbl.setText("Exclude special keywords:")
-        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst1), "Yaniv")
-
-        self.rulesLabel_2.setText("Rules for Analyst:")
-        self.sortByDate_2.setText("Sort by Date")
-        self.wsmSort_2.setText("WSM rating")
-        self.bakeBtn_2.setText("Bake Rules")
-        self.impactLabel_2.setText("Potential Impact values:")
-        self.confidentiality_2.setText("Confidentiality")
-        self.integrity_2.setText("Integrity")
-        self.availability_2.setText("Availability")
-        self.includeLbl_2.setText("Include special keywords:")
-        self.excludeLbl_2.setText("Exclude special keywords:")
-        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst2), "Itay")
-
-        self.wsmSort_3.setText("WSM rating")
-        self.sortByDate_3.setText("Sort by Date")
-        self.rulesLabel_3.setText("Rules for Analyst:")
-        self.bakeBtn_3.setText("Bake Rules")
-        self.impactLabel_3.setText("Potential Impact values:")
-        self.confidentiality_3.setText("Confidentiality")
-        self.integrity_3.setText("Integrity")
-        self.availability_3.setText("Availability")
-        self.includeLbl_3.setText("Include special keywords:")
-        self.excludeLbl_3.setText("Exclude special keywords:")
-        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst3), "Ben")
-
-        self.wsmSort_4.setText("WSM rating")
-        self.sortByDate_4.setText("Sort by Date")
-        self.rulesLabel_4.setText("Rules for Analyst:")
-        self.bakeBtn_4.setText("Bake Rules")
-        self.impactLabel_4.setText("Potential Impact values:")
-        self.confidentiality_4.setText("Confidentiality")
-        self.integrity_4.setText("Integrity")
-        self.availability_4.setText("Availability")
-        self.includeLbl_4.setText("Include special keywords:")
-        self.excludeLbl_4.setText("Exclude special keywords:")
-        self.toolBox.setItemText(self.toolBox.indexOf(self.analyst4), "Roni")
-
-        self.ExitBtn.setText("Exit")
-        self.importCsvBtn.setText("  Import CSV")
-
-    def fileDialog(self):
-        self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
-                                                              "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
-                                                              )
-        self.CSV = self.csvTuple[0]
-        with open(routes.latestCsvFile) as latestCsv:
-            uploadedCsv = json.load(latestCsv)
-
-        uploadedCsv["latest_upload"] = self.CSV
-        uploadedCsv["previous_uploads"].append(self.CSV)
-        with open(routes.latestCsvFile, 'w') as latestCsv:
-            json.dump(uploadedCsv, latestCsv, indent=2)
-
-        relevant_columns = {
-            1: 'Severity',
-            2: 'Asset Security Grade',
-            3: 'Asset Security Score',
-            4: 'Asset Discoverability',
-            5: 'Asset Attractiveness',
-            6: 'Asset Type',
-            7: 'Potential Impact',
-            8: 'Asset First Seen',
-            9: 'Description'
-        }
-
-        raw_df = pd.read_csv(self.CSV, low_memory=False)
-        filtered_df = raw_df[relevant_columns.values()]
-        fillTableData(filtered_df, self.rawDataTableWidget)
