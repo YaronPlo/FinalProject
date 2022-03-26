@@ -4,7 +4,7 @@ from utils import routes
 from Components import Login
 from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.GeneralHelpers import fillTableData
-from utils.Helpers.AdminHelper import writeAnalystRules
+from utils.Helpers.AdminHelper import *
 
 
 class Ui_AdminPage(object):
