@@ -11,8 +11,9 @@ def fillTableData(df, table):
     table.setRowCount(len(df))
     table.setColumnCount(len(df.columns))
 
-    # Fill the Headers in the Table
-    table.setHorizontalHeaderLabels((colName for colName in df.columns))
+    # Fill the Headers rows and cols in the Table
+    table.setHorizontalHeaderLabels(colName for colName in df.columns)
+    table.setVerticalHeaderLabels(str(rowName) for rowName in df.index)
     for rows in range(len(df)):
         for cols in range(len(df.columns)):
             table.setItem(rows, cols, QTableWidgetItem(df.iat[rows, cols]))
