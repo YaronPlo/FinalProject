@@ -8,7 +8,6 @@ utils/DataBase
 
 #UI
 UIs/
-GarbageCode.txt
 
 # C extensions
 *.so

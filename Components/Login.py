@@ -59,6 +59,7 @@ class UiLogIn(object):
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
         self.userNameInput.setObjectName("userNameInput")
+        self.userNameInput.returnPressed.connect(lambda: self.LoginCheck(LogIn))
 
         self.userNameLbl = QtWidgets.QLabel(LogIn)
         self.userNameLbl.setGeometry(QtCore.QRect(30, 60, 81, 20))
@@ -72,6 +73,7 @@ class UiLogIn(object):
         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passwordInput.setGeometry(QtCore.QRect(120, 110, 113, 22))
         self.passwordInput.setObjectName("passwordInput")
+        self.passwordInput.returnPressed.connect(lambda: self.LoginCheck(LogIn))
 
         self.loginMessage = QtWidgets.QPlainTextEdit(LogIn)
         self.loginMessage.setEnabled(False)

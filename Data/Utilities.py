@@ -9,7 +9,8 @@ def open_csv(path):
     try:
         return pd.read_csv(path, low_memory=False)
     except:
-        return pd.read_csv('../' + path, low_memory=False)
+        return pd.read_csv(f'..\\{path}', low_memory=False)
+
 
 
 def table_description(_df):
