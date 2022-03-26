@@ -27,7 +27,7 @@ class Ui_AnalystDashboard(object):
         self.timer = None
         self.tasksTableView = None
 
-    def initCombo(self, itemsList=None):  # TODO: Change the default initilizeer
+    def initCombo(self, itemsList=None):
         if itemsList is None:
             itemsList = [i for i in range(1, 11)]
         updateIssuesComboBox(self.issuesComboBox, itemsList)
@@ -130,11 +130,9 @@ class Ui_AnalystDashboard(object):
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
-        self.analystDf = getFilteredTable(self.rulesForUser)
-
         # Start all helper funcs
-        getFilteredTable(self.rulesForUser)
-        self.initCombo()
+        self.analystDf = getFilteredTable(self.rulesForUser)
+        self.initCombo(getIssuesId(self.analystDf))
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
