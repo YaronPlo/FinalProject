@@ -13,6 +13,9 @@ class Ui_AdminPage(object):
         self.csvTuple = QtWidgets.QFileDialog.getOpenFileName(None, "File Explorer", "",
                                                               "All Files (*);;Python Files (*.py);;Text Files (*.txt)",
                                                               )
+        if not self.csvTuple[0]:
+            return
+
         self.CSV = self.csvTuple[0]
         with open(routes.latestCsvFile) as latestCsv:
             uploadedCsv = json.load(latestCsv)
