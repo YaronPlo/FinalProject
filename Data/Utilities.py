@@ -1,5 +1,3 @@
-import os
-
 import pandas as pd
 from utils import routes
 from datetime import datetime
@@ -10,7 +8,6 @@ def open_csv(path):
         return pd.read_csv(path, low_memory=False)
     except:
         return pd.read_csv(f'..\\{path}', low_memory=False)
-
 
 
 def table_description(_df):
@@ -109,9 +106,10 @@ def str_to_datatime(df, col_list):
         df.loc[:, _] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
     # return df
 
+
 def get_now():
-    now=datetime.now().strftime('%Y-%m-%d %H:%M:%S') # time object
-    return datetime.now()
+    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # time object
+    return now
 
 
 # def oldest(datatime_list):
