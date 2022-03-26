@@ -64,3 +64,4 @@ def evaluate_model(model, X, y):
 class_df = pre_pro_for_modeling(dataFrame)
 model = modeling(class_df, class_col='classified')
 evaluate_model(model, X_y['X'], X_y['y'])
+

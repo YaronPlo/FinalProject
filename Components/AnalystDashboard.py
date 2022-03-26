@@ -1,8 +1,13 @@
 import json
+import os
+
 from utils import routes
 from Components import Login
 import Data.Utilities as Data
 from PyQt5 import QtCore, QtGui, QtWidgets
+from pathlib import Path
+
+import pandas as pd
 
 
 # values for combobox
@@ -61,6 +66,41 @@ def getFilteredTable(rules):
     print(main_df.head().to_string())
 
     return main_df
+
+
+def updateIssueStatus(df,currUser, issuesComboBox, inProgressRadioBtn, doneRadioBtn):
+    status_table = pd.read_csv(routes.status_table, index_col=[0])
+    issue_index = 4  # issuesComboBox.currentText()
+
+    # will be added when issuesComboBox return relevant values
+    # current_issue = df.iloc[[int(issue_index)]]
+    # print('here', current_issue)
+
+    # issuesComboBox values created from df so check here not relevant, index exist
+    if issue_index in status_table.index.values:
+        # get the issue from status_table and remove
+        current_issue = status_table.loc[[issue_index]]
+        status_table = status_table.drop(issue_index)
+    else:
+        current_issue = df.loc[[issue_index]].copy()
+        current_issue['Analyst Handler'] = currUser
+
+    if inProgressRadioBtn.isChecked():
+        print('inProgress')
+        current_issue['Current Status'] = 'inProgress'
+        current_issue['InProgress Time'] = Data.get_now()
+    else:
+        print('done')
+        current_issue['Current Status'] = 'done'
+        current_issue['Done Time'] = Data.get_now()
+
+    status_table = status_table.append(current_issue)
+    # print('status_table\n', status_table.to_string())
+    # # print('getIssuesId', getIssuesId(current_issue))
+    # # status_table.loc[getIssuesId(current_issue)] = current_issue
+    # # # status_table = pd.concat([status_table, current_issue])
+    # # print('status_table\n', status_table.to_string())
+    status_table.to_csv(routes.status_table)
 
 
 class Ui_AnalystDashboard(object):
@@ -128,6 +168,8 @@ class Ui_AnalystDashboard(object):
         self.fireBtn.setDefault(False)
         self.fireBtn.setObjectName("fireBtn")
         self.fireBtn.setText("Fire")
+        self.fireBtn.clicked.connect(
+            lambda: updateIssueStatus(self.analystDf,self.currUser, self.issuesComboBox, self.inProgressRadioBtn, self.doneRadioBtn))
 
         self.exitBtn = QtWidgets.QPushButton(AnalystDashboard)
         self.exitBtn.setGeometry(QtCore.QRect(1110, 580, 93, 28))
@@ -166,6 +208,9 @@ class Ui_AnalystDashboard(object):
         self.inProgressRadioBtn.setGeometry(QtCore.QRect(280, 500, 95, 20))
         self.inProgressRadioBtn.setObjectName("inProgressRadioBtn")
         self.inProgressRadioBtn.setText("In Progress")
+
+        # set as default instead of checking if non of radioBtn is choosed
+        self.inProgressRadioBtn.setChecked(True)
 
         self.doneRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.doneRadioBtn.setGeometry(QtCore.QRect(280, 530, 95, 20))
