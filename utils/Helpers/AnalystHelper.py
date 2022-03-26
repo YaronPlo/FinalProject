@@ -73,7 +73,7 @@ def updateIssuesComboBox(issueComboBox, itemsList):
 
 def updateIssueStatus(df, currUser, issuesComboBox, inProgressRadioBtn, doneRadioBtn):
     status_table = pd.read_csv(routes.status_table, index_col=[0])
-    issue_index = 4  # issuesComboBox.currentText()
+    issue_index = int(issuesComboBox.currentText())
 
     # will be added when issuesComboBox return relevant values
     # current_issue = df.iloc[[int(issue_index)]]
