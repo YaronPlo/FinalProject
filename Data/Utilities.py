@@ -109,6 +109,10 @@ def str_to_datatime(df, col_list):
         df.loc[:, _] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
     # return df
 
+def get_now():
+    now=datetime.now().strftime('%Y-%m-%d %H:%M:%S') # time object
+    return datetime.now()
+
 
 # def oldest(datatime_list):
 #     df = df1.copy()
@@ -141,6 +145,13 @@ def key_word(df, col='Description', word='HTTP'):
     return df
 
 
+def unique_to_numbers(df, col):
+    unique = dict(enumerate(df[col].unique()))
+    unique = {value: key for key, value in unique.items()}
+    df[col].replace(unique, inplace=True)
+    return df
+
+
 def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
     df = df[col].copy()
@@ -166,6 +177,7 @@ def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
 
 
 def table_preprocess(df, relevant_col, catagories_list):
+    print(df.shape)
     df = Potential_Impact_column(df)
     df['Description'] = df['Description'].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df[relevant_col.values()]
