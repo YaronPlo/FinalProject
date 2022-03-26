@@ -130,17 +130,10 @@ class Ui_AnalystDashboard(object):
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
+
         # Start all helper funcs
         self.analystDf = getFilteredTable(self.rulesForUser)
         self.initCombo(getIssuesId(self.analystDf))
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
-
-# def runAnalystDashbard():
-#     app = QtWidgets.QApplication(sys.argv)
-#     AnalystDashboard = QtWidgets.QWidget()
-#     ui = Ui_AnalystDashboard()
-#     ui.setupUi(AnalystDashboard)
-#     AnalystDashboard.show()
-#     sys.exit(app.exec_())
