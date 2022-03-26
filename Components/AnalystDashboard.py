@@ -1,6 +1,8 @@
+import pandas as pd
 from utils import routes
 from Components import Login
 from utils.Helpers.AnalystHelper import *
+from utils.Helpers.GeneralHelpers import fillTableData
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -26,6 +28,10 @@ class Ui_AnalystDashboard(object):
         self.currTime = None
         self.timer = None
         self.tasksTableView = None
+
+    def updateAnalystTable(self):
+        fixedAnalystDf = self.analystDf.astype(str)
+        fillTableData(fixedAnalystDf, self.tasksTableView)
 
     def initCombo(self, itemsList=None):
         if itemsList is None:
@@ -122,9 +128,11 @@ class Ui_AnalystDashboard(object):
         self.doneRadioBtn.setObjectName("doneRadioBtn")
         self.doneRadioBtn.setText("Done")
 
-        self.tasksTableView = QtWidgets.QTableView(AnalystDashboard)
+        self.tasksTableView = QtWidgets.QTableWidget(AnalystDashboard)
         self.tasksTableView.setGeometry(QtCore.QRect(20, 80, 1211, 411))
         self.tasksTableView.setObjectName("tasksTableView")
+        self.tasksTableView.setColumnCount(0)
+        self.tasksTableView.setRowCount(0)
 
         self.currUser = getUserName()
         self.rulesForUser = getUserRules(self.currUser)
@@ -134,6 +142,7 @@ class Ui_AnalystDashboard(object):
         # Start all helper funcs
         self.analystDf = getFilteredTable(self.rulesForUser)
         self.initCombo(getIssuesId(self.analystDf))
+        self.updateAnalystTable()
 
         # This line needs to be the last one in the class
         QtCore.QMetaObject.connectSlotsByName(AnalystDashboard)
