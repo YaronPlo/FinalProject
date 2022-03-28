@@ -91,7 +91,6 @@ def show_only(df, column_name, values):  # only_values:list
         print("The key words: ", values, "not exist in columns: ", column_name)
         return df
     print('filtered_df')
-    print(filtered_df.to_string())
 
     return filtered_df
 
