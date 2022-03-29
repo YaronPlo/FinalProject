@@ -32,8 +32,11 @@ def getUserRules(UserID):
     return rulesDB[userRules]
 
 
-def getFilteredTable(rules):
+def getFilteredTable(rules,userID):
     main_df = Data.dataFrame
+    status_table = pd.read_csv(routes.status_table, index_col=[0])
+    main_df = hide_handled_issues(main_df, status_table, userID)
+
     description = 'Description'
     Potential_Impact = 'Potential Impact'
     potential_impact_values = ["confidentiality", "integrity", "availability"]
@@ -77,11 +80,10 @@ def updateIssueStatus(df, currUser, issuesComboBox, inProgressRadioBtn, doneRadi
 
     # will be added when issuesComboBox return relevant values
     # current_issue = df.iloc[[int(issue_index)]]
-    # print('here', current_issue)
 
     # issuesComboBox values created from df so check here not relevant, index exist
     if issue_index in status_table.index.values:
-        # get the issue from status_table and remove
+        # get the issue from status_table by index and remove
         current_issue = status_table.loc[[issue_index]]
         status_table = status_table.drop(issue_index)
     else:
@@ -89,18 +91,32 @@ def updateIssueStatus(df, currUser, issuesComboBox, inProgressRadioBtn, doneRadi
         current_issue['Analyst Handler'] = currUser
 
     if inProgressRadioBtn.isChecked():
-        print('inProgress')
         current_issue['Current Status'] = 'inProgress'
         current_issue['InProgress Time'] = Data.get_now()
     else:
-        print('done')
         current_issue['Current Status'] = 'done'
         current_issue['Done Time'] = Data.get_now()
 
     status_table = status_table.append(current_issue)
+
+    # status_table.loc[getIssuesId(current_issue)] = current_issue
+    # status_table = pd.concat([status_table, current_issue])
     # print('status_table\n', status_table.to_string())
-    # # print('getIssuesId', getIssuesId(current_issue))
-    # # status_table.loc[getIssuesId(current_issue)] = current_issue
-    # # # status_table = pd.concat([status_table, current_issue])
-    # # print('status_table\n', status_table.to_string())
     status_table.to_csv(routes.status_table)
+    print('Status table updated')
+
+
+def hide_handled_issues(df, status_df, userId):
+    # show analyst issues handled by him and in progress
+    in_prog_table = status_df.loc[(status_df['Analyst Handler'] == userId) &
+                                  (status_df['Current Status'] == 'inProgress')]
+    print('in_prog_table:')
+    print(in_prog_table.to_string())
+    in_prog_ind = getIssuesId(in_prog_table)
+    handled_issues = getIssuesId(status_df)
+    handled_list = [int(x) for x in handled_issues if x not in in_prog_ind]
+    df = df.drop(handled_list, axis=0)
+    print('handled issues removed')
+    if len(df) == 0:
+        print('hide_handled_issues returned empty dataframe')
+    return df

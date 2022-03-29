@@ -134,14 +134,13 @@ class Ui_AnalystDashboard(object):
         self.tasksTableView.setColumnCount(0)
         self.tasksTableView.setRowCount(0)
 
-
         self.currUser = getUserName()
         self.rulesForUser = getUserRules(self.currUser)
         print("currUser: ", self.currUser)
         print("rulesForUser: ", self.rulesForUser)
 
         # Start all helper funcs
-        self.analystDf = getFilteredTable(self.rulesForUser)
+        self.analystDf = getFilteredTable(self.rulesForUser,self.currUser)
         self.initCombo(getIssuesId(self.analystDf))
         self.updateAnalystTable()
 

@@ -1,15 +1,21 @@
 # pip install tensorflow
+# pip install h5py
 import Data.Utilities as Data
 import pandas as pd
-# getting rid of Tensorflow warnings
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import numpy as np
+from keras.models import load_model as Load_Model
 
 import tensorflow as tf
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
+
+# getting rid of Tensorflow warnings
+import os
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 dataFrame = Data.dataFrame
 X_y = {}
 
@@ -61,7 +67,29 @@ def evaluate_model(model, X, y):
     print('Accuracy: %.2f' % (accuracy * 100))
 
 
+def predict_model(model, x):
+    print(x)
+    result = model.predict(x)
+    classes = np.argmax(result, axis=1)
+    print('result:', classes)
+
+
+def save_model(model, path):
+    model.save(f'{path}NnModel.h5')
+    print("Saved model to disk")
+
+
+def load_model(path):
+    model = Load_Model(f'{path}NnModel.h5')
+    model.summary()
+    return model
+
+
+#
 class_df = pre_pro_for_modeling(dataFrame)
 model = modeling(class_df, class_col='classified')
+save_model(model,'')
+model=load_model('')
 evaluate_model(model, X_y['X'], X_y['y'])
 
+# predict_model(model,class_df.iloc[0:2,0:6])
