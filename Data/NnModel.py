@@ -14,6 +14,7 @@ from keras.utils import np_utils
 # getting rid of Tensorflow warnings
 import os
 
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 dataFrame = Data.dataFrame
@@ -93,3 +94,7 @@ model=load_model('')
 evaluate_model(model, X_y['X'], X_y['y'])
 
 # predict_model(model,class_df.iloc[0:2,0:6])
+
+# from utils import routes
+# from utils.Helpers.AnalystHelper import done_issue_avg
+# done_issue_avg(pd.read_csv('..\\'+routes.status_table,index_col=[0]),'yaniv')

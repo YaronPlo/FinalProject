@@ -2,9 +2,10 @@ import json
 import pandas as pd
 from utils import routes
 import Data.Utilities as Data
-
+from statistics import mean
+import numpy as np
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",
-           "updateIssueStatus"]
+           "updateIssueStatus", "hide_handled_issues"]
 
 
 # values for combobox
@@ -32,7 +33,7 @@ def getUserRules(UserID):
     return rulesDB[userRules]
 
 
-def getFilteredTable(rules,userID):
+def getFilteredTable(rules, userID):
     main_df = Data.dataFrame
     status_table = pd.read_csv(routes.status_table, index_col=[0])
     main_df = hide_handled_issues(main_df, status_table, userID)
@@ -110,8 +111,6 @@ def hide_handled_issues(df, status_df, userId):
     # show analyst issues handled by him and in progress
     in_prog_table = status_df.loc[(status_df['Analyst Handler'] == userId) &
                                   (status_df['Current Status'] == 'inProgress')]
-    print('in_prog_table:')
-    print(in_prog_table.to_string())
     in_prog_ind = getIssuesId(in_prog_table)
     handled_issues = getIssuesId(status_df)
     handled_list = [int(x) for x in handled_issues if x not in in_prog_ind]
@@ -120,3 +119,24 @@ def hide_handled_issues(df, status_df, userId):
     if len(df) == 0:
         print('hide_handled_issues returned empty dataframe')
     return df
+
+
+def daily_ave_issues(df, userId):
+    user_df = df.loc[df['Analyst Handler'] == userId]
+    date_col = pd.to_datetime(user_df['InProgress Time'])
+    daily_df = date_col.groupby(date_col.dt.floor('d')).size().reset_index(name='count')
+    daily_counter = daily_df['count'].tolist()
+    details_dict = {'daily_counter': daily_counter, 'ave_per_day': mean(daily_counter)}
+    return details_dict
+
+
+def done_issue_avg(df, userId):
+    user_df = df.loc[(df['Analyst Handler'] == userId) &
+                     (df['InProgress Time'].notnull()) &
+                     (df['Done Time'].notnull())].copy()
+    user_df[['InProgress Time', 'Done Time']] = user_df[['InProgress Time', 'Done Time']].apply(
+        pd.to_datetime)  # if conversion required
+    duration = (user_df['Done Time'] - user_df['InProgress Time']).dt.seconds / 60
+    duration = list(np.around(np.array(duration),2))
+    details_dict = {'duration': duration, 'duration_mean': mean(duration)}
+    return details_dict
