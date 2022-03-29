@@ -18,6 +18,9 @@ CyCog/
 *.xls
 *.txt
 
+#Model files - .h5
+*.h5
+
 # Distribution / packaging
 .Python
 .idea
