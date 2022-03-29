@@ -5,7 +5,7 @@ __pycache__/
 
 # Unwanted files to be uploaded
 utils/DataBase
-
+*.h5
 #UI
 UIs/
 
