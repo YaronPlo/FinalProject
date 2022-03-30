@@ -175,7 +175,7 @@ class Ui_AdminPage(object):
         self.rawData.setObjectName("rawData")
 
         self.rawDataTableWidget = QtWidgets.QTableWidget(self.rawData)
-        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 955, 427))
+        self.rawDataTableWidget.setGeometry(QtCore.QRect(0, 0, 955, 400))
         self.rawDataTableWidget.setObjectName("rawDataTableWidget")
         self.rawDataTableWidget.setColumnCount(0)
         self.rawDataTableWidget.setRowCount(0)
