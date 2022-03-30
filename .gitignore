@@ -5,7 +5,6 @@ __pycache__/
 
 # Unwanted files to be uploaded
 utils/DataBase
-*.h5
 #UI
 UIs/
 
@@ -16,7 +15,6 @@ UIs/
 CyCog/
 *.csv
 *.xls
-*.txt
 
 #Model files - .h5
 *.h5

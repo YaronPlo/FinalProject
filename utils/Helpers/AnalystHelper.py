@@ -121,7 +121,7 @@ def hide_handled_issues(df, status_df, userId):
     return df
 
 
-def daily_ave_issues(df, userId):
+def daily_avg_issues(df, userId):
     user_df = df.loc[df['Analyst Handler'] == userId]
     date_col = pd.to_datetime(user_df['InProgress Time'])
     daily_df = date_col.groupby(date_col.dt.floor('d')).size().reset_index(name='count')
