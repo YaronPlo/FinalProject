@@ -14,7 +14,6 @@ from keras.utils import np_utils
 # getting rid of Tensorflow warnings
 import os
 
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 dataFrame = Data.dataFrame
@@ -87,14 +86,16 @@ def load_model(path):
 
 
 #
-class_df = pre_pro_for_modeling(dataFrame)
-model = modeling(class_df, class_col='classified')
-save_model(model,'')
-model=load_model('')
-evaluate_model(model, X_y['X'], X_y['y'])
+# class_df = pre_pro_for_modeling(dataFrame)
+# model = modeling(class_df, class_col='classified')
+# save_model(model,'')
+# model=load_model('')
+# evaluate_model(model, X_y['X'], X_y['y'])
 
 # predict_model(model,class_df.iloc[0:2,0:6])
 
-# from utils import routes
-# from utils.Helpers.AnalystHelper import done_issue_avg
-# done_issue_avg(pd.read_csv('..\\'+routes.status_table,index_col=[0]),'yaniv')
+from utils import routes
+
+# pd.read_csv('..\\'+routes.status_table,index_col=[0])
+# pip3 install -U scikit-learn scipy matplotlib
+
