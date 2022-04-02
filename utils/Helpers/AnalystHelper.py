@@ -140,3 +140,4 @@ def done_issue_avg(df, userId):
     duration = list(np.around(np.array(duration),2))
     details_dict = {'duration': duration, 'duration_mean': mean(duration)}
     return details_dict
+

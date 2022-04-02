@@ -91,7 +91,6 @@ def show_only(df, column_name, values):  # only_values:list
         print("The key words: ", values, "not exist in columns: ", column_name)
         return df
     print('filtered_df')
-
     return filtered_df
 
 
@@ -181,6 +180,5 @@ def table_preprocess(df, relevant_col, catagories_list):
     df = cat_to_num(df, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories_list)
     str_to_datatime(df, ['Asset First Seen'])
     return df
-
 
 dataFrame = table_preprocess(issues_dataFrame, relevant_columns, catagories)
