@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 from utils import routes
-from Components import Login, StatisticsDashboard
+from Components import Login, StatDashboard
 from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.GeneralHelpers import fillTableData
 from utils.Helpers.AdminHelper import *
@@ -85,8 +85,8 @@ class Ui_AdminPage(object):
         AdminPage.close()
 
     def openStatisticsDashboard(self):
-        self.statDashboard = QtWidgets.QDialog()
-        self.ui = StatisticsDashboard.Ui_Statistics()
+        self.statDashboard = QtWidgets.QMainWindow()
+        self.ui = StatDashboard.Ui_StatisticsDashboard()
         self.ui.setupUi(self.statDashboard)
         self.statDashboard.show()
 
