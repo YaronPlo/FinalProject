@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 from utils import routes
-from Components import Login
+from Components import Login, StatisticsDashboard
 from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.GeneralHelpers import fillTableData
 from utils.Helpers.AdminHelper import *
@@ -84,6 +84,13 @@ class Ui_AdminPage(object):
         self.LoginWindow.show()
         AdminPage.close()
 
+    def openStatisticsDashboard(self):
+        self.statDashboard = QtWidgets.QDialog()
+        self.ui = StatisticsDashboard.Ui_Statistics()
+        self.ui.setupUi(self.statDashboard)
+        self.statDashboard.show()
+
+
     def retranslateUi(self, AdminPage):
         _translate = QtCore.QCoreApplication.translate
         AdminPage.setWindowTitle("Admins Page")
@@ -139,6 +146,7 @@ class Ui_AdminPage(object):
         self.toolBox.setItemText(self.toolBox.indexOf(self.analyst4), "Roni")
 
         self.ExitBtn.setText("Exit")
+        self.statisticsBtn.setText("Statistics")
         self.importCsvBtn.setText("  Import CSV")
 
     def setupUi(self, AdminPage):
@@ -499,6 +507,11 @@ class Ui_AdminPage(object):
         self.ExitBtn.setGeometry(QtCore.QRect(460, 730, 81, 28))
         self.ExitBtn.setObjectName("ExitBtn")
         self.ExitBtn.clicked.connect(lambda: self.openLogin(AdminPage))
+
+        self.statisticsBtn = QtWidgets.QPushButton(self.centralwidget)
+        self.statisticsBtn.setGeometry(QtCore.QRect(35, 710, 121, 31))
+        self.statisticsBtn.setObjectName("statisticsBtn")
+        self.statisticsBtn.clicked.connect(lambda: self.openStatisticsDashboard())
 
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(390, 60, 191, 71))
