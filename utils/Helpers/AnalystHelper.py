@@ -64,7 +64,6 @@ def getFilteredTable(rules, userID):
 
     for item in potential_impact_items:
         main_df = Data.show_only(main_df, Potential_Impact, [item])
-    print(main_df.head().to_string())
 
     return main_df
 

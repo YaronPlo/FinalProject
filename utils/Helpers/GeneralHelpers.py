@@ -55,25 +55,49 @@ def cosine_sim_vectors(vec1, vec2):
     return cosine_similarity(vec1, vec2)[0][0]
 
 
-def find_most_influential(df, raw_df):  # return dictinary with index as key and list of indexes as value which influenced after treat this key
+def find_most_influential(df, raw_df):
+    # return dictinary with index as key and list of indexes as value which influenced after treat this key
     similarity = 'similarity'
     round = 0
     result = {}
-
-    df = pd.merge(df, raw_df[['Title', 'Remediation Steps']], left_index=True, right_index=True)  # adding two columns to df from origin df
-    df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
-    df.loc[:, similarity] = df['similarity'].apply(lambda x: clean_string(x))
-    for index1, row1 in df.iterrows(): #iterate over df rows
+    df = adding_similarity_column(df, raw_df)
+    # df = pd.merge(df, raw_df[['Title', 'Remediation Steps']], left_index=True,
+    #               right_index=True)  # adding two columns to df from origin df
+    # df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
+    # df.loc[:, similarity] = df[similarity].apply(lambda x: clean_string(x))
+    for index1, row1 in df.iterrows():  # iterate over df rows
         round += 1
         if index1 in [x for xs in result.values() for x in xs]:  # if this issue already treated skip it
             continue
-        result[index1] = []
-        for index2, row2 in df[round:].iterrows(): #iterate over df rows from index1 + 1
-            if index2 in [x for xs in result.values() for x in xs]:
-                continue
-            cos_sim = cosine_sim_vectors(row1[similarity], row2[similarity]) #calculate similarity
-            if cos_sim > 0.7:
-                result[index1] += [index2]
+        result[index1] = affected_issues(df[round:], result.values(), row1[similarity])
+        # for index2, row2 in df[round:].iterrows():  # iterate over df rows from index1 + 1
+        #     if index2 in [x for xs in result.values() for x in xs]:
+        #         continue
+        #     cos_sim = cosine_sim_vectors(row1[similarity], row2[similarity])  # calculate similarity
+        #     if cos_sim > 0.7:
+        #         result[index1] += [index2]
     return result
 
 
+def affected_issues(sub_df, result_values, issue_similarity_col):  # inner_loop_most_influential
+    similarity = 'similarity'
+    result_array = []
+    for index2, row2 in sub_df.iterrows():  # iterate over df rows from index1 + 1
+        if index2 in [x for xs in result_values for x in xs]:
+            continue
+        cos_sim = cosine_sim_vectors(issue_similarity_col, row2[similarity])  # calculate similarity
+        if cos_sim > 0.7:
+            result_array += [index2]
+    return result_array
+
+
+def adding_similarity_column(df, raw_df):
+    similarity = 'similarity'
+    df = pd.merge(df, raw_df[['Title', 'Remediation Steps']], left_index=True,
+                  right_index=True)  # adding two columns to df from origin df
+    df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
+    df.loc[:, similarity] = df[similarity].apply(lambda x: clean_string(x))
+    return df
+
+# example of using adding_similarity_column for single issue:
+# arr = affected_issues(cleaned_df,[],cleaned_df.loc[2]['similarity'])
