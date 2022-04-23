@@ -5,7 +5,7 @@ from Components import Login
 
 
 def Main():
-    app = QtWidgets.QApplication(sys.argv).qu
+    app = QtWidgets.QApplication(sys.argv)
     Login.RunLogIn()
     sys.exit(app.exec_())
 
