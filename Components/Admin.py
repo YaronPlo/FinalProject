@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 from utils import routes
-from Components import Login, StatDashboard
+from Components import Login, StatMenu
 from PyQt5 import QtCore, QtGui, QtWidgets
 from utils.Helpers.GeneralHelpers import fillTableData
 from utils.Helpers.AdminHelper import *
@@ -84,12 +84,11 @@ class Ui_AdminPage(object):
         self.LoginWindow.show()
         AdminPage.close()
 
-    def openStatisticsDashboard(self):
-        self.statDashboard = QtWidgets.QMainWindow()
-        self.ui = StatDashboard.Ui_StatisticsDashboard()
-        self.ui.setupUi(self.statDashboard)
-        self.statDashboard.show()
-
+    def openStatisticsMenu(self):
+        self.statisticsMenu = QtWidgets.QMainWindow()
+        self.ui = StatMenu.Ui_StatisticsMenu()
+        self.ui.setupUi(self.statisticsMenu)
+        self.statisticsMenu.show()
 
     def retranslateUi(self, AdminPage):
         _translate = QtCore.QCoreApplication.translate
@@ -511,7 +510,7 @@ class Ui_AdminPage(object):
         self.statisticsBtn = QtWidgets.QPushButton(self.centralwidget)
         self.statisticsBtn.setGeometry(QtCore.QRect(35, 710, 121, 31))
         self.statisticsBtn.setObjectName("statisticsBtn")
-        self.statisticsBtn.clicked.connect(lambda: self.openStatisticsDashboard())
+        self.statisticsBtn.clicked.connect(lambda: self.openStatisticsMenu())
 
         self.importCsvBtn = QtWidgets.QCommandLinkButton(self.centralwidget)
         self.importCsvBtn.setGeometry(QtCore.QRect(390, 60, 191, 71))
