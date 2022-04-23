@@ -14,6 +14,8 @@ from keras.utils import np_utils
 # getting rid of Tensorflow warnings
 import os
 
+from utils.Helpers.GeneralHelpers import adding_similarity_column, affected_issues
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 dataFrame = Data.dataFrame
@@ -93,9 +95,3 @@ def load_model(path):
 # evaluate_model(model, X_y['X'], X_y['y'])
 
 # predict_model(model,class_df.iloc[0:2,0:6])
-
-from utils import routes
-
-# pd.read_csv('..\\'+routes.status_table,index_col=[0])
-# pip3 install -U scikit-learn scipy matplotlib
-
