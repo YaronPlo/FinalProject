@@ -58,6 +58,7 @@ def cosine_sim_vectors(vec1, vec2):
     return cosine_similarity(vec1, vec2)[0][0]
 
 
+
 def find_most_influential(df, raw_df):
     # return dictinary with index as key and list of indexes as value which influenced after treat this key
     similarity = 'similarity'

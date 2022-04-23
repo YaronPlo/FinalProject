@@ -14,6 +14,8 @@ def writeAnalystRules(analystID, date, wsm, confidentiality, integrity, availabi
         "availability": availability.isChecked(),  # True/ False
         "include": includeKwords.text(),  # Text
         "exclude": excludeKeywords.text(),  # Text
+        "avg_per_task": "",
+        "avg_per_day": ""
     }
     with open(routes.rulesFile) as rules:
         rulesDB = json.load(rules)
