@@ -1,14 +1,12 @@
 import matplotlib.pyplot as plt
-from utils.routes import *
 from multiprocessing import Process
-import utils.routes
+from utils import routes
 import pandas as pd
 from matplotlib.backends.backend_pdf import PdfPages
 from Data.Utilities import open_csv
 from utils.Helpers.AnalystHelper import daily_avg_issues, done_issue_avg
 
-__all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3","daily_avg_issues","done_issue_avg"]
-
+__all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3", "get_graphs_pdf"]
 
 
 # This function generates the graph using multiproccess
@@ -28,7 +26,7 @@ def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Daily avg')
     ax.set_title('Daily ability')
-    plt.savefig(f'{statsDir}/graph1.pdf')
+    # plt.savefig(f'{statsDir}/graph1.pdf')
     # plt.show()
 
 
@@ -38,7 +36,7 @@ def graph_2(analysts_ID, duration_mean):  # issues duration-mean (in-prog -> don
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Duration mean [h]')
     ax.set_title('duration-mean Comparison ')
-    plt.show()
+    # plt.show()
 
 
 def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time to complete per analyst
@@ -47,15 +45,16 @@ def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time 
     ax.set_xlabel('Duration')
     ax.set_ylabel('Impact')
     ax.set_title("{} impact VS duration.".format(analyst_ID))
-    plt.savefig('save as garph3.pdf')
+    # plt.savefig('save as garph3.pdf')
     # plt.show()
+
 
 # graph_1(['analyst_1', 'analyst_2', 'analyst_3', 'analyst_4'], [3, 1, 5, 7])
 # graph_2(['analyst_1', 'analyst_2', 'analyst_3', 'analyst_4'], [2.5, 1, 3.5, 3])
 # graph_3('analyst_1', [3, 2, 1.5, 5, 3.2, 4], [20, 45, 15, 50, 30, 40])
 
 def get_graphs_pdf():
-    df = open_csv(utils.routes.status_table)
+    df = open_csv(routes.status_table)
     analyst_list = list(set(df['Analyst Handler']))
     daily_avg_list = []
     done_avg_list = []
@@ -71,13 +70,14 @@ def get_graphs_pdf():
     daily_avg_list.append(4)  # for example
     done_avg_list.append(15)  # for example
 
-    pdf = PdfPages('analystStat.pdf')
+    pdf = PdfPages(f'{routes.statsDir}/analystStat.pdf', "w")
 
     graph_2(analyst_list, done_avg_list)
     pdf.savefig()
     graph_1(analyst_list, daily_avg_list)
     pdf.savefig()
+    graph_3('yaniv', [3, 2, 1.5, 5, 3.2, 4], [20, 45, 15, 50, 30, 40])
+    pdf.savefig()
     pdf.close()
-
 
 # get_graphs_pdf()
