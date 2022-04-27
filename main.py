@@ -3,7 +3,6 @@ from PyQt5 import QtCore, QtWidgets
 from Components import Login
 
 
-
 def Main():
     app = QtWidgets.QApplication(sys.argv)
     Login.RunLogIn()

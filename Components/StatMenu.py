@@ -23,7 +23,8 @@ class Ui_StatisticsMenu(object):
         self.showBtn_1.setGeometry(QtCore.QRect(270, 30, 101, 61))
         self.showBtn_1.setObjectName("showBtn_1")
         self.showBtn_1.setText("Show")
-        self.showBtn_1.clicked.connect(lambda: graph_1(['analyst_1', 'analyst_2', 'analyst_3', 'analyst_4'], [3, 1, 5, 7]))
+        self.showBtn_1.clicked.connect(
+            lambda: call_stat_graph())  # TODO: Implement a fuction that generates the data and sends to call_stat_graph
 
         self.showBtn_2 = QtWidgets.QPushButton(self.centralwidget)
         self.showBtn_2.setGeometry(QtCore.QRect(150, 30, 101, 61))

@@ -1,6 +1,19 @@
 import matplotlib.pyplot as plt
+from utils.routes import *
+from multiprocessing import Process
 
-__all__ = ["graph_1", "graph_2", "graph_3"]
+__all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3"]
+
+
+# This function generates the graph using multiproccess
+def call_stat_graph(graphX, *_args):
+    p = Process(target=graphX, args=_args)
+    try:
+        p.start()
+    except:
+        print("Couldn't start the process.")
+    finally:
+        return
 
 
 def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
@@ -9,7 +22,7 @@ def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Daily avg')
     ax.set_title('Daily ability')
-    plt.savefig('save as graph1.pdf')
+    plt.savefig(f'{statsDir}/graph1.pdf')
     # plt.show()
 
 
