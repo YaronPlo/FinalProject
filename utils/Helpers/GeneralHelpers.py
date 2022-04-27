@@ -54,6 +54,7 @@ def cosine_sim_vectors(vec1, vec2):
     return cosine_similarity(vec1, vec2)[0][0]
 
 
+
 def find_most_influential(df, raw_df):
     # return dictinary with index as key and list of indexes as value which influenced after treat this key
     similarity = 'similarity'
@@ -87,6 +88,7 @@ def adding_similarity_column(df, raw_df):
     df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
     df.loc[:, similarity] = df[similarity].apply(lambda x: clean_string(x))
     return df
+
 
 # example of using adding_similarity_column for single issue:
 # arr = affected_issues(cleaned_df,[],cleaned_df.loc[2]['similarity'])
