@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from multiprocessing import Process
 from utils import routes
-import pandas as pd
 from matplotlib.backends.backend_pdf import PdfPages
 from Data.Utilities import open_csv
 from utils.Helpers.AnalystHelper import daily_avg_issues, done_issue_avg
@@ -31,7 +30,7 @@ def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
 
 
 def graph_2(analysts_ID, duration_mean):  # issues duration-mean (in-prog -> done) Comparison
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5, 2.7))
     ax.plot(analysts_ID, duration_mean)
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Duration mean [h]')

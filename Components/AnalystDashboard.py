@@ -1,4 +1,3 @@
-import pandas as pd
 from utils import routes
 from Components import Login
 from utils.Helpers.AnalystHelper import *
@@ -11,20 +10,14 @@ class Ui_AnalystDashboard(object):
         self.analystDf = None
         self.rulesForUser = None
         self.currUser = None
-
         self.loginUi = None
         self.LoginWindow = None
-
-        self.tasksProgressLbl = None
         self.welcomeUserPageLbl = None
-
         self.fireBtn = None
         self.doneRadioBtn = None
         self.inProgressRadioBtn = None
         self.exitBtn = None
-
         self.issuesComboBox = None
-        self.tasksProgressBar = None
         self.currTime = None
         self.timer = None
         self.tasksTableView = None
@@ -69,11 +62,6 @@ class Ui_AnalystDashboard(object):
         self.welcomeUserPageLbl.setObjectName("welcomeUserPageLbl")
         self.welcomeUserPageLbl.setText("Welcome to Analyst Page!")
 
-        self.tasksProgressLbl = QtWidgets.QLabel(AnalystDashboard)
-        self.tasksProgressLbl.setGeometry(QtCore.QRect(790, 510, 101, 16))
-        self.tasksProgressLbl.setObjectName("tasksProgressLbl")
-        self.tasksProgressLbl.setText("Tasks Progress:")
-
         self.fireBtn = QtWidgets.QPushButton(AnalystDashboard)
         self.fireBtn.setGeometry(QtCore.QRect(90, 550, 93, 28))
         self.fireBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -99,11 +87,6 @@ class Ui_AnalystDashboard(object):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.displayTime)
         self.timer.start(50)
-
-        self.tasksProgressBar = QtWidgets.QProgressBar(AnalystDashboard)
-        self.tasksProgressBar.setGeometry(QtCore.QRect(900, 502, 331, 31))
-        self.tasksProgressBar.setProperty("value", 50)
-        self.tasksProgressBar.setObjectName("tasksProgressBar")
 
         self.issuesComboBox = QtWidgets.QComboBox(AnalystDashboard)
         self.issuesComboBox.setGeometry(QtCore.QRect(20, 500, 251, 22))
@@ -140,7 +123,7 @@ class Ui_AnalystDashboard(object):
         print("rulesForUser: ", self.rulesForUser)
 
         # Start all helper funcs
-        self.analystDf = getFilteredTable(self.rulesForUser,self.currUser)
+        self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)
         self.initCombo(getIssuesId(self.analystDf))
         self.updateAnalystTable()
 
