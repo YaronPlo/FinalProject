@@ -13,7 +13,7 @@ latestCsvFile = f'{dbDir}uploaded.json'
 
 # path to logos
 sceLogo = f'{imgDir}SCElogo.png'
-importCsvLogo = f'{imgDir}csv1.png'
+importCsvIcon = f'{imgDir}csv1.png'
 
 
 # path to Cyco CSVs
