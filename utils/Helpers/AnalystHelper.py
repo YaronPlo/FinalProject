@@ -4,8 +4,9 @@ from utils import routes
 import Data.Utilities as Data
 from statistics import mean
 import numpy as np
+
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",
-           "updateIssueStatus", "hide_handled_issues"]
+           "updateIssueStatus", "hide_handled_issues", "daily_avg_issues", "done_issue_avg"]
 
 
 # values for combobox
@@ -136,7 +137,6 @@ def done_issue_avg(df, userId):
     user_df[['InProgress Time', 'Done Time']] = user_df[['InProgress Time', 'Done Time']].apply(
         pd.to_datetime)  # if conversion required
     duration = (user_df['Done Time'] - user_df['InProgress Time']).dt.seconds / 60
-    duration = list(np.around(np.array(duration),2))
+    duration = list(np.around(np.array(duration), 2))
     details_dict = {'duration': duration, 'duration_mean': mean(duration)}
     return details_dict
-
