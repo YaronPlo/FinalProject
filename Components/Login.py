@@ -3,15 +3,7 @@ from utils import routes
 from PyQt5.QtTest import QTest
 from PyQt5 import QtCore, QtGui, QtWidgets
 from Components import Admin, Register, AnalystDashboard
-
-
-def currentLogedInUpdate(Username):
-    with open(routes.usersFile) as DB:
-        userDB = json.load(DB)
-
-    userDB["currentUser"] = Username
-    with open(routes.usersFile, 'w') as DB:
-        json.dump(userDB, DB, indent=2)
+from utils.Helpers.GeneralHelpers import currentLogedInUpdate
 
 
 class UiLogIn(object):

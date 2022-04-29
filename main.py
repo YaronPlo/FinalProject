@@ -1,6 +1,7 @@
 import sys
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtWidgets
 from Components import Login
+
 
 
 def Main():
