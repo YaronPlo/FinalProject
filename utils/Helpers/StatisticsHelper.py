@@ -4,6 +4,7 @@ from utils import routes
 from matplotlib.backends.backend_pdf import PdfPages
 from Data.Utilities import open_csv
 from utils.Helpers.AnalystHelper import daily_avg_issues, done_issue_avg
+import os
 
 __all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3", "get_graphs_pdf"]
 
@@ -54,6 +55,7 @@ def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time 
 
 def get_graphs_pdf():
     df = open_csv(routes.status_table)
+    path = f'{routes.statsDir}/analystStat.pdf'
     analyst_list = list(set(df['Analyst Handler']))
     daily_avg_list = []
     done_avg_list = []
@@ -69,7 +71,10 @@ def get_graphs_pdf():
     daily_avg_list.append(4)  # for example
     done_avg_list.append(15)  # for example
 
-    pdf = PdfPages(f'{routes.statsDir}/analystStat.pdf', "w")
+    if os.path.exists(path):
+        os.remove(path)
+
+    pdf = PdfPages(path)
 
     graph_2(analyst_list, done_avg_list)
     pdf.savefig()
