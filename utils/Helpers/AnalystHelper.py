@@ -55,9 +55,12 @@ def getFilteredTable(rules, userID):
         "exclude": Data.dont_show,  # Text
     }
 
-    for key, value in func_dict.items():
-        if rules[key]:
-            func_dict[key](main_df)
+    if rules['wsm']['state']:
+        sliders_values=list(rules['wsm'].values())[1:]
+        func_dict['wsm'](main_df,sliders_values)
+
+    if rules['date']:
+        func_dict['date'](main_df)
 
     for key, value in key_word_values.items():
         if rules[key] != '':
@@ -115,7 +118,7 @@ def hide_handled_issues(df, status_df, userId):
     handled_issues = getIssuesId(status_df)
     handled_list = [int(x) for x in handled_issues if x not in in_prog_ind]
     df = df.drop(handled_list, axis=0)
-    print('handled issues removed')
+    print('handled issues removed:')
     if len(df) == 0:
         print('hide_handled_issues returned empty dataframe')
     return df

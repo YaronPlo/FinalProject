@@ -148,11 +148,22 @@ def unique_to_numbers(df, col):
     return df
 
 
-def WSM(df):  # Weighted Sum Method – Multi Criteria Decision-Making
+def weights_calc(weights):
+    list = []
+    summ = sum(weights)
+    for elem in weights:
+        try:
+            list.append(round(elem/summ,3))
+        except ZeroDivisionError:
+            list.append(0)
+    return list
+
+
+def WSM(df, weights):  # Weighted Sum Method – Multi Criteria Decision-Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
     df = df[col].copy()
     df = letters_to_numbers(df, columns=['Asset Security Grade'])
-    weights = [0.2, 0.3, 0.25, 0.25]  # sum=1
+    weights = weights_calc(weights)  # sum=1
     dictWsm = {}
     for idx in range(len(col)):
         dictWsm[col[idx]] = weights[idx]
@@ -180,5 +191,6 @@ def table_preprocess(df, relevant_col, catagories_list):
     df = cat_to_num(df, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories_list)
     str_to_datatime(df, ['Asset First Seen'])
     return df
+
 
 dataFrame = table_preprocess(issues_dataFrame, relevant_columns, catagories)
