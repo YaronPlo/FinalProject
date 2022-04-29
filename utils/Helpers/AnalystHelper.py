@@ -56,8 +56,8 @@ def getFilteredTable(rules, userID):
     }
 
     if rules['wsm']['state']:
-        sliders_values=list(rules['wsm'].values())[1:]
-        func_dict['wsm'](main_df,sliders_values)
+        sliders_values = list(rules['wsm'].values())[1:]
+        func_dict['wsm'](main_df, sliders_values)
 
     if rules['date']:
         func_dict['date'](main_df)
@@ -101,8 +101,8 @@ def updateIssueStatus(df, currUser, issuesComboBox, inProgressRadioBtn, doneRadi
         current_issue['Current Status'] = 'done'
         current_issue['Done Time'] = Data.get_now()
 
-    status_table = status_table.append(current_issue)
-
+    # status_table = status_table.append(current_issue)
+    status_table = pd.concat([status_table, current_issue])
     # status_table.loc[getIssuesId(current_issue)] = current_issue
     # status_table = pd.concat([status_table, current_issue])
     # print('status_table\n', status_table.to_string())
