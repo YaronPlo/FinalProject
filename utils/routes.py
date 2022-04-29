@@ -1,19 +1,19 @@
 # path to imporant directories
-dbDir = 'utils\\DataBase'
-imgDir = 'utils\\Images'
+dbDir = 'utils\\DataBase\\'
+imgDir = 'utils\\Images\\'
 statsDir = f'{dbDir}\\StatisticsPDFs'
 
 
 # path to db files
-usersFile = f'{dbDir}\\users.json'
-rulesFile = f'{dbDir}\\rules.json'
+usersFile = f'{dbDir}users.json'
+rulesFile = f'{dbDir}rules.json'
 latestCsvFile = f'{dbDir}uploaded.json'
 
 
 
 # path to logos
-sceLogo = f'{imgDir}\\SCElogo.png'
-importCsvIcon = f'{imgDir}\\csv1.png'
+sceLogo = f'{imgDir}SCElogo.png'
+importCsvIcon = f'{imgDir}csv1.png'
 
 
 # path to Cyco CSVs
