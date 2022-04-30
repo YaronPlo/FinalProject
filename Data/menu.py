@@ -48,7 +48,7 @@ def switcher(df_filter, action):
             return df_filter
         case 4:
             df_filter = main_df
-            df_filter = df_filter.join(Data.issues_dataFrame['Description'])
+            df_filter = df_filter.join(Data.raw_dataFrame['Description'])
             df_filter = Data.key_word(df_filter)
             Data.show_table(df_filter)
             return df_filter

@@ -27,7 +27,7 @@ pd.reset_option("max_columns")
 # files = os.listdir(cwd)  # Get all the files in that directory
 # print("Files in %r: %s" % (cwd, files))
 
-issues_dataFrame = open_csv(routes.issues_path)
+raw_dataFrame = open_csv(routes.issues_path)
 
 relevant_columns = {1: 'Severity',
                     2: 'Asset Security Grade',
@@ -193,4 +193,4 @@ def table_preprocess(df, relevant_col, catagories_list):
     return df
 
 
-dataFrame = table_preprocess(issues_dataFrame, relevant_columns, catagories)
+dataFrame = table_preprocess(raw_dataFrame, relevant_columns, catagories)
