@@ -1,3 +1,4 @@
+import sys
 import json
 from utils import routes
 from PyQt5.QtWidgets import QTableWidgetItem
@@ -20,6 +21,7 @@ def default_rules():
         "confidentiality": False,
         "integrity": False,
         "availability": False,
+        "most_impact": False,
         "include": "",
         "exclude": "",
         "avg_per_task": "",
