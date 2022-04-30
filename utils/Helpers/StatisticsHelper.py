@@ -3,7 +3,7 @@ from multiprocessing import Process
 from utils import routes
 from matplotlib.backends.backend_pdf import PdfPages
 from Data.Utilities import open_csv
-from utils.Helpers.AnalystHelper import daily_avg_issues, done_issue_avg
+from utils.Helpers.AnalystHelper import *
 import os
 
 __all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3", "get_graphs_pdf"]
@@ -26,7 +26,6 @@ def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Daily avg')
     ax.set_title('Daily ability')
-    # plt.savefig(f'{statsDir}/graph1.pdf')
     # plt.show()
 
 
@@ -35,17 +34,16 @@ def graph_2(analysts_ID, duration_mean):  # issues duration-mean (in-prog -> don
     ax.plot(analysts_ID, duration_mean)
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Duration mean [h]')
-    ax.set_title('duration-mean Comparison ')
+    ax.set_title('Duration-mean comparison ')
     # plt.show()
 
 
 def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time to complete per analyst
-    fig, ax = plt.subplots(figsize=(5, 2.7))
+    fig, ax = plt.subplots()
     ax.scatter(issues_duration, issues_impact, s=50, facecolor='C0', edgecolor='k')
     ax.set_xlabel('Duration')
     ax.set_ylabel('Impact')
-    ax.set_title("{} impact VS duration.".format(analyst_ID))
-    # plt.savefig('save as garph3.pdf')
+    ax.set_title("{} - impact VS duration.".format(analyst_ID.capitalize()))
     # plt.show()
 
 
@@ -80,8 +78,16 @@ def get_graphs_pdf():
     pdf.savefig()
     graph_1(analyst_list, daily_avg_list)
     pdf.savefig()
-    graph_3('yaniv', [3, 2, 1.5, 5, 3.2, 4], [20, 45, 15, 50, 30, 40])
-    pdf.savefig()
+
+    for analyst in analyst_list:
+        influence_dict = duration_and_impact(df, analyst)
+        if not influence_dict:
+            print('{} got empty dataFrame, graph3 not created'.format(analyst))
+            continue
+        duration=[x[0] for x in influence_dict.values()]
+        influence=[x[1] for x in influence_dict.values()]
+        graph_3(analyst, duration, influence)
+        pdf.savefig()
     pdf.close()
 
 # get_graphs_pdf()

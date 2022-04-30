@@ -4,9 +4,10 @@ from utils import routes
 import Data.Utilities as Data
 from statistics import mean
 import numpy as np
+from utils.Helpers.GeneralHelpers import *
 
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",
-           "updateIssueStatus", "hide_handled_issues", "daily_avg_issues", "done_issue_avg"]
+           "updateIssueStatus", "hide_handled_issues", "daily_avg_issues", "done_issue_avg", "duration_and_impact"]
 
 
 # values for combobox
@@ -36,8 +37,16 @@ def getUserRules(UserID):
 
 def getFilteredTable(rules, userID):
     main_df = Data.dataFrame
+    raw_df = Data.raw_dataFrame
     status_table = pd.read_csv(routes.status_table, index_col=[0])
     main_df = hide_handled_issues(main_df, status_table, userID)
+
+    # dictinary of issues and their influence
+    if rules['most_impact']:
+        most_influential = find_most_influential(main_df, raw_df)
+        most_influential_descend = sorted(most_influential, key=lambda k: len(most_influential[k]), reverse=True)
+        main_df = main_df.reindex(most_influential_descend)
+        return main_df
 
     description = 'Description'
     Potential_Impact = 'Potential Impact'
@@ -118,7 +127,7 @@ def hide_handled_issues(df, status_df, userId):
     handled_issues = getIssuesId(status_df)
     handled_list = [int(x) for x in handled_issues if x not in in_prog_ind]
     df = df.drop(handled_list, axis=0)
-    print('handled issues removed:')
+    print('Handled issues removed')
     if len(df) == 0:
         print('hide_handled_issues returned empty dataframe')
     return df
@@ -143,3 +152,32 @@ def done_issue_avg(df, userId):
     duration = list(np.around(np.array(duration), 2))
     details_dict = {'duration': duration, 'duration_mean': mean(duration)}
     return details_dict
+
+
+def duration_and_impact(df, userId):
+    raw_df = Data.raw_dataFrame
+    user_df = df.loc[(df['Analyst Handler'] == userId) &
+                     (df['InProgress Time'].notnull()) &
+                     (df['Done Time'].notnull())].copy()
+    user_df[['InProgress Time', 'Done Time']] = user_df[['InProgress Time', 'Done Time']].apply(
+        pd.to_datetime)  # if conversion required
+    if not np.issubdtype(user_df.dtypes['Done Time'], np.datetime64):
+        return {}
+    duration = (user_df['Done Time'] - user_df['InProgress Time']).dt.seconds / 60
+    duration = list(np.around(np.array(duration), 2))
+    issues_id_list = getIssuesId(user_df)
+    analyst_counter = {}  # {issue_id:[duration,impact]
+    impact_global = find_most_influential(df, raw_df)
+
+    for _ in range(len(issues_id_list)):
+        id = int(issues_id_list[_])
+        analyst_counter[id] = [duration[_], 0]
+        if id in impact_global.keys():
+            analyst_counter[id][1] = len(impact_global[id])
+        else:
+            for values_list in impact_global.values():
+                if id in values_list:
+                    analyst_counter[id][1] = len(values_list)
+                    break
+
+    return analyst_counter
