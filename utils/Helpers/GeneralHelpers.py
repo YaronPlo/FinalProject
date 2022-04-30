@@ -8,7 +8,36 @@ from nltk.corpus import stopwords
 import pandas as pd
 
 __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
-           "currentLogedInUpdate"]
+           "currentLogedInUpdate", "default_rules"]
+
+
+# checks if we have a file with the rules, if not creates it
+def default_rules():
+    defaultRules = {
+        "date": False,
+        "wsm": {"state": False, "slider1": 0, "slider2": 0,
+                "slider3": 0, "slider4": 0},
+        "confidentiality": False,
+        "integrity": False,
+        "availability": False,
+        "include": "",
+        "exclude": "",
+        "avg_per_task": "",
+        "avg_per_day": ""
+    }
+    analysts = ['analyst_1', 'analyst_2', 'analyst_3', 'analyst_4']
+    try:
+        with open(routes.rulesFile):
+            pass
+    except:
+        print(sys.stderr)
+        with open(routes.rulesFile, "w") as fRules:
+            rulesDB = {}
+            for analyst in analysts:
+                rulesDB[analyst] = defaultRules
+            json.dump(rulesDB, fRules, indent=2)
+    finally:
+        return
 
 
 # writes to usersDB the current logged-in user
