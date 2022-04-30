@@ -138,6 +138,7 @@ class Ui_AdminPage(object):
 
         self.sortByDate.setChecked(rulesDB['analyst_1']['date'])
         self.wsmSort.setChecked(rulesDB['analyst_1']['wsm']['state'])
+        self.mostImpact.setChecked(rulesDB['analyst_1']['most_impact'])
         self.confidentiality.setChecked(rulesDB['analyst_1']['confidentiality'])
         self.integrity.setChecked(rulesDB['analyst_1']['integrity'])
         self.availability.setChecked(rulesDB['analyst_1']['availability'])
@@ -145,6 +146,7 @@ class Ui_AdminPage(object):
         self.excludeKeywords.setText(rulesDB['analyst_1']['exclude'])
 
         self.sortByDate_2.setChecked(rulesDB['analyst_2']['date'])
+        self.mostImpact_2.setChecked(rulesDB['analyst_2']['most_impact'])
         self.wsmSort_2.setChecked(rulesDB['analyst_2']['wsm']['state'])
         self.confidentiality_2.setChecked(rulesDB['analyst_2']['confidentiality'])
         self.integrity_2.setChecked(rulesDB['analyst_2']['integrity'])
@@ -153,6 +155,7 @@ class Ui_AdminPage(object):
         self.excludeKeywords_2.setText(rulesDB['analyst_2']['exclude'])
 
         self.sortByDate_3.setChecked(rulesDB['analyst_3']['date'])
+        self.mostImpact_3.setChecked(rulesDB['analyst_4']['most_impact'])
         self.wsmSort_3.setChecked(rulesDB['analyst_3']['wsm']['state'])
         self.confidentiality_3.setChecked(rulesDB['analyst_3']['confidentiality'])
         self.integrity_3.setChecked(rulesDB['analyst_3']['integrity'])
@@ -161,6 +164,7 @@ class Ui_AdminPage(object):
         self.excludeKeywords_3.setText(rulesDB['analyst_3']['exclude'])
 
         self.sortByDate_4.setChecked(rulesDB['analyst_4']['date'])
+        self.mostImpact_4.setChecked(rulesDB['analyst_4']['most_impact'])
         self.wsmSort_4.setChecked(rulesDB['analyst_4']['wsm']['state'])
         self.confidentiality_4.setChecked(rulesDB['analyst_4']['confidentiality'])
         self.integrity_4.setChecked(rulesDB['analyst_4']['integrity'])
@@ -180,26 +184,26 @@ class Ui_AdminPage(object):
 
         self.vSlider1_Analyst2.setEnabled(rulesDB['analyst_2']['wsm']['state'])
         self.vSlider2_Analyst2.setEnabled(rulesDB['analyst_2']['wsm']['state'])
-        self.vSlider4_Analyst2.setEnabled(rulesDB['analyst_2']['wsm']['state'])
         self.vSlider3_Analyst2.setEnabled(rulesDB['analyst_2']['wsm']['state'])
+        self.vSlider4_Analyst2.setEnabled(rulesDB['analyst_2']['wsm']['state'])
         self.vSlider1_Analyst2.setValue(rulesDB['analyst_2']['wsm']['slider1'])
         self.vSlider2_Analyst2.setValue(rulesDB['analyst_2']['wsm']['slider2'])
         self.vSlider3_Analyst2.setValue(rulesDB['analyst_2']['wsm']['slider3'])
         self.vSlider4_Analyst2.setValue(rulesDB['analyst_2']['wsm']['slider4'])
 
         self.vSlider1_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
-        self.vSlider4_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
-        self.vSlider4_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
         self.vSlider2_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
+        self.vSlider3_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
+        self.vSlider4_Analyst3.setEnabled(rulesDB['analyst_3']['wsm']['state'])
         self.vSlider1_Analyst3.setValue(rulesDB['analyst_3']['wsm']['slider1'])
         self.vSlider2_Analyst3.setValue(rulesDB['analyst_3']['wsm']['slider2'])
         self.vSlider3_Analyst3.setValue(rulesDB['analyst_3']['wsm']['slider3'])
         self.vSlider4_Analyst3.setValue(rulesDB['analyst_3']['wsm']['slider4'])
 
         self.vSlider1_Analyst4.setEnabled(rulesDB['analyst_4']['wsm']['state'])
+        self.vSlider2_Analyst4.setEnabled(rulesDB['analyst_4']['wsm']['state'])
         self.vSlider3_Analyst4.setEnabled(rulesDB['analyst_4']['wsm']['state'])
         self.vSlider4_Analyst4.setEnabled(rulesDB['analyst_4']['wsm']['state'])
-        self.vSlider2_Analyst4.setEnabled(rulesDB['analyst_4']['wsm']['state'])
         self.vSlider1_Analyst4.setValue(rulesDB['analyst_4']['wsm']['slider1'])
         self.vSlider2_Analyst4.setValue(rulesDB['analyst_4']['wsm']['slider2'])
         self.vSlider3_Analyst4.setValue(rulesDB['analyst_4']['wsm']['slider3'])
@@ -386,7 +390,6 @@ class Ui_AdminPage(object):
         self.vSlider3_Analyst1.valueChanged.connect(lambda: slide_it(self.label_3, self.vSlider3_Analyst1.value()))
 
         self.vSlider4_Analyst1 = QtWidgets.QSlider(self.wsmFrame)
-        self.vSlider4_Analyst1.setEnabled(True)
         self.vSlider4_Analyst1.setGeometry(QtCore.QRect(450, 80, 21, 221))
         self.vSlider4_Analyst1.setAutoFillBackground(True)
         self.vSlider4_Analyst1.setMaximum(4)
@@ -439,6 +442,10 @@ class Ui_AdminPage(object):
         self.label_8.setFont(self.precentFont)
         self.label_8.setObjectName("label_8")
 
+        self.mostImpact = QtWidgets.QCheckBox(self.analyst1)
+        self.mostImpact.setGeometry(QtCore.QRect(230, 50, 141, 20))
+        self.mostImpact.setObjectName("mostImpact")
+
         self.bakeBtn = QtWidgets.QPushButton(self.analyst1)
         self.bakeBtn.setGeometry(QtCore.QRect(440, 350, 111, 41))
         self.bakeBtn.setObjectName("bakeBtn")
@@ -447,11 +454,8 @@ class Ui_AdminPage(object):
                                       self.vSlider2_Analyst1, self.vSlider3_Analyst1, self.vSlider4_Analyst1,
                                       self.confidentiality,
                                       self.integrity,
-                                      self.availability, self.includeKeywords, self.excludeKeywords))
+                                      self.availability, self.mostImpact, self.includeKeywords, self.excludeKeywords))
 
-        self.mostImpact = QtWidgets.QCheckBox(self.analyst1)
-        self.mostImpact.setGeometry(QtCore.QRect(230, 50, 141, 20))
-        self.mostImpact.setObjectName("mostImpact")
         self.toolBox.addItem(self.analyst1, "")
 
         # ------------------- Analyst2 -----------------------------
@@ -522,7 +526,6 @@ class Ui_AdminPage(object):
         self.vSlider3_Analyst2.valueChanged.connect(lambda: slide_it(self.label_27, self.vSlider3_Analyst2.value()))
 
         self.vSlider4_Analyst2 = QtWidgets.QSlider(self.wsmFrame_2)
-        self.vSlider4_Analyst2.setEnabled(True)
         self.vSlider4_Analyst2.setGeometry(QtCore.QRect(450, 80, 21, 221))
         self.vSlider4_Analyst2.setAutoFillBackground(True)
         self.vSlider4_Analyst2.setMaximum(4)
@@ -608,6 +611,10 @@ class Ui_AdminPage(object):
         self.excludeKeywords_2.setGeometry(QtCore.QRect(10, 310, 421, 22))
         self.excludeKeywords_2.setObjectName("excludeKeywords_2")
 
+        self.mostImpact_2 = QtWidgets.QCheckBox(self.analyst2)
+        self.mostImpact_2.setGeometry(QtCore.QRect(230, 50, 141, 20))
+        self.mostImpact_2.setObjectName("mostImpact_2")
+
         self.bakeBtn_2 = QtWidgets.QPushButton(self.analyst2)
         self.bakeBtn_2.setGeometry(QtCore.QRect(440, 350, 111, 41))
         self.bakeBtn_2.setObjectName("bakeBtn_2")
@@ -616,11 +623,8 @@ class Ui_AdminPage(object):
                                       self.vSlider2_Analyst2, self.vSlider3_Analyst2, self.vSlider4_Analyst2,
                                       self.confidentiality_2,
                                       self.integrity_2,
-                                      self.availability_2, self.includeKeywords_2, self.excludeKeywords_2))
-
-        self.mostImpact_2 = QtWidgets.QCheckBox(self.analyst2)
-        self.mostImpact_2.setGeometry(QtCore.QRect(230, 50, 141, 20))
-        self.mostImpact_2.setObjectName("mostImpact_2")
+                                      self.availability_2, self.mostImpact_2, self.includeKeywords_2,
+                                      self.excludeKeywords_2))
 
         self.includeLbl_2 = QtWidgets.QLabel(self.analyst2)
         self.includeLbl_2.setGeometry(QtCore.QRect(10, 240, 201, 20))
@@ -780,6 +784,10 @@ class Ui_AdminPage(object):
         self.excludeKeywords_3.setGeometry(QtCore.QRect(10, 310, 421, 22))
         self.excludeKeywords_3.setObjectName("excludeKeywords_3")
 
+        self.mostImpact_3 = QtWidgets.QCheckBox(self.analyst3)
+        self.mostImpact_3.setGeometry(QtCore.QRect(230, 50, 141, 20))
+        self.mostImpact_3.setObjectName("mostImpact_3")
+
         self.bakeBtn_3 = QtWidgets.QPushButton(self.analyst3)
         self.bakeBtn_3.setGeometry(QtCore.QRect(440, 350, 111, 41))
         self.bakeBtn_3.setObjectName("bakeBtn_3")
@@ -788,11 +796,9 @@ class Ui_AdminPage(object):
                                       self.vSlider2_Analyst3, self.vSlider3_Analyst3, self.vSlider4_Analyst3,
                                       self.confidentiality_3,
                                       self.integrity_3,
-                                      self.availability_3, self.includeKeywords_3, self.excludeKeywords_3))
+                                      self.availability_3, self.mostImpact_3, self.includeKeywords_3,
+                                      self.excludeKeywords_3))
 
-        self.mostImpact_3 = QtWidgets.QCheckBox(self.analyst3)
-        self.mostImpact_3.setGeometry(QtCore.QRect(230, 50, 141, 20))
-        self.mostImpact_3.setObjectName("mostImpact_3")
         self.includeLbl_3 = QtWidgets.QLabel(self.analyst3)
         self.includeLbl_3.setGeometry(QtCore.QRect(10, 240, 201, 20))
         self.includeLbl_3.setObjectName("includeLbl_3")
@@ -951,6 +957,10 @@ class Ui_AdminPage(object):
         self.excludeKeywords_4.setGeometry(QtCore.QRect(10, 310, 421, 22))
         self.excludeKeywords_4.setObjectName("excludeKeywords_4")
 
+        self.mostImpact_4 = QtWidgets.QCheckBox(self.analyst4)
+        self.mostImpact_4.setGeometry(QtCore.QRect(230, 50, 141, 20))
+        self.mostImpact_4.setObjectName("mostImpact_4")
+
         self.bakeBtn_4 = QtWidgets.QPushButton(self.analyst4)
         self.bakeBtn_4.setGeometry(QtCore.QRect(440, 350, 111, 41))
         self.bakeBtn_4.setObjectName("bakeBtn_4")
@@ -959,11 +969,8 @@ class Ui_AdminPage(object):
                                       self.vSlider2_Analyst4, self.vSlider3_Analyst4, self.vSlider4_Analyst4,
                                       self.confidentiality_4,
                                       self.integrity_4,
-                                      self.availability_4, self.includeKeywords_4, self.excludeKeywords_4))
-
-        self.mostImpact_4 = QtWidgets.QCheckBox(self.analyst4)
-        self.mostImpact_4.setGeometry(QtCore.QRect(230, 50, 141, 20))
-        self.mostImpact_4.setObjectName("mostImpact_4")
+                                      self.availability_4, self.mostImpact_4, self.includeKeywords_4,
+                                      self.excludeKeywords_4))
 
         self.includeLbl_4 = QtWidgets.QLabel(self.analyst4)
         self.includeLbl_4.setGeometry(QtCore.QRect(10, 240, 201, 20))

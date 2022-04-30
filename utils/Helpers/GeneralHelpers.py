@@ -1,3 +1,4 @@
+import sys
 import json
 from utils import routes
 from PyQt5.QtWidgets import QTableWidgetItem
@@ -7,7 +8,48 @@ from sklearn.feature_extraction.text import CountVectorizer
 from nltk.corpus import stopwords
 import pandas as pd
 
-__all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string"]
+__all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
+           "currentLogedInUpdate", "default_rules"]
+
+
+# checks if we have a file with the rules, if not creates it
+def default_rules():
+    defaultRules = {
+        "date": False,
+        "wsm": {"state": False, "slider1": 0, "slider2": 0,
+                "slider3": 0, "slider4": 0},
+        "confidentiality": False,
+        "integrity": False,
+        "availability": False,
+        "most_impact": False,
+        "include": "",
+        "exclude": "",
+        "avg_per_task": "",
+        "avg_per_day": ""
+    }
+    analysts = ['analyst_1', 'analyst_2', 'analyst_3', 'analyst_4']
+    try:
+        with open(routes.rulesFile):
+            pass
+    except:
+        print(sys.stderr)
+        with open(routes.rulesFile, "w") as fRules:
+            rulesDB = {}
+            for analyst in analysts:
+                rulesDB[analyst] = defaultRules
+            json.dump(rulesDB, fRules, indent=2)
+    finally:
+        return
+
+
+# writes to usersDB the current logged-in user
+def currentLogedInUpdate(Username):
+    with open(routes.usersFile) as DB:
+        userDB = json.load(DB)
+
+    userDB["currentUser"] = Username
+    with open(routes.usersFile, 'w') as DB:
+        json.dump(userDB, DB, indent=2)
 
 
 # this function will fill the tableWidget with the dataFrame it gets
@@ -54,7 +96,6 @@ def cosine_sim_vectors(vec1, vec2):
     return cosine_similarity(vec1, vec2)[0][0]
 
 
-
 def find_most_influential(df, raw_df):
     # return dictinary with index as key and list of indexes as value which influenced after treat this key
     similarity = 'similarity'
@@ -88,7 +129,6 @@ def adding_similarity_column(df, raw_df):
     df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
     df.loc[:, similarity] = df[similarity].apply(lambda x: clean_string(x))
     return df
-
 
 # example of using adding_similarity_column for single issue:
 # arr = affected_issues(cleaned_df,[],cleaned_df.loc[2]['similarity'])

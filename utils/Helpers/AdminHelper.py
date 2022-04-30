@@ -20,7 +20,7 @@ def changeVerticalStatus(*args):
 
 # this function get rules from GUI and sets them into a Json file.
 def writeAnalystRules(analystID, date, wsm, vSlider1, vSlider2, vSlider3, vSlider4, confidentiality, integrity,
-                      availability, includeKwords, excludeKeywords):
+                      availability, mostImpact, includeKwords, excludeKeywords):
     newRules = {
         "date": date.isChecked(),  # True/ False
         "wsm": {"state": wsm.isChecked(), "slider1": vSlider1.value(), "slider2": vSlider2.value(),
@@ -28,6 +28,7 @@ def writeAnalystRules(analystID, date, wsm, vSlider1, vSlider2, vSlider3, vSlide
         "confidentiality": confidentiality.isChecked(),  # True/ False
         "integrity": integrity.isChecked(),  # True/ False
         "availability": availability.isChecked(),  # True/ False
+        "most_impact": mostImpact.isChecked(),  # True/ False
         "include": includeKwords.text(),  # Text
         "exclude": excludeKeywords.text(),  # Text
         "avg_per_task": "",
