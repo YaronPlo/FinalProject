@@ -1,9 +1,11 @@
 import json
-import pandas as pd
-from utils import routes
-import Data.Utilities as Data
 from statistics import mean
+
 import numpy as np
+import pandas as pd
+
+import Data.Utilities as Data
+from utils import routes
 from utils.Helpers.GeneralHelpers import *
 
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",

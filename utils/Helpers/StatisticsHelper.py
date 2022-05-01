@@ -1,10 +1,12 @@
-import matplotlib.pyplot as plt
-from multiprocessing import Process
-from utils import routes
-from matplotlib.backends.backend_pdf import PdfPages
-from Data.Utilities import open_csv
-from utils.Helpers.AnalystHelper import *
 import os
+from multiprocessing import Process
+
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+
+from Data.Utilities import open_csv
+from utils import routes
+from utils.Helpers.AnalystHelper import *
 
 __all__ = ["call_stat_graph", "graph_1", "graph_2", "graph_3", "get_graphs_pdf"]
 
@@ -84,8 +86,8 @@ def get_graphs_pdf():
         if not influence_dict:
             print('{} got empty dataFrame, graph3 not created'.format(analyst))
             continue
-        duration=[x[0] for x in influence_dict.values()]
-        influence=[x[1] for x in influence_dict.values()]
+        duration = [x[0] for x in influence_dict.values()]
+        influence = [x[1] for x in influence_dict.values()]
         graph_3(analyst, duration, influence)
         pdf.savefig()
     pdf.close()

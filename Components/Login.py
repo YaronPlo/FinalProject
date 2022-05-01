@@ -1,8 +1,10 @@
 import json
-from utils import routes
-from PyQt5.QtTest import QTest
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtTest import QTest
+
 from Components import Admin, Register, AnalystDashboard
+from utils import routes
 from utils.Helpers.GeneralHelpers import currentLogedInUpdate
 
 
