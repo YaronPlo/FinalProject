@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from utils import routes
 
 __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
-           "currentLogedInUpdate", "default_rules"]
+           "currentLogedInUpdate", "default_rules", "getUploadedCSV"]
 
 
 def getUploadedCSV():
