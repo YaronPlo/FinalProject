@@ -14,6 +14,12 @@ __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "c
            "currentLogedInUpdate", "default_rules"]
 
 
+def getUploadedCSV():
+    with open(routes.uploadedCSV) as uploaded:
+        csv = json.load(uploaded)
+    return csv["latest_upload"]
+
+
 # checks if we have a file with the rules, if not creates it
 def default_rules():
     defaultRules = {

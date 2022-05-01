@@ -110,12 +110,13 @@ class Ui_AdminPage(object):
             return
 
         self.CSV = self.csvTuple[0]
-        with open(routes.latestCsvFile) as latestCsv:
+        with open(routes.uploadedCSV) as latestCsv:
             uploadedCsv = json.load(latestCsv)
 
         uploadedCsv["latest_upload"] = self.CSV
         uploadedCsv["previous_uploads"].append(self.CSV)
-        with open(routes.latestCsvFile, 'w') as latestCsv:
+        uploadedCsv["previous_uploads"] = uploadedCsv["previous_uploads"][-10:]
+        with open(routes.uploadedCSV, 'w') as latestCsv:
             json.dump(uploadedCsv, latestCsv, indent=2)
 
         relevant_columns = {
