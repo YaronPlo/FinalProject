@@ -6,7 +6,7 @@ A Python project that will recive an Input and the output will be, ordered missi
 
 # manual settings:
   will be needed to create these folders/ files manualy.
-  1. DataBase forlder inside the utils folder.
+  1. Create `DataBase` (case sensetive) folder inside the utils folder.
   2. Inside the DataBase folder:
      * rules.json
      * users.json
