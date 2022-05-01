@@ -1,5 +1,6 @@
-from utils import routes
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+from utils import routes
 from utils.Helpers.StatisticsHelper import *
 
 

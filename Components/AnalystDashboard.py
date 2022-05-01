@@ -1,30 +1,45 @@
-from utils import routes
+import pandas as pd
+from PyQt5 import QtCore, QtGui, QtWidgets
+
 from Components import Login
+from utils import routes
 from utils.Helpers.AnalystHelper import *
 from utils.Helpers.GeneralHelpers import fillTableData
-from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_AnalystDashboard(object):
-    def __init__(self):
-        self.analystDf = None
-        self.rulesForUser = None
-        self.currUser = None
-        self.loginUi = None
-        self.LoginWindow = None
-        self.welcomeUserPageLbl = None
-        self.fireBtn = None
-        self.doneRadioBtn = None
-        self.inProgressRadioBtn = None
-        self.exitBtn = None
-        self.issuesComboBox = None
-        self.currTime = None
-        self.timer = None
-        self.tasksTableView = None
+    def radioBtnPerIssue(self):
+        self.doneRadioBtn.setChecked(False)
+        if self.issuesComboBox.currentText():
+            comboCurrentIssue = int(self.issuesComboBox.currentText())
+            status_table = pd.read_csv(routes.status_table, index_col=[0])
+            if not status_table.loc[
+                (status_table.index == comboCurrentIssue) & (status_table['Current Status'] == 'inProgress')].empty:
+                self.inProgressRadioBtn.setChecked(True)
+            else:
+                self.inProgressRadioBtn.setChecked(False)
 
     def updateAnalystTable(self):
-        fixedAnalystDf = self.analystDf.astype(str)
-        fillTableData(fixedAnalystDf, self.tasksTableView)
+        dfToStr = self.analystDf.astype(str)
+        fillTableData(dfToStr, self.tasksTableView)
+
+    def updateAnalystDash(self):
+        if len(self.analystDf):
+            updateIssueStatus(self.analystDf, self.currUser, self.issuesComboBox, self.inProgressRadioBtn,
+                              self.doneRadioBtn)
+
+            if self.doneRadioBtn.isChecked():
+                self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)
+                self.initCombo(getIssuesId(self.analystDf))
+                self.updateAnalystTable()
+
+            elif self.inProgressRadioBtn.isChecked():
+                self.tasksTableView.setVerticalHeaderItem(self.issuesComboBox.currentIndex(),
+                                                          QtWidgets.QTableWidgetItem(
+                                                              f'{self.issuesComboBox.currentText()}'))
+                self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)
+                self.initCombo(getIssuesId(self.analystDf))
+                self.updateAnalystTable()
 
     def initCombo(self, itemsList=None):
         if itemsList is None:
@@ -68,9 +83,10 @@ class Ui_AnalystDashboard(object):
         self.fireBtn.setDefault(False)
         self.fireBtn.setObjectName("fireBtn")
         self.fireBtn.setText("Fire")
-        self.fireBtn.clicked.connect(
-            lambda: updateIssueStatus(self.analystDf, self.currUser, self.issuesComboBox, self.inProgressRadioBtn,
-                                      self.doneRadioBtn))
+        # self.fireBtn.clicked.connect(
+        #     lambda: updateIssueStatus(self.analystDf, self.currUser, self.issuesComboBox, self.inProgressRadioBtn,
+        #                               self.doneRadioBtn))
+        self.fireBtn.clicked.connect(self.updateAnalystDash)
 
         self.exitBtn = QtWidgets.QPushButton(AnalystDashboard)
         self.exitBtn.setGeometry(QtCore.QRect(1110, 580, 93, 28))
@@ -97,17 +113,21 @@ class Ui_AnalystDashboard(object):
         self.issuesComboBox.setSizePolicy(sizePolicy)
         self.issuesComboBox.setInputMethodHints(QtCore.Qt.ImhMultiLine)
         self.issuesComboBox.setObjectName("issuesComboBox")
+        self.issuesComboBox.currentTextChanged.connect(self.radioBtnPerIssue)
 
         self.inProgressRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.inProgressRadioBtn.setGeometry(QtCore.QRect(280, 500, 95, 20))
+        self.inProgressRadioBtn.setAutoExclusive(False)
         self.inProgressRadioBtn.setObjectName("inProgressRadioBtn")
         self.inProgressRadioBtn.setText("In Progress")
 
         # set as default instead of checking if none of radioBtn is chosen
-        self.inProgressRadioBtn.setChecked(True)
+        # self.inProgressRadioBtn.setChecked(True)
 
         self.doneRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.doneRadioBtn.setGeometry(QtCore.QRect(280, 530, 95, 20))
+        self.doneRadioBtn.setAutoExclusive(False)
+        self.doneRadioBtn.clicked.connect(lambda: self.inProgressRadioBtn.setChecked(False))
         self.doneRadioBtn.setObjectName("doneRadioBtn")
         self.doneRadioBtn.setText("Done")
 
@@ -119,8 +139,8 @@ class Ui_AnalystDashboard(object):
 
         self.currUser = getUserName()
         self.rulesForUser = getUserRules(self.currUser)
-        print("currUser: ", self.currUser)
-        print("rulesForUser: ", self.rulesForUser)
+        # print("currUser: ", self.currUser)
+        # print("rulesForUser: ", self.rulesForUser)
 
         # Start all helper funcs
         self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)

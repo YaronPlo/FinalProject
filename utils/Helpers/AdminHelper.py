@@ -1,4 +1,5 @@
 import json
+
 from utils import routes
 
 __all__ = ["writeAnalystRules", "slide_it", "changeVerticalStatus"]
