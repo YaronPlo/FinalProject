@@ -7,7 +7,7 @@ statsDir = f'{dbDir}\\StatisticsPDFs'
 # path to db files
 usersFile = f'{dbDir}\\users.json'
 rulesFile = f'{dbDir}\\rules.json'
-latestCsvFile = f'{dbDir}\\uploaded.json'
+uploadedCSV = f'{dbDir}\\uploaded.json'
 
 
 

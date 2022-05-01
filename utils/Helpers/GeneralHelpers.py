@@ -11,7 +11,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 from utils import routes
 
 __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
-           "currentLogedInUpdate", "default_rules"]
+           "currentLogedInUpdate", "default_rules", "getUploadedCSV"]
+
+
+def getUploadedCSV():
+    with open(routes.uploadedCSV) as uploaded:
+        csv = json.load(uploaded)
+    return csv["latest_upload"]
 
 
 # checks if we have a file with the rules, if not creates it
