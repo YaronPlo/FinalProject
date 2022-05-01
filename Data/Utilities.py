@@ -69,7 +69,7 @@ def num_to_bins(df, col_list, num_of_bins):
         temp = pd.DataFrame(df[_])
         df[_] = pd.cut(df[_], num_of_bins, labels=range(num_of_bins))
         temp['bins'] = df[_]
-        print(temp)
+        # print(temp)
     return df
 
 
@@ -184,7 +184,7 @@ def WSM(df, weights):  # Weighted Sum Method – Multi Criteria Decision-Making
 
 
 def table_preprocess(df, relevant_col, catagories_list):
-    print(df.shape)
+    # print(df.shape)
     df = Potential_Impact_column(df)
     df['Description'] = df['Description'].apply(lambda sent: [x.lower() for x in sent.split(' ') if x.isalpha()])
     df = df[relevant_col.values()]

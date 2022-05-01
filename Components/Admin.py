@@ -1,10 +1,12 @@
 import json
+
 import pandas as pd
-from utils import routes
-from Components import Login, StatMenu
 from PyQt5 import QtCore, QtGui, QtWidgets
-from utils.Helpers.GeneralHelpers import fillTableData
+
+from Components import Login, StatMenu
+from utils import routes
 from utils.Helpers.AdminHelper import *
+from utils.Helpers.GeneralHelpers import fillTableData
 
 
 class Ui_AdminPage(object):

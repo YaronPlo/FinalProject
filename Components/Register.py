@@ -1,8 +1,10 @@
 import json
-from utils import routes
-from Components import Login
-from PyQt5.QtTest import QTest
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtTest import QTest
+
+from Components import Login
+from utils import routes
 
 
 def CheckUserExistence(username, textbox):

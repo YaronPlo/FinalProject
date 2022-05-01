@@ -1,12 +1,14 @@
-import sys
 import json
-from utils import routes
-from PyQt5.QtWidgets import QTableWidgetItem
 import string
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import CountVectorizer
-from nltk.corpus import stopwords
+import sys
+
 import pandas as pd
+from PyQt5.QtWidgets import QTableWidgetItem
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+from utils import routes
 
 __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
            "currentLogedInUpdate", "default_rules"]
