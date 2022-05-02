@@ -24,15 +24,18 @@ class Ui_Register(object):
     def setupUi(self, Register):
         Register.setObjectName("Register")
         Register.resize(310, 263)
+        Register.setWindowTitle("Register")
         Register.setMouseTracking(False)
         Register.setAcceptDrops(False)
         Register.setWindowIcon(QtGui.QIcon(routes.sceLogo))
 
         self.RegisterBtn = QtWidgets.QPushButton(Register, clicked=lambda: self.registerToJSON())
+        self.RegisterBtn.setText("Register")
         self.RegisterBtn.setGeometry(QtCore.QRect(50, 170, 93, 28))
         self.RegisterBtn.setObjectName("RegisterBtn")
 
         self.closeBtn = QtWidgets.QPushButton(Register, clicked=lambda: self.openLogin(Register))
+        self.closeBtn.setText("Close")
         self.closeBtn.setGeometry(QtCore.QRect(160, 170, 93, 28))
         self.closeBtn.setObjectName("closeBtn")
 
@@ -50,10 +53,12 @@ class Ui_Register(object):
         self.passwordInput.setObjectName("passwordInput")
 
         self.userNameLbl = QtWidgets.QLabel(Register)
+        self.userNameLbl.setText("User Name:")
         self.userNameLbl.setGeometry(QtCore.QRect(20, 70, 81, 20))
         self.userNameLbl.setObjectName("userNameLbl")
 
         self.passwordLbl = QtWidgets.QLabel(Register)
+        self.passwordLbl.setText("Password:")
         self.passwordLbl.setGeometry(QtCore.QRect(20, 120, 81, 20))
         self.passwordLbl.setObjectName("passwordLbl")
 
@@ -65,10 +70,10 @@ class Ui_Register(object):
         self.registerMsg.setObjectName("registerMsg")
 
         self.fullNameLbl = QtWidgets.QLabel(Register)
+        self.fullNameLbl.setText("Full Name:")
         self.fullNameLbl.setGeometry(QtCore.QRect(20, 20, 71, 20))
         self.fullNameLbl.setObjectName("fullNameLbl")
 
-        self.retranslateUi(Register)
         QtCore.QMetaObject.connectSlotsByName(Register)
 
     def openLogin(self, Register):
@@ -113,12 +118,3 @@ class Ui_Register(object):
                 self.registerMsg.setStyleSheet("color: green")
                 QTest.qWait(1000)
                 self.registerMsg.setPlainText("")
-
-    def retranslateUi(self, Register):
-        _translate = QtCore.QCoreApplication.translate
-        Register.setWindowTitle("Register")
-        self.RegisterBtn.setText("Register")
-        self.userNameLbl.setText("User Name:")
-        self.passwordLbl.setText("Password:")
-        self.fullNameLbl.setText("Full Name:")
-        self.closeBtn.setText("Close")

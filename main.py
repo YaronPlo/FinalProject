@@ -1,5 +1,7 @@
 import sys
+
 from PyQt5 import QtWidgets
+
 from Components import Login
 from utils.Helpers.GeneralHelpers import default_rules
 
