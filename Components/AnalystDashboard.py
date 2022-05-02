@@ -9,6 +9,7 @@ from utils.Helpers.GeneralHelpers import fillTableData
 
 class Ui_AnalystDashboard(object):
     def radioBtnPerIssue(self):
+
         self.doneRadioBtn.setChecked(False)
         if self.issuesComboBox.currentText():
             comboCurrentIssue = int(self.issuesComboBox.currentText())
@@ -20,8 +21,17 @@ class Ui_AnalystDashboard(object):
                 self.inProgressRadioBtn.setChecked(False)
 
     def updateAnalystTable(self):
-        dfToStr = self.analystDf.astype(str)
-        fillTableData(dfToStr, self.tasksTableView)
+        if not len(self.analystDf):
+            self.doneRadioBtn.setChecked(False)
+            self.inProgressRadioBtn.setChecked(False)
+            self.doneRadioBtn.setEnabled(False)
+            self.inProgressRadioBtn.setEnabled(False)
+        else:
+            self.doneRadioBtn.setEnabled(True)
+            self.inProgressRadioBtn.setEnabled(True)
+
+            dfToStr = self.analystDf.astype(str)
+            fillTableData(dfToStr, self.tasksTableView)
 
     def updateAnalystDash(self):
         if len(self.analystDf):
