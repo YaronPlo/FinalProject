@@ -65,8 +65,9 @@ def graph_4(analyst_ID, analysts_daily_avg, issues_impact_dict):
     duration = 4  # days forward
     x_labels = [str(x + 1) for x in range(duration)]
     len_of_values = [len(l) for l in list(issues_impact_dict.values())]
-    print(issues_impact_dict,'->',len_of_values,'->',analysts_daily_avg)
-    counter = [sum(len_of_values[i:i + analysts_daily_avg]) for i in range(0, len(len_of_values), analysts_daily_avg)][:duration]
+    print(issues_impact_dict, '->', len_of_values, '->', analysts_daily_avg)
+    counter = [sum(len_of_values[i:i + analysts_daily_avg]) for i in range(0, len(len_of_values), analysts_daily_avg)][
+              :duration]
     counter.extend([0 for _ in range(0, duration - len(counter))])
     bars = plt.bar(x_labels, counter)
 
@@ -133,7 +134,6 @@ def get_graphs_pdf():
         daily_avg = daily_avg['ave_per_day']
         graph_4(analyst, daily_avg, influence_dict)
         pdf.savefig()
-
 
     pdf.close()
 
