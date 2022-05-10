@@ -23,7 +23,7 @@ class Ui_StatisticsMenu(object):
         self.showBtn_1 = QtWidgets.QPushButton(self.centralwidget)
         self.showBtn_1.setGeometry(QtCore.QRect(270, 30, 101, 61))
         self.showBtn_1.setObjectName("showBtn_1")
-        self.showBtn_1.setText("1")
+        self.showBtn_1.setText("All\nStatistics")
         self.showBtn_1.clicked.connect(
             lambda: call_stat_graph(get_graphs_pdf))
 

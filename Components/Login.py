@@ -9,20 +9,6 @@ from utils.Helpers.GeneralHelpers import currentLogedInUpdate
 
 
 class UiLogIn(object):
-
-    def __init__(self):
-        self.RegisterWindow = None
-        self.loginMessage = None
-        self.analsyDashboardWindow = None
-        self.userNameLbl = None
-        self.userNameInput = None
-        self.passwordLbl = None
-        self.passwordInput = None
-        self.AdminWindow = None
-        self.logIn = None
-        self.Register = None
-        self.ui = None
-
     def openRegister(self, LogIn):
         self.RegisterWindow = QtWidgets.QMainWindow()
         self.ui = Register.Ui_Register()
