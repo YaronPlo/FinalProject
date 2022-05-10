@@ -61,7 +61,8 @@ def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time 
 
 
 def graph_4(analyst_ID, analysts_daily_avg, issues_impact_dict):
-    plt.figure(figsize=(5, 2.7))
+    f = plt.figure()
+    ax = f.add_subplot(111)
     duration = 4  # days forward
     x_labels = [str(x + 1) for x in range(duration)]
     len_of_values = [len(l) for l in list(issues_impact_dict.values())]
@@ -75,6 +76,9 @@ def graph_4(analyst_ID, analysts_daily_avg, issues_impact_dict):
         height = bar.get_height()
         plt.text(bar.get_x() + bar.get_width() / 2., 1.0 * height,
                  '%0.2f' % height, va='bottom', ha='center')
+
+    plt.text(0.8, 0.95, 'based on {} issues per day'.format(analysts_daily_avg), ha='center', va='center',
+             transform=ax.transAxes)
 
     plt.ylim(0, max(counter) + 2)
     plt.title("{} - Most effective, 4 days plan".format(analyst_ID.capitalize()))
