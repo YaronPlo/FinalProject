@@ -8,6 +8,9 @@ from utils.Helpers.GeneralHelpers import fillTableData
 
 
 class Ui_AnalystDashboard(object):
+    def set_combo_by_table_check(self):
+        self.issuesComboBox.setCurrentIndex(self.tasksTableView.currentRow())
+
     def radioBtnPerIssue(self):
 
         self.doneRadioBtn.setChecked(False)
@@ -48,7 +51,6 @@ class Ui_AnalystDashboard(object):
                                                           QtWidgets.QTableWidgetItem(
                                                               f'{self.issuesComboBox.currentText()}'))
                 self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)
-                self.initCombo(getIssuesId(self.analystDf))
                 self.updateAnalystTable()
 
     def initCombo(self, itemsList=None):
@@ -93,9 +95,6 @@ class Ui_AnalystDashboard(object):
         self.fireBtn.setDefault(False)
         self.fireBtn.setObjectName("fireBtn")
         self.fireBtn.setText("Fire")
-        # self.fireBtn.clicked.connect(
-        #     lambda: updateIssueStatus(self.analystDf, self.currUser, self.issuesComboBox, self.inProgressRadioBtn,
-        #                               self.doneRadioBtn))
         self.fireBtn.clicked.connect(self.updateAnalystDash)
 
         self.exitBtn = QtWidgets.QPushButton(AnalystDashboard)
@@ -131,9 +130,6 @@ class Ui_AnalystDashboard(object):
         self.inProgressRadioBtn.setObjectName("inProgressRadioBtn")
         self.inProgressRadioBtn.setText("In Progress")
 
-        # set as default instead of checking if none of radioBtn is chosen
-        # self.inProgressRadioBtn.setChecked(True)
-
         self.doneRadioBtn = QtWidgets.QRadioButton(AnalystDashboard)
         self.doneRadioBtn.setGeometry(QtCore.QRect(280, 530, 95, 20))
         self.doneRadioBtn.setAutoExclusive(False)
@@ -146,11 +142,10 @@ class Ui_AnalystDashboard(object):
         self.tasksTableView.setObjectName("tasksTableView")
         self.tasksTableView.setColumnCount(0)
         self.tasksTableView.setRowCount(0)
+        self.tasksTableView.clicked.connect(self.set_combo_by_table_check)
 
         self.currUser = getUserName()
         self.rulesForUser = getUserRules(self.currUser)
-        # print("currUser: ", self.currUser)
-        # print("rulesForUser: ", self.rulesForUser)
 
         # Start all helper funcs
         self.analystDf = getFilteredTable(self.rulesForUser, self.currUser)

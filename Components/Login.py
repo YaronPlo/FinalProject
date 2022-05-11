@@ -39,6 +39,7 @@ class UiLogIn(object):
         self.userNameInput = QtWidgets.QLineEdit(LogIn)
         self.userNameInput.setGeometry(QtCore.QRect(120, 60, 113, 22))
         self.userNameInput.setObjectName("userNameInput")
+        self.userNameInput.setClearButtonEnabled(True)
         self.userNameInput.returnPressed.connect(lambda: self.LoginCheck(LogIn))
 
         self.userNameLbl = QtWidgets.QLabel(LogIn)
@@ -53,6 +54,7 @@ class UiLogIn(object):
         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passwordInput.setGeometry(QtCore.QRect(120, 110, 113, 22))
         self.passwordInput.setObjectName("passwordInput")
+        self.passwordInput.setClearButtonEnabled(True)
         self.passwordInput.returnPressed.connect(lambda: self.LoginCheck(LogIn))
 
         self.loginMessage = QtWidgets.QPlainTextEdit(LogIn)
@@ -88,6 +90,8 @@ class UiLogIn(object):
             dataBase = json.load(DB)
 
         if self.userNameInput.text() == "" or self.passwordInput.text() == "":
+            self.userNameInput.clear()
+            self.passwordInput.clear()
             self.loginMessage.setPlainText("Blank Input Try Again!")
             self.loginMessage.setStyleSheet("color: red")
             QTest.qWait(1000)
@@ -96,6 +100,8 @@ class UiLogIn(object):
 
         for user in dataBase["userDetails"]:
             if user["Username"] == self.userNameInput.text() and user["Password"] != self.passwordInput.text():
+                self.userNameInput.clear()
+                self.passwordInput.clear()
                 self.loginMessage.setPlainText("Wrong Password!")
                 self.loginMessage.setStyleSheet("color: red")
                 QTest.qWait(1000)
@@ -114,9 +120,12 @@ class UiLogIn(object):
                     self.loginMessage.setStyleSheet("color: green")
                     QTest.qWait(0)
                     currentLogedInUpdate(self.userNameInput.text())
+                    self.userNameInput.clear()
+                    self.passwordInput.clear()
                     self.openAnalystDashboard(LogIn)
                     return
-
+        self.userNameInput.clear()
+        self.passwordInput.clear()
         self.loginMessage.setPlainText("User Doesn't Exists!")
         self.loginMessage.setStyleSheet("color: red")
         QTest.qWait(1000)
