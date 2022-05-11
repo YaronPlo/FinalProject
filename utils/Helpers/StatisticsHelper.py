@@ -42,7 +42,7 @@ def graph_1(analysts_ID, analysts_daily_avg):  # Daily ability
 
 
 def graph_2(analysts_ID, duration_mean):  # issues duration-mean (in-prog -> done) Comparison
-    fig, ax = plt.subplots(figsize=(5, 2.7))
+    fig, ax = plt.subplots(figsize=(5, 3.7))
     ax.plot(analysts_ID, duration_mean)
     ax.set_xlabel('Analyst ID')
     ax.set_ylabel('Duration mean [h]')
@@ -105,9 +105,15 @@ def get_graphs_pdf():
         analyst_done_avg = done_issue_avg(status_df, analyst)
         done_avg_list.append(round(analyst_done_avg['duration_mean']))
 
-    analyst_list.append('itay')  # for example
-    daily_avg_list.append(4)  # for example
-    done_avg_list.append(15)  # for example
+    # ---- example-----
+    analyst_list.append('itay')
+    daily_avg_list.append(4)
+    done_avg_list.append(15)
+
+    analyst_list.append('ben')
+    daily_avg_list.append(6)
+    done_avg_list.append(20)
+    # ---- example-----
 
     if os.path.exists(path):
         os.remove(path)
@@ -120,6 +126,11 @@ def get_graphs_pdf():
     pdf.savefig()
     graph_1(analyst_list, daily_avg_list)
     pdf.savefig()
+
+    # ---- example-----
+    # graph_3('itay', [3, 12, 1.5, 15, 8, 12], [20, 45, 15, 50, 30, 40])
+    # pdf.savefig()
+    # ---- example-----
 
     for analyst in analyst_list:
         influence_dict = duration_and_impact(status_df, analyst)
