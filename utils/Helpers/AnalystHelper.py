@@ -11,8 +11,10 @@ from utils.Helpers.GeneralHelpers import *
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",
            "updateIssueStatus", "hide_handled_issues", "daily_avg_issues", "done_issue_avg", "duration_and_impact"]
 
-
 # values for combobox
+from utils.Helpers.GeneralHelpers import affected_issues
+
+
 def getIssuesId(df):
     return [str(x) for x in list(df.index.values)]
 

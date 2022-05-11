@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from utils import routes
 
 __all__ = ["fillTableData", "currentLoggedInUpdate", "find_most_influential", "cosine_sim_vectors", "clean_string",
-           "currentLogedInUpdate", "default_rules", "getUploadedCSV"]
+           "currentLogedInUpdate", "default_rules", "getUploadedCSV","sort_dict_by_values"]
 
 
 def getUploadedCSV():
@@ -132,11 +132,16 @@ def affected_issues(sub_df, result_values, issue_similarity_col):  # inner_loop_
 
 def adding_similarity_column(df, raw_df):
     similarity = 'similarity'
-    df = pd.merge(df, raw_df[['Title', 'Remediation Steps']], left_index=True,
-                  right_index=True)  # adding two columns to df from origin df
+    if 'Title' not in df.columns:
+        df = pd.merge(df, raw_df[['Title', 'Remediation Steps']], left_index=True,
+                      right_index=True)  # adding two columns to df from origin df
     df[similarity] = df['Remediation Steps'] + ' ' + df['Title']  # unite two added columns to one
     df.loc[:, similarity] = df[similarity].apply(lambda x: clean_string(x))
     return df
 
+
 # example of using adding_similarity_column for single issue:
 # arr = affected_issues(cleaned_df,[],cleaned_df.loc[2]['similarity'])
+
+def sort_dict_by_values(inf_dict):
+    return dict(sorted(inf_dict.items(), key=lambda item: len(item[1]), reverse=True))
