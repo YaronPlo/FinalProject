@@ -96,6 +96,9 @@ class Ui_Register(object):
         }
 
         if self.userNameInput.text() == "" and self.passwordInput.text() == "":
+            self.fullNameInput.clear()
+            self.userNameInput.clear()
+            self.passwordInput.clear()
             self.registerMsg.setPlainText("Invalid Username & Password!")
             self.registerMsg.setStyleSheet("color: red")
             QTest.qWait(1000)
@@ -114,7 +117,10 @@ class Ui_Register(object):
                 # convert back to json.
                 json.dump(dataBase, DB, indent=2)
 
-                self.registerMsg.setPlainText("Succesfully added new User")
-                self.registerMsg.setStyleSheet("color: green")
-                QTest.qWait(1000)
-                self.registerMsg.setPlainText("")
+            self.fullNameInput.clear()
+            self.userNameInput.clear()
+            self.passwordInput.clear()
+            self.registerMsg.setPlainText("Succesfully added new User")
+            self.registerMsg.setStyleSheet("color: green")
+            QTest.qWait(1000)
+            self.registerMsg.setPlainText("")
