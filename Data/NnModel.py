@@ -23,7 +23,7 @@ X_y = {}
 
 
 def pre_pro_for_modeling(df):
-    wsm_df = Data.WSM(df)
+    wsm_df = Data.WSM(df,[0.25,0.25,0.25,0.25])
     # class_df = df.copy()
     # adding classified column to class_df by index column
     df = pd.merge(df, wsm_df['classified'], left_index=True, right_index=True)
