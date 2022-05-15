@@ -3,10 +3,11 @@ import json
 import pandas as pd
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from Components import Login, StatMenu
+from Components import Login
 from utils import routes
 from utils.Helpers.AdminHelper import *
 from utils.Helpers.GeneralHelpers import fillTableData
+from utils.Helpers.StatisticsHelper import call_stat_graph, get_graphs_pdf
 
 
 class Ui_AdminPage(object):
@@ -219,12 +220,6 @@ class Ui_AdminPage(object):
         self.LoginWindow.show()
         AdminPage.close()
 
-    def openStatisticsMenu(self):
-        self.statisticsMenu = QtWidgets.QMainWindow()
-        self.ui = StatMenu.Ui_StatisticsMenu()
-        self.ui.setupUi(self.statisticsMenu)
-        self.statisticsMenu.show()
-
     def setupUi(self, AdminPage):
         AdminPage.setObjectName("AdminPage")
         AdminPage.setEnabled(True)
@@ -247,6 +242,15 @@ class Ui_AdminPage(object):
         self.precentFont = QtGui.QFont()
         self.precentFont.setBold(True)
         self.precentFont.setWeight(75)
+
+        self.statisticsMsgLbl = QtWidgets.QLabel(self.centralwidget)
+        self.statisticsMsgLbl.setGeometry(QtCore.QRect(140, 665, 491, 21))
+        self.statFont = QtGui.QFont()
+        self.statFont.setBold(True)
+        self.statFont.setWeight(75)
+        self.statisticsMsgLbl.setFont(self.statFont)
+        self.statisticsMsgLbl.setStyleSheet("color: rgb(65, 197, 0);")
+        self.statisticsMsgLbl.setObjectName("statisticsMsgLbl")
 
         # ------- The tool box that gathers all analysts and raw data ----------
         self.toolBox = QtWidgets.QToolBox(self.centralwidget)
@@ -286,8 +290,8 @@ class Ui_AdminPage(object):
         self.statisticsBtn = QtWidgets.QPushButton(self.centralwidget)
         self.statisticsBtn.setGeometry(QtCore.QRect(10, 660, 121, 31))
         self.statisticsBtn.setObjectName("statisticsBtn")
-        self.statisticsBtn.clicked.connect(self.openStatisticsMenu)
-
+        self.statisticsBtn.clicked.connect(lambda: call_stat_graph(get_graphs_pdf))
+        self.statisticsBtn.clicked.connect(lambda: success_stat_message(self.statisticsMsgLbl))
         # -----------------Analyst1-------------------
         self.analyst1 = QtWidgets.QWidget()
         self.analyst1.setGeometry(QtCore.QRect(0, 0, 995, 400))

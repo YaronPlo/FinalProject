@@ -1,8 +1,10 @@
 import json
 
+from PyQt5.QtTest import QTest
+
 from utils import routes
 
-__all__ = ["writeAnalystRules", "slide_it", "changeVerticalStatus"]
+__all__ = ["writeAnalystRules", "slide_it", "changeVerticalStatus", "success_stat_message"]
 
 
 # this function sets the % of the vertical slider.
@@ -17,6 +19,12 @@ def changeVerticalStatus(*args):
             ver.setEnabled(True)
         else:
             ver.setEnabled(False)
+
+
+def success_stat_message(label):
+    label.setText("Statistics Successfully created in 'StatisticsPDFs' Folder")
+    QTest.qWait(1700)
+    label.setText("")
 
 
 # this function get rules from GUI and sets them into a Json file.

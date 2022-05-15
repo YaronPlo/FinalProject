@@ -1,4 +1,5 @@
 import os
+import sys
 from multiprocessing import Process
 
 import matplotlib.pyplot as plt
@@ -119,36 +120,38 @@ def get_graphs_pdf():
         os.remove(path)
 
     pdf = PdfPages(path)
-
-    first_page()
-    pdf.savefig()
-    graph_2(analyst_list, done_avg_list)
-    pdf.savefig()
-    graph_1(analyst_list, daily_avg_list)
-    pdf.savefig()
-
-    # ---- example-----
-    # graph_3('itay', [3, 12, 1.5, 15, 8, 12], [20, 45, 15, 50, 30, 40])
-    # pdf.savefig()
-    # ---- example-----
-
-    for analyst in analyst_list:
-        influence_dict = duration_and_impact(status_df, analyst)
-        if not influence_dict:
-            print('{} got empty dataFrame, graph3 not created'.format(analyst))
-            continue
-        duration = [x[0] for x in influence_dict.values()]
-        influence = [x[1] for x in influence_dict.values()]
-        graph_3(analyst, duration, influence)
+    try:
+        first_page()
+        pdf.savefig()
+        graph_2(analyst_list, done_avg_list)
+        pdf.savefig()
+        graph_1(analyst_list, daily_avg_list)
         pdf.savefig()
 
-        analyst_df = hide_handled_issues(raw_df, status_df, analyst)
-        influence_dict = find_most_influential(analyst_df, raw_df)
-        influence_dict = sort_dict_by_values(influence_dict)
-        daily_avg = daily_avg_issues(status_df, analyst)
-        daily_avg = daily_avg['ave_per_day']
-        graph_4(analyst, daily_avg, influence_dict)
-        pdf.savefig()
+        # ---- example-----
+        # graph_3('itay', [3, 12, 1.5, 15, 8, 12], [20, 45, 15, 50, 30, 40])
+        # pdf.savefig()
+        # ---- example-----
+
+        for analyst in analyst_list:
+            influence_dict = duration_and_impact(status_df, analyst)
+            if not influence_dict:
+                print('{} got empty dataFrame, graph3 not created'.format(analyst))
+                continue
+            duration = [x[0] for x in influence_dict.values()]
+            influence = [x[1] for x in influence_dict.values()]
+            graph_3(analyst, duration, influence)
+            pdf.savefig()
+
+            analyst_df = hide_handled_issues(raw_df, status_df, analyst)
+            influence_dict = find_most_influential(analyst_df, raw_df)
+            influence_dict = sort_dict_by_values(influence_dict)
+            daily_avg = daily_avg_issues(status_df, analyst)
+            daily_avg = int(daily_avg['ave_per_day'])
+            graph_4(analyst, daily_avg, influence_dict)
+            pdf.savefig()
+    except Exception as e:
+        print(e)
 
     pdf.close()
 

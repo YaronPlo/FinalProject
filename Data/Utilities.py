@@ -1,10 +1,14 @@
-import pandas as pd
-from utils import routes
 from datetime import datetime
 
-__all__ = ["open_csv","cat_to_num","num_to_bins","sorting_df","show_only","dont_show","str_to_datatime","get_now",
-           "return_N_oldest","letters_to_numbers","potential_Impact_column","key_word","unique_to_numbers","weights_calc",
-           "WSM","table_preprocess"]
+import pandas as pd
+
+from utils import routes
+
+__all__ = ["open_csv", "cat_to_num", "num_to_bins", "sorting_df", "show_only", "dont_show", "str_to_datatime",
+           "get_now",
+           "return_N_oldest", "letters_to_numbers", "potential_Impact_column", "key_word", "unique_to_numbers",
+           "weights_calc",
+           "WSM", "table_preprocess"]
 
 
 def open_csv(path):
@@ -12,6 +16,7 @@ def open_csv(path):
         return pd.read_csv(path, low_memory=False)
     except:
         return pd.read_csv(f'..\\{path}', low_memory=False)
+
 
 pd.reset_option("max_columns")
 raw_dataFrame = open_csv(routes.issues_path)
@@ -42,6 +47,7 @@ def cat_to_num(df, col_list, catagories):
         df.loc[:, _] = df[_].map(catagories)
     return df
 
+
 def num_to_bins(df, col_list, num_of_bins):
     for _ in col_list:
         temp = pd.DataFrame(df[_])
@@ -50,9 +56,11 @@ def num_to_bins(df, col_list, num_of_bins):
         # print(temp)
     return df
 
-def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
+
+def sorting_df(df, col=('Asset Security Grade', 'Asset Security Score')):
     df_sorted = df.sort_values(by=col, inplace=False, ascending=[False, False])
     return df_sorted
+
 
 def show_only(df, column_name, values):  # only_values:list
     # filtered_df = df.loc[df[column_name].isin(values)]
@@ -68,28 +76,34 @@ def show_only(df, column_name, values):  # only_values:list
     print('filtered_df')
     return filtered_df
 
+
 def dont_show(df, column_name, values):  # only_values:list
     df = df.loc[~df[column_name].isin(values)]
     return df
+
 
 def str_to_datatime(df, col_list):
     for _ in col_list:
         df.loc[:, _] = df[_].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%fZ'))
     # return df
 
+
 def get_now():
     now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")  # time object
     return now
+
 
 def return_N_oldest(df, n):
     df = df.sort_values(by=['Asset First Seen'])
     df.reset_index(drop=True, inplace=True)
     return df.head(n)
 
+
 def letters_to_numbers(df, columns):
     for col in columns:
         df.loc[:, col] = [ord(x) - 64 if type(x) == str else x for x in df[col]]
     return df
+
 
 def potential_Impact_column(df):  # clean string
     banned = ['Loss', 'of', '|']
@@ -98,9 +112,11 @@ def potential_Impact_column(df):  # clean string
     # df = key_word(df, 'Potential Impact', key_word)
     return df
 
+
 def key_word(df, col='Description', word='HTTP'):
     df = df.loc[lambda sent: sent[col].apply(lambda l: word.lower() in l)]
     return df
+
 
 def unique_to_numbers(df, col):
     unique = dict(enumerate(df[col].unique()))
@@ -108,17 +124,19 @@ def unique_to_numbers(df, col):
     df[col].replace(unique, inplace=True)
     return df
 
+
 def weights_calc(weights):
-    list = []
+    lst = []
     summ = sum(weights)
     for elem in weights:
         try:
-            list.append(round(elem / summ, 3))
+            lst.append(round(elem / summ, 3))
         except ZeroDivisionError:
-            list.append(0)
-    return list
+            lst.append(0)
+    return lst
 
-def WSM(df, weights):  # Weighted Sum Method – Multi Criteria Decision-Making
+
+def WSM(df, weights=None):  # Weighted Sum Method – Multi Criteria Decision-Making
     col = ['Severity', 'Asset Security Grade', 'Asset Security Score', 'Asset Discoverability']
     df = df[col].copy()
     df = letters_to_numbers(df, columns=['Asset Security Grade'])
@@ -141,6 +159,7 @@ def WSM(df, weights):  # Weighted Sum Method – Multi Criteria Decision-Making
     # print(df.head(10).to_string())
     return df
 
+
 def table_preprocess(df, relevant_col, catagories_list):
     # print(df.shape)
     df = potential_Impact_column(df)
@@ -149,5 +168,6 @@ def table_preprocess(df, relevant_col, catagories_list):
     df = cat_to_num(df, ['Severity', 'Asset Discoverability', 'Asset Attractiveness'], catagories_list)
     str_to_datatime(df, ['Asset First Seen'])
     return df
+
 
 dataFrame = table_preprocess(raw_dataFrame, relevant_columns, catagories)
