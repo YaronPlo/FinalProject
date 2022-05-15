@@ -57,7 +57,7 @@ def num_to_bins(df, col_list, num_of_bins):
     return df
 
 
-def sorting_df(df, col=('Asset Security Grade', 'Asset Security Score')):
+def sorting_df(df, col=['Asset Security Grade', 'Asset Security Score']):
     df_sorted = df.sort_values(by=col, inplace=False, ascending=[False, False])
     return df_sorted
 
