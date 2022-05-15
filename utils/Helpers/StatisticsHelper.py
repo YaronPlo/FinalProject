@@ -1,5 +1,4 @@
 import os
-import sys
 from multiprocessing import Process
 
 import matplotlib.pyplot as plt
