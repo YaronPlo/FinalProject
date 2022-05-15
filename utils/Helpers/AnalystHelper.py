@@ -11,8 +11,8 @@ from utils.Helpers.GeneralHelpers import *
 __all__ = ["getIssuesId", "getUserName", "getUserRules", "getFilteredTable", "updateIssuesComboBox",
            "updateIssueStatus", "hide_handled_issues", "daily_avg_issues", "done_issue_avg", "duration_and_impact"]
 
+
 # values for combobox
-from utils.Helpers.GeneralHelpers import affected_issues
 
 
 def getIssuesId(df):
@@ -120,7 +120,7 @@ def updateIssueStatus(df, currUser, issuesComboBox, inProgressRadioBtn, doneRadi
     # status_table = pd.concat([status_table, current_issue])
     # print('status_table\n', status_table.to_string())
     status_table.to_csv(routes.status_table)
-    print('Status table updated')
+    # print('Status table updated')
 
 
 def hide_handled_issues(df, status_df, userId):
@@ -131,9 +131,9 @@ def hide_handled_issues(df, status_df, userId):
     handled_issues = getIssuesId(status_df)
     handled_list = [int(x) for x in handled_issues if x not in in_prog_ind]
     df = df.drop(handled_list, axis=0)
-    print('Handled issues removed')
-    if len(df) == 0:
-        print('hide_handled_issues returned empty dataframe')
+    # print('Handled issues removed')
+    # if len(df) == 0:
+    #     print('hide_handled_issues returned empty dataframe')
     return df
 
 
