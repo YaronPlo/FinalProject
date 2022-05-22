@@ -53,7 +53,7 @@ def graph_2(analysts_ID, duration_mean):  # issues duration-mean (in-prog -> don
 
 
 def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time to complete per analyst
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(5, 3.7))
     ax.scatter(issues_duration, issues_impact, s=50, facecolor='C0', edgecolor='k')
     ax.set_xlabel('Duration')
     ax.set_ylabel('Impact')
@@ -62,7 +62,7 @@ def graph_3(analyst_ID, issues_duration, issues_impact):  # impact against time 
 
 
 def graph_4(analyst_ID, analysts_daily_avg, issues_impact_dict):
-    f = plt.figure()
+    f = plt.figure(figsize=(5, 3.7))
     ax = f.add_subplot(111)
     duration = 4  # days forward
     x_labels = [str(x + 1) for x in range(duration)]

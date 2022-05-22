@@ -1,0 +1,125 @@
+{
+  "userDetails": [
+    {
+      "FullName": "Yaron",
+      "Username": "yaron",
+      "Password": "123",
+      "Admin": true,
+      "analyst": "No"
+    },
+    {
+      "FullName": "Chen",
+      "Username": "chen",
+      "Password": "123",
+      "Admin": true,
+      "analyst": "No"
+    },
+    {
+      "FullName": "Yaniv",
+      "Username": "yaniv",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_1"
+    },
+    {
+      "FullName": "Itay",
+      "Username": "itay",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_2"
+    },
+    {
+      "FullName": "Ben",
+      "Username": "ben",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_3"
+    },
+    {
+      "FullName": "Roni",
+      "Username": "roni",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_4"
+    },
+    {
+      "FullName": "Yossi",
+      "Username": "yossi",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_5"
+    },
+    {
+      "FullName": "Avi",
+      "Username": "avi",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_6"
+    },
+    {
+      "FullName": "Nisim",
+      "Username": "nisim",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_7"
+    },
+    {
+      "FullName": "Asif",
+      "Username": "asif",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_8"
+    },
+    {
+      "FullName": "Matan",
+      "Username": "matan",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_9"
+    },
+    {
+      "FullName": "Neomi",
+      "Username": "neomi",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_10"
+    },
+    {
+      "FullName": "Tamar",
+      "Username": "tamar",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_11"
+    },
+    {
+      "FullName": "Elia",
+      "Username": "elia",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_12"
+    },
+    {
+      "FullName": "Yana",
+      "Username": "yana",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_13"
+    },
+    {
+      "FullName": "Zohar",
+      "Username": "zohar",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_14"
+    },
+    {
+      "FullName": "Dorit",
+      "Username": "dorit",
+      "Password": "asd",
+      "Admin": false,
+      "analyst": "analyst_15"
+    }
+  ],
+  "currentUser": "yaniv",
+  "usersCount": 16
+}

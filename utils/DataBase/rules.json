@@ -1,0 +1,74 @@
+{
+  "analyst_1": {
+    "date": true,
+    "wsm": {
+      "state": true,
+      "slider1": 1,
+      "slider2": 2,
+      "slider3": 1,
+      "slider4": 3
+    },
+    "confidentiality": false,
+    "integrity": true,
+    "availability": false,
+    "most_impact": false,
+    "include": "php",
+    "exclude": "",
+    "avg_per_task": "",
+    "avg_per_day": ""
+  },
+  "analyst_2": {
+    "date": true,
+    "wsm": {
+      "state": false,
+      "slider1": 1,
+      "slider2": 1,
+      "slider3": 1,
+      "slider4": 1
+    },
+    "confidentiality": false,
+    "integrity": false,
+    "availability": false,
+    "most_impact": false,
+    "include": "",
+    "exclude": "",
+    "avg_per_task": "",
+    "avg_per_day": ""
+  },
+  "analyst_3": {
+    "date": true,
+    "wsm": {
+      "state": false,
+      "slider1": 0,
+      "slider2": 0,
+      "slider3": 0,
+      "slider4": 0
+    },
+    "confidentiality": false,
+    "integrity": false,
+    "availability": false,
+    "most_impact": true,
+    "include": "",
+    "exclude": "",
+    "avg_per_task": "",
+    "avg_per_day": ""
+  },
+  "analyst_4": {
+    "date": true,
+    "wsm": {
+      "state": true,
+      "slider1": 0,
+      "slider2": 3,
+      "slider3": 0,
+      "slider4": 0
+    },
+    "confidentiality": false,
+    "integrity": false,
+    "availability": false,
+    "most_impact": false,
+    "include": "",
+    "exclude": "",
+    "avg_per_task": "",
+    "avg_per_day": ""
+  }
+}
